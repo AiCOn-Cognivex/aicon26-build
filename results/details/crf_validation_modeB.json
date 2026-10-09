@@ -1,0 +1,3515 @@
+[
+ {
+  "id": "validation_0",
+  "posting_correct": true,
+  "fully_correct": true,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9989,
+  "pred": {
+   "total": "45,500",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "45,500",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 3,
+  "items_pred": 3,
+  "items_gold": 3
+ },
+ {
+  "id": "validation_1",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9693,
+  "pred": {
+   "total": "23.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "23.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_2",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9865,
+  "pred": {
+   "total": "20,000",
+   "subtotal": "18,181",
+   "tax": "1,818",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "20,000",
+   "subtotal": "18,181",
+   "tax": "1,818",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_3",
+  "posting_correct": true,
+  "fully_correct": true,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9564,
+  "pred": {
+   "total": "28,000",
+   "subtotal": "28,000",
+   "tax": "0.",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "28,000",
+   "subtotal": "28,000",
+   "tax": "0",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_4",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9164,
+  "pred": {
+   "total": "41,000",
+   "subtotal": "41,000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "41,000",
+   "subtotal": "41,000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_5",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": false,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9845,
+  "pred": {
+   "total": "8-000",
+   "subtotal": null,
+   "tax": "727",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "8,000",
+   "subtotal": "7,273",
+   "tax": "727",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_6",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9819,
+  "pred": {
+   "total": "123,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "123,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 2,
+  "items_pred": 3,
+  "items_gold": 3
+ },
+ {
+  "id": "validation_7",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": false,
+   "subtotal": false,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "total not found",
+   "low confidence on subtotal (0.75 < 0.90)",
+   "low confidence on discount (0.51 < 0.90)"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.0,
+  "pred": {
+   "total": null,
+   "subtotal": "636",
+   "tax": "5.409",
+   "service_charge": null,
+   "discount": "-9,545"
+  },
+  "gold": {
+   "total": "59,500",
+   "subtotal": "63,636",
+   "tax": "5,409",
+   "service_charge": null,
+   "discount": "-9,545"
+  },
+  "items_tp": 0,
+  "items_pred": 0,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_8",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9795,
+  "pred": {
+   "total": "11,700",
+   "subtotal": "11,700",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "11,700",
+   "subtotal": "11,700",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_9",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": false,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9749,
+  "pred": {
+   "total": "00",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "20,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_10",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": false,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9897,
+  "pred": {
+   "total": "000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "60.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_11",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9898,
+  "pred": {
+   "total": "89.100",
+   "subtotal": "81.000",
+   "tax": "8.100",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "89.100",
+   "subtotal": "81.000",
+   "tax": "8.100",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 4,
+  "items_gold": 4
+ },
+ {
+  "id": "validation_12",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9556,
+  "pred": {
+   "total": "72.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "72.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_13",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9953,
+  "pred": {
+   "total": "45,500",
+   "subtotal": "41,364",
+   "tax": "4,136",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "45,500",
+   "subtotal": "41,364",
+   "tax": "4,136",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_14",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on subtotal (0.68 < 0.90)"
+  ],
+  "recon": "PASS",
+  "conf": 0.6816,
+  "pred": {
+   "total": "Rp39.600",
+   "subtotal": "36.000",
+   "tax": "Rp3.600",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "Rp 39.600",
+   "subtotal": "Rp 36.000",
+   "tax": "Rp 3.600",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_15",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.953,
+  "pred": {
+   "total": "Rp59.400",
+   "subtotal": "Rp54.000",
+   "tax": "5.400",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "Rp 59.400",
+   "subtotal": "Rp 54.000",
+   "tax": "Rp 5.400",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_16",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": false,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9976,
+  "pred": {
+   "total": "00002",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "20,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_17",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9947,
+  "pred": {
+   "total": "20.000",
+   "subtotal": "20.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "20,000",
+   "subtotal": "20,000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_18",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9994,
+  "pred": {
+   "total": "25,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "25,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_19",
+  "posting_correct": true,
+  "fully_correct": true,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9995,
+  "pred": {
+   "total": "42,500",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "42,500",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 3,
+  "items_pred": 3,
+  "items_gold": 3
+ },
+ {
+  "id": "validation_20",
+  "posting_correct": true,
+  "fully_correct": true,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9912,
+  "pred": {
+   "total": "16,500",
+   "subtotal": "15,000",
+   "tax": "1,500",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "16,500",
+   "subtotal": "15,000",
+   "tax": "1,500",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 2,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_21",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": false,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "total not found",
+   "low confidence on subtotal (0.88 < 0.90)",
+   "low confidence on service_charge (0.25 < 0.90)"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.0,
+  "pred": {
+   "total": null,
+   "subtotal": "Rp194,726",
+   "tax": "Rp20,446",
+   "service_charge": "Rp9,736",
+   "discount": null
+  },
+  "gold": {
+   "total": "Rp 224,908",
+   "subtotal": "Rp 194,726",
+   "tax": "Rp 20,446",
+   "service_charge": "Rp 9,736",
+   "discount": null
+  },
+  "items_tp": 3,
+  "items_pred": 3,
+  "items_gold": 4
+ },
+ {
+  "id": "validation_22",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": false,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on tax (0.58 < 0.90)",
+   "arithmetic check failed: subtotal + tax + service - discount = total (expected 308,000.00, got 802.00)"
+  ],
+  "recon": "FAIL",
+  "conf": 0.5761,
+  "pred": {
+   "total": "000802",
+   "subtotal": "280,000",
+   "tax": "28,000",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "308,000",
+   "subtotal": "280,000",
+   "tax": "28,000",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 3,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_23",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": false,
+   "subtotal": false,
+   "tax": false,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9887,
+  "pred": {
+   "total": "1,818",
+   "subtotal": null,
+   "tax": "18,182",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "20.000",
+   "subtotal": "18,182",
+   "tax": "1,818",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_24",
+  "posting_correct": true,
+  "fully_correct": true,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on total (0.87 < 0.90)"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.8746,
+  "pred": {
+   "total": "80,500",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "80,500",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 6,
+  "items_pred": 6,
+  "items_gold": 6
+ },
+ {
+  "id": "validation_25",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on tax (0.83 < 0.90)"
+  ],
+  "recon": "PASS",
+  "conf": 0.8259,
+  "pred": {
+   "total": "207,900",
+   "subtotal": "180,000",
+   "tax": "18,900",
+   "service_charge": "9,000",
+   "discount": null
+  },
+  "gold": {
+   "total": "207,900",
+   "subtotal": "180,000",
+   "tax": "18,900",
+   "service_charge": "9,000",
+   "discount": null
+  },
+  "items_tp": 3,
+  "items_pred": 7,
+  "items_gold": 7
+ },
+ {
+  "id": "validation_26",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on total (0.63 < 0.90)"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.6302,
+  "pred": {
+   "total": "Rp.35.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "Rp. 35.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 5,
+  "items_gold": 5
+ },
+ {
+  "id": "validation_27",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9861,
+  "pred": {
+   "total": "17,999",
+   "subtotal": "16363",
+   "tax": "1636",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "17,999",
+   "subtotal": "16,363",
+   "tax": "1,636",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_28",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9838,
+  "pred": {
+   "total": "22,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "22,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_29",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": false
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "total not found",
+   "low confidence on subtotal (0.49 < 0.90)"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.0,
+  "pred": {
+   "total": null,
+   "subtotal": "30000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": null,
+   "subtotal": "30000",
+   "tax": null,
+   "service_charge": null,
+   "discount": "Discount(0%)"
+  },
+  "items_tp": 1,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_30",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9985,
+  "pred": {
+   "total": "21,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "21,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_31",
+  "posting_correct": true,
+  "fully_correct": true,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9774,
+  "pred": {
+   "total": "24,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "24,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_32",
+  "posting_correct": true,
+  "fully_correct": true,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9842,
+  "pred": {
+   "total": "6.000",
+   "subtotal": "6.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "6.000",
+   "subtotal": "6.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_33",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9738,
+  "pred": {
+   "total": "57,500",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "57,500",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_34",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on service_charge (0.61 < 0.90)"
+  ],
+  "recon": "PASS",
+  "conf": 0.6108,
+  "pred": {
+   "total": "283,338",
+   "subtotal": "243,000",
+   "tax": "25,758",
+   "service_charge": "14,580",
+   "discount": null
+  },
+  "gold": {
+   "total": "283,338",
+   "subtotal": "243,000",
+   "tax": "25,758",
+   "service_charge": "14,580",
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 4,
+  "items_gold": 4
+ },
+ {
+  "id": "validation_35",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on service_charge (0.72 < 0.90)"
+  ],
+  "recon": "PASS",
+  "conf": 0.7184,
+  "pred": {
+   "total": "304.326",
+   "subtotal": "261,000",
+   "tax": "27,666",
+   "service_charge": "15,660",
+   "discount": null
+  },
+  "gold": {
+   "total": "304,326",
+   "subtotal": "261,000",
+   "tax": "27,666",
+   "service_charge": "15,660",
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 4,
+  "items_gold": 4
+ },
+ {
+  "id": "validation_36",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9589,
+  "pred": {
+   "total": "18999",
+   "subtotal": "17,272",
+   "tax": "1,727",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "18,999",
+   "subtotal": "17,272",
+   "tax": "1,727",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_37",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.978,
+  "pred": {
+   "total": "70,000",
+   "subtotal": "63,636",
+   "tax": "6,364",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "70,000",
+   "subtotal": "63,636",
+   "tax": "6,364",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 3,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_38",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9765,
+  "pred": {
+   "total": "20000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "20,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_39",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9945,
+  "pred": {
+   "total": "97,900",
+   "subtotal": "89,000",
+   "tax": "8,900",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "97,900",
+   "subtotal": "89,000",
+   "tax": "8,900",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 3,
+  "items_pred": 5,
+  "items_gold": 5
+ },
+ {
+  "id": "validation_40",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": false,
+   "discount": false
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9902,
+  "pred": {
+   "total": "379,500",
+   "subtotal": "345.000",
+   "tax": "34,500",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "379,500",
+   "subtotal": "345,000",
+   "tax": "34,500",
+   "service_charge": "0",
+   "discount": "0"
+  },
+  "items_tp": 0,
+  "items_pred": 4,
+  "items_gold": 3
+ },
+ {
+  "id": "validation_41",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": false,
+   "discount": false
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on total (0.78 < 0.90)",
+   "arithmetic check failed: subtotal + tax + service - discount = total (expected 2,212,460.00, got 2,352,460.00)"
+  ],
+  "recon": "FAIL",
+  "conf": 0.7842,
+  "pred": {
+   "total": "2,352,460",
+   "subtotal": "2,000,000",
+   "tax": "212.460",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "2,352,460",
+   "subtotal": "2,000,000",
+   "tax": "212,460",
+   "service_charge": "140,000",
+   "discount": "0"
+  },
+  "items_tp": 0,
+  "items_pred": 6,
+  "items_gold": 11
+ },
+ {
+  "id": "validation_42",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9907,
+  "pred": {
+   "total": "53.000",
+   "subtotal": "53.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "53,000",
+   "subtotal": "53,000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 3,
+  "items_gold": 3
+ },
+ {
+  "id": "validation_43",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9805,
+  "pred": {
+   "total": "278.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "278.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_44",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9861,
+  "pred": {
+   "total": "17,999",
+   "subtotal": "16363",
+   "tax": "1636",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "17,999",
+   "subtotal": "16.363",
+   "tax": "1,636",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_45",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9841,
+  "pred": {
+   "total": "287760",
+   "subtotal": "240.000",
+   "tax": "26,160",
+   "service_charge": "21,600",
+   "discount": null
+  },
+  "gold": {
+   "total": "287,760",
+   "subtotal": "240,000",
+   "tax": "26,160",
+   "service_charge": "21,600",
+   "discount": null
+  },
+  "items_tp": 2,
+  "items_pred": 4,
+  "items_gold": 4
+ },
+ {
+  "id": "validation_46",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9376,
+  "pred": {
+   "total": "22,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "22,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_47",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": false,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "total not found",
+   "low confidence on subtotal (0.74 < 0.90)"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.0,
+  "pred": {
+   "total": null,
+   "subtotal": "42,000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "42,000",
+   "subtotal": "42,000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_48",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9609,
+  "pred": {
+   "total": "61,500",
+   "subtotal": "55,908",
+   "tax": "5,592",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "61,500",
+   "subtotal": "55,908",
+   "tax": "5,592",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 3,
+  "items_gold": 3
+ },
+ {
+  "id": "validation_49",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": false,
+   "tax": false,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "total not found",
+   "low confidence on tax (0.75 < 0.90)"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.0,
+  "pred": {
+   "total": null,
+   "subtotal": null,
+   "tax": "400",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": null,
+   "subtotal": "74.000",
+   "tax": "7.400",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 3,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_50",
+  "posting_correct": true,
+  "fully_correct": true,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9652,
+  "pred": {
+   "total": "26,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "26,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_51",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on total (0.80 < 0.90)"
+  ],
+  "recon": "PASS",
+  "conf": 0.804,
+  "pred": {
+   "total": "57.200",
+   "subtotal": "57.200",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "57.200",
+   "subtotal": "57.200",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_52",
+  "posting_correct": true,
+  "fully_correct": true,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.985,
+  "pred": {
+   "total": "56.000",
+   "subtotal": "56.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "56.000",
+   "subtotal": "56.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 3,
+  "items_pred": 3,
+  "items_gold": 3
+ },
+ {
+  "id": "validation_53",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9533,
+  "pred": {
+   "total": "31.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "31.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_54",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9839,
+  "pred": {
+   "total": "40.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "40.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_55",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9175,
+  "pred": {
+   "total": "60.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "60.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 2,
+  "items_pred": 3,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_56",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9941,
+  "pred": {
+   "total": "20.000",
+   "subtotal": "20.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "20.000",
+   "subtotal": "20.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_57",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on service_charge (0.59 < 0.90)"
+  ],
+  "recon": "PASS",
+  "conf": 0.595,
+  "pred": {
+   "total": "288,585",
+   "subtotal": "247,500",
+   "tax": "26,235",
+   "service_charge": "14.850",
+   "discount": null
+  },
+  "gold": {
+   "total": "288,585",
+   "subtotal": "247,500",
+   "tax": "26,235",
+   "service_charge": "14,850",
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 3,
+  "items_gold": 3
+ },
+ {
+  "id": "validation_58",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.995,
+  "pred": {
+   "total": "25.000",
+   "subtotal": "25.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "25.000",
+   "subtotal": "25.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 2,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_59",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": false,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on subtotal (0.72 < 0.90)",
+   "arithmetic check failed: subtotal + tax + service - discount = total (expected 603,935.00, got 664,329.00)"
+  ],
+  "recon": "FAIL",
+  "conf": 0.722,
+  "pred": {
+   "total": "664,329",
+   "subtotal": "561,800",
+   "tax": null,
+   "service_charge": "42135",
+   "discount": null
+  },
+  "gold": {
+   "total": "664,329",
+   "subtotal": "561,800",
+   "tax": "60,394",
+   "service_charge": "42,135",
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 9,
+  "items_gold": 9
+ },
+ {
+  "id": "validation_60",
+  "posting_correct": true,
+  "fully_correct": true,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9539,
+  "pred": {
+   "total": "180,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "180,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_61",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on total (0.68 < 0.90)"
+  ],
+  "recon": "PASS",
+  "conf": 0.6768,
+  "pred": {
+   "total": "8,250",
+   "subtotal": "7,500",
+   "tax": "750",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "8,250",
+   "subtotal": "7,500",
+   "tax": "750",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 3,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_62",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9814,
+  "pred": {
+   "total": "62.000",
+   "subtotal": "56.364",
+   "tax": "5,636",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "62,000",
+   "subtotal": "56,364",
+   "tax": "5,636",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 3,
+  "items_gold": 3
+ },
+ {
+  "id": "validation_63",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9682,
+  "pred": {
+   "total": "56.800",
+   "subtotal": "51,636",
+   "tax": "5.164",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "56,800",
+   "subtotal": "51,636",
+   "tax": "5,164",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_64",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.996,
+  "pred": {
+   "total": "20,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "20,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_65",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.945,
+  "pred": {
+   "total": "54.600",
+   "subtotal": "49.636",
+   "tax": "4.964",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "54.600",
+   "subtotal": "49.636",
+   "tax": "4.964",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_66",
+  "posting_correct": true,
+  "fully_correct": true,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on total (0.82 < 0.90)"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.8226,
+  "pred": {
+   "total": "7.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "7,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_67",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": false,
+   "subtotal": true,
+   "tax": false,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "arithmetic check failed: subtotal + tax + service - discount = total (expected 75,160.00, got 92.00)"
+  ],
+  "recon": "FAIL",
+  "conf": 0.9781,
+  "pred": {
+   "total": "00092",
+   "subtotal": "69,091",
+   "tax": "606*9",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "76,000",
+   "subtotal": "69,091",
+   "tax": "6,909",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_68",
+  "posting_correct": true,
+  "fully_correct": true,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9681,
+  "pred": {
+   "total": ":26.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "26,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_69",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on total (0.44 < 0.90)"
+  ],
+  "recon": "PASS",
+  "conf": 0.4446,
+  "pred": {
+   "total": "174.983",
+   "subtotal": "151,500",
+   "tax": "15.908",
+   "service_charge": "7.575",
+   "discount": null
+  },
+  "gold": {
+   "total": "174.983",
+   "subtotal": "151.500",
+   "tax": "15.908",
+   "service_charge": "7.575",
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 3,
+  "items_gold": 3
+ },
+ {
+  "id": "validation_70",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9471,
+  "pred": {
+   "total": "121798",
+   "subtotal": "103,000",
+   "tax": "11,073",
+   "service_charge": "7,725",
+   "discount": null
+  },
+  "gold": {
+   "total": "121,798",
+   "subtotal": "103,000",
+   "tax": "11,073",
+   "service_charge": "7,725",
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 3,
+  "items_gold": 3
+ },
+ {
+  "id": "validation_71",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9899,
+  "pred": {
+   "total": "20.000",
+   "subtotal": "20.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "20.000",
+   "subtotal": "20.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 3,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_72",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9803,
+  "pred": {
+   "total": "36.000",
+   "subtotal": "36.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "36,000",
+   "subtotal": "36,000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_73",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.969,
+  "pred": {
+   "total": "20000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "20,000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_74",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9755,
+  "pred": {
+   "total": "20.000",
+   "subtotal": "20.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "20.000",
+   "subtotal": "20.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_75",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9876,
+  "pred": {
+   "total": "66,500",
+   "subtotal": "60,454",
+   "tax": "6,046",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "66,500",
+   "subtotal": "60,454",
+   "tax": "6,046",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 4,
+  "items_gold": 5
+ },
+ {
+  "id": "validation_76",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9321,
+  "pred": {
+   "total": "99.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "99.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 4,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_77",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9712,
+  "pred": {
+   "total": "R:58000.00",
+   "subtotal": "Rp58000.00",
+   "tax": "Rp5272.73",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "Rp 58000.00",
+   "subtotal": "Rp 58000.00",
+   "tax": "Rp 5272.73",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_78",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": false,
+   "tax": true,
+   "service_charge": false,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9787,
+  "pred": {
+   "total": "177.870",
+   "subtotal": null,
+   "tax": "16170",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "177.870",
+   "subtotal": "154 000",
+   "tax": "16 170",
+   "service_charge": "7 700",
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 6,
+  "items_gold": 4
+ },
+ {
+  "id": "validation_79",
+  "posting_correct": true,
+  "fully_correct": true,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on subtotal (0.87 < 0.90)"
+  ],
+  "recon": "PASS",
+  "conf": 0.8733,
+  "pred": {
+   "total": "72.000",
+   "subtotal": "72.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "72.000",
+   "subtotal": "72.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 7,
+  "items_pred": 7,
+  "items_gold": 7
+ },
+ {
+  "id": "validation_80",
+  "posting_correct": true,
+  "fully_correct": true,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.989,
+  "pred": {
+   "total": "25.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "25.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_81",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9956,
+  "pred": {
+   "total": "276,000",
+   "subtotal": "250,909",
+   "tax": "25,091",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "276,000",
+   "subtotal": "250,909",
+   "tax": "25,091",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 2,
+  "items_pred": 5,
+  "items_gold": 5
+ },
+ {
+  "id": "validation_82",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on subtotal (0.48 < 0.90)"
+  ],
+  "recon": "PASS",
+  "conf": 0.4796,
+  "pred": {
+   "total": "35.000",
+   "subtotal": "35.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "35.000",
+   "subtotal": "35.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 2,
+  "items_pred": 2,
+  "items_gold": 4
+ },
+ {
+  "id": "validation_83",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": false,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9198,
+  "pred": {
+   "total": "17,000",
+   "subtotal": "17,000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "17,000",
+   "subtotal": "17,000",
+   "tax": "0",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_84",
+  "posting_correct": true,
+  "fully_correct": true,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9854,
+  "pred": {
+   "total": "52,000",
+   "subtotal": "52,000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "52,000",
+   "subtotal": "52,000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 2,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_85",
+  "posting_correct": true,
+  "fully_correct": true,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9857,
+  "pred": {
+   "total": "15,000",
+   "subtotal": "13,636",
+   "tax": "1,364",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "15,000",
+   "subtotal": "13,636",
+   "tax": "1,364",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_86",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9911,
+  "pred": {
+   "total": "26.000",
+   "subtotal": "26,000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "26,000",
+   "subtotal": "26,000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_87",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": false,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9649,
+  "pred": {
+   "total": "29,000",
+   "subtotal": "29.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "29,000",
+   "subtotal": "29,000",
+   "tax": "0",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_88",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9881,
+  "pred": {
+   "total": "170,000",
+   "subtotal": "154,545",
+   "tax": "15,455",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "170,000",
+   "subtotal": "154,545",
+   "tax": "15,455",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 3,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_89",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9832,
+  "pred": {
+   "total": "29.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "29.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_90",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on total (0.85 < 0.90)"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.8469,
+  "pred": {
+   "total": "70000.00",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "70000.00",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_91",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9851,
+  "pred": {
+   "total": "44,000",
+   "subtotal": "40,000",
+   "tax": "4,000",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "44,000",
+   "subtotal": "40,000",
+   "tax": "4,000",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_92",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9451,
+  "pred": {
+   "total": "23,000",
+   "subtotal": "20,909",
+   "tax": "2,091",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "23,000",
+   "subtotal": "20,909",
+   "tax": "2,091",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_93",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": false,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "arithmetic check failed: subtotal + tax + service - discount = total (expected 171,794.00, got 172,000.00)"
+  ],
+  "recon": "FAIL",
+  "conf": 0.9283,
+  "pred": {
+   "total": "172,000",
+   "subtotal": "156.364",
+   "tax": "15,430",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "172,000",
+   "subtotal": "156,364",
+   "tax": "15,636",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_94",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": false,
+   "tax": true,
+   "service_charge": false,
+   "discount": false
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on total (0.40 < 0.90)"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.4006,
+  "pred": {
+   "total": "80.100",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": "7.280",
+   "discount": "3.795"
+  },
+  "gold": {
+   "total": "80.100",
+   "subtotal": "69.000",
+   "tax": null,
+   "service_charge": "3.795",
+   "discount": "0"
+  },
+  "items_tp": 0,
+  "items_pred": 2,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_95",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on tax (0.50 < 0.90)"
+  ],
+  "recon": "PASS",
+  "conf": 0.5017,
+  "pred": {
+   "total": "30,000",
+   "subtotal": "27.272",
+   "tax": "2.700",
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "30,000",
+   "subtotal": "27,272",
+   "tax": "2,700",
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 2,
+  "items_gold": 2
+ },
+ {
+  "id": "validation_96",
+  "posting_correct": false,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": false,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "low confidence on total (0.67 < 0.90)",
+   "low confidence on subtotal (0.49 < 0.90)",
+   "low confidence on discount (0.34 < 0.90)",
+   "arithmetic check failed: subtotal + tax + service - discount = total (expected 11,591.00, got 12,750.00)"
+  ],
+  "recon": "FAIL",
+  "conf": 0.345,
+  "pred": {
+   "total": "12.750",
+   "subtotal": "13,636",
+   "tax": null,
+   "service_charge": null,
+   "discount": "-2,045"
+  },
+  "gold": {
+   "total": "12,750",
+   "subtotal": "13,636",
+   "tax": "1,159",
+   "service_charge": null,
+   "discount": "-2,045"
+  },
+  "items_tp": 0,
+  "items_pred": 0,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_97",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9803,
+  "pred": {
+   "total": "25.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "25.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_98",
+  "posting_correct": true,
+  "fully_correct": false,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.9932,
+  "pred": {
+   "total": "100.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "100.000",
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 0,
+  "items_pred": 1,
+  "items_gold": 1
+ },
+ {
+  "id": "validation_99",
+  "posting_correct": true,
+  "fully_correct": true,
+  "fields_ok": {
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
+   "discount": true
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident and arithmetic reconciles"
+  ],
+  "recon": "PASS",
+  "conf": 0.9556,
+  "pred": {
+   "total": "Rp.39.000",
+   "subtotal": "Rp.39.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "gold": {
+   "total": "Rp. 39.000",
+   "subtotal": "Rp. 39.000",
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "items_tp": 1,
+  "items_pred": 1,
+  "items_gold": 1
+ }
+]

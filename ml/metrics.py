@@ -4,6 +4,8 @@
   present and the parsed amounts are equal (money_equal; sign of discounts ignored).
 - Correct line item: normalised name (lowercase, collapsed whitespace) equal AND qty value equal
   AND price value equal. Line items are matched as multisets -> precision / recall / F1.
+- Lenient line item (reported separately, for real OCR): price value equal AND name similarity
+  >= 0.8 (difflib ratio, lowercase, spaces removed). Quantity ignored. Greedy one-to-one matching.
 - Posting-correct receipt: all 5 header fields (total, subtotal, tax, service_charge, discount)
   correct. This is what an auto-post writes to the ledger, so auto-post correctness uses it.
 - Fully-correct receipt: posting-correct AND the predicted line-item multiset equals gold exactly.
@@ -13,10 +15,28 @@
 from __future__ import annotations
 
 from collections import Counter
+from difflib import SequenceMatcher
 
 from .fields import item_key
 from .money import money_equal
 from .schema import HEADER_FIELDS
+
+
+def _squash(s) -> str:
+    return "".join(str(s or "").lower().split())
+
+
+def lenient_item_tp(pred_items: list[dict], gold_items: list[dict]) -> int:
+    used, tp = set(), 0
+    for g in gold_items:
+        for j, p in enumerate(pred_items):
+            if j in used or p.get("price_value") is None or p.get("price_value") != g.get("price_value"):
+                continue
+            if SequenceMatcher(None, _squash(p.get("name")), _squash(g.get("name"))).ratio() >= 0.8:
+                used.add(j)
+                tp += 1
+                break
+    return tp
 
 
 def compare(pred: dict, gold: dict) -> dict:
@@ -35,7 +55,8 @@ def compare(pred: dict, gold: dict) -> dict:
     return {
         "fields": per_field,
         "gold_present": {f: gold["fields"].get(f) is not None for f in HEADER_FIELDS},
-        "items_tp": tp, "items_pred": sum(pc.values()), "items_gold": sum(gc.values()),
+        "items_tp": tp, "items_tp_lenient": lenient_item_tp(pred["line_items"], gold["line_items"]),
+        "items_pred": sum(pc.values()), "items_gold": sum(gc.values()),
         "posting_correct": posting,
         "fully_correct": posting and pc == gc,
     }
@@ -54,6 +75,9 @@ def aggregate(comps: list[dict]) -> dict:
     ngold = sum(c["items_gold"] for c in comps)
     p = tp / npred if npred else 0.0
     r = tp / ngold if ngold else 0.0
+    tpl = sum(c["items_tp_lenient"] for c in comps)
+    pl, rl = (tpl / npred if npred else 0.0), (tpl / ngold if ngold else 0.0)
+    out["line_item_f1_lenient"] = 2 * pl * rl / (pl + rl) if pl + rl else 0.0
     out.update({
         "key_field_exact_match": sum(sum(c["fields"].values()) for c in comps) / (n * len(HEADER_FIELDS)),
         "line_item_precision": p, "line_item_recall": r,

@@ -74,6 +74,9 @@ def main():
            "word_recall": round(wr_hit / wr_tot, 4), "key_amount_recall": round(ka_hit / max(ka_tot, 1), 4),
            "latency_s_median": round(lat[len(lat) // 2], 3), "latency_s_p90": round(lat[int(0.9 * (len(lat) - 1))], 3),
            "peak_rss_mb": round(peak / 2**20)}
+    if a.split == "test":  # test is only touched by the final evaluation: cache OCR, report nothing
+        print(f"cached {len(recs)} test receipts (no benchmark written for test)")
+        return
     bench = ROOT / "results" / "ocr_benchmark.json"
     allres = json.loads(bench.read_text()) if bench.exists() else {}
     allres[f"{a.engine}_{a.split}_n{len(recs)}"] = res

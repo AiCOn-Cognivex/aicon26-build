@@ -26,8 +26,26 @@ def xy(split):
     return X, y
 
 
+def xy_ocr():
+    from .project_labels import ocr_train_sequences
+    X, y = [], []
+    for rec, ws, W, H in ocr_train_sequences("train"):
+        X.append(featurise(ws, W, H))
+        y.append([w["label"] for w in ws])
+    return X, y
+
+
 def main():
-    Xtr, ytr = xy("train")
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--source", default="gold", choices=["gold", "ocr", "both"],
+                    help="train on gold words, real-OCR words with projected labels, or both")
+    ap.add_argument("--out", default=str(ROOT / "ml" / "artifacts" / "crf.pkl"))
+    a = ap.parse_args()
+    Xtr, ytr = xy("train") if a.source != "ocr" else ([], [])
+    if a.source != "gold":
+        Xo, yo = xy_ocr()
+        Xtr, ytr = Xtr + Xo, ytr + yo
     Xva, yva = xy("validation")
     best = None
     rows = []
@@ -37,11 +55,12 @@ def main():
         f1 = f1_score(yva, m.crf.predict(Xva))
         dt = time.time() - t0
         print(f"c1={c1} c2={c2} val_entity_f1={f1:.4f} ({dt:.0f}s)")
-        rows.append([datetime.now().isoformat(timespec="seconds"), "crf", f"c1={c1}", f"c2={c2}", "", "", "", "",
+        rows.append([datetime.now().isoformat(timespec="seconds"), f"crf[{a.source}]", f"c1={c1}", f"c2={c2}", "", "", "", "",
                      "", "", 0, round(f1, 4), round(dt), "cpu"])
         if best is None or f1 > best[0]:
             best = (f1, c1, c2, m)
-    best[3].save(ROOT / "ml" / "artifacts" / "crf.pkl")
+    from pathlib import Path
+    best[3].save(Path(a.out))
     exp = ROOT / "results" / "experiments.csv"
     new = not exp.exists()
     with open(exp, "a", newline="") as f:
@@ -50,7 +69,7 @@ def main():
             w.writerow(["timestamp", "model", "lr", "weight_decay", "batch", "epochs_max", "epochs_run", "best_epoch",
                         "freeze_layers", "max_train", "seed", "val_entity_f1", "train_time_s", "device"])
         w.writerows(rows)
-    print(f"best c1={best[1]} c2={best[2]} val_entity_f1={best[0]:.4f} -> ml/artifacts/crf.pkl")
+    print(f"best c1={best[1]} c2={best[2]} val_entity_f1={best[0]:.4f} -> {a.out}")
 
 
 if __name__ == "__main__":

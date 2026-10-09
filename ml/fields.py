@@ -34,6 +34,9 @@ def entities(tagged: list[dict]) -> list[dict]:
     for e in ents:
         e["text"] = " ".join(e["words"])
         e["confidence"] = min(e["probs"]) if e["probs"] else 0.0
+        # amount = the last token that carries digits (a stray label word must not leak into the number)
+        nums = [t for t in e["words"] if any(ch.isdigit() for ch in t)]
+        e["amount_text"] = nums[-1] if nums else None
     return ents
 
 
@@ -43,11 +46,11 @@ def assemble(tagged: list[dict]) -> dict:
     fields: dict[str, dict | None] = {k: None for k in HEADER_FIELDS}
     for e in ents:
         f = _CAT_TO_FIELD.get(e["category"])
-        if f is None or parse_money(e["text"]) is None:
+        if f is None or parse_money(e["amount_text"]) is None:
             continue
         # several candidates: keep the most confident (ties -> later on the receipt)
         if fields[f] is None or e["confidence"] >= fields[f]["confidence"]:
-            fields[f] = {"text": e["text"], "value": to_float(parse_money(e["text"])),
+            fields[f] = {"text": e["amount_text"], "value": to_float(parse_money(e["amount_text"])),
                          "confidence": round(e["confidence"], 4)}
 
     items, cur = [], None
@@ -58,7 +61,7 @@ def assemble(tagged: list[dict]) -> dict:
         if cur is None or cur.get(slot) is not None:
             cur = {"name": None, "qty": None, "price": None, "confidence": 1.0}
             items.append(cur)
-        cur[slot] = e["text"]
+        cur[slot] = e["amount_text"] if slot == "price" else e["text"]
         cur["confidence"] = round(min(cur["confidence"], e["confidence"]), 4)
     for it in items:
         it["price_value"] = to_float(parse_money(it["price"]))

@@ -32,13 +32,14 @@ def label_map() -> dict:
 
 
 def gold_sequence(rec: dict) -> list[dict]:
-    """Gold words in reading order with BIO labels. An entity = one annotated CORD line."""
+    """Gold words in reading order with BIO labels. An entity = the VALUE words of one annotated
+    CORD line; printed key words (is_key=1, e.g. "TOTAL", "PB1:") are labelled O."""
     lm = label_map()
     words = reading_order(rec["words"])
     prev_line = None
     for w in words:
         cat = lm.get(w["category"], w["category"])
-        if cat in (None, "O"):
+        if cat in (None, "O") or w.get("is_key"):
             w["label"] = "O"
             prev_line = None
             continue

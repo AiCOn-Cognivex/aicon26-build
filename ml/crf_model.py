@@ -5,6 +5,7 @@ page, which keywords are on its line, its neighbours) and learns which tag seque
 """
 from __future__ import annotations
 
+import math
 import pickle
 import re
 from pathlib import Path
@@ -83,7 +84,14 @@ class CRFTagger:
         X = featurise(ws, width, height)
         labels = self.crf.predict_single(X)
         marg = self.crf.predict_marginals_single(X)
+        T = getattr(self, "T", 1.0)
         for w, lab, m in zip(ws, labels, marg):
+            if T != 1.0:  # temperature scaling of the marginals (fitted on validation)
+                logs = {k: math.log(max(v, 1e-12)) / T for k, v in m.items()}
+                mx = max(logs.values())
+                ex = {k: math.exp(v - mx) for k, v in logs.items()}
+                z = sum(ex.values())
+                m = {k: v / z for k, v in ex.items()}
             w["label"], w["prob"] = lab, float(m[lab])
             w["probs"] = m
         return ws
@@ -98,4 +106,5 @@ class CRFTagger:
         obj = cls.__new__(cls)
         with open(path, "rb") as f:
             obj.crf = pickle.load(f)
+        obj.T = 1.0
         return obj

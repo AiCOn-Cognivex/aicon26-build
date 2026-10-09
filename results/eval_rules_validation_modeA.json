@@ -38,7 +38,7 @@
  "auto_post_correctness": 0.8148148148148148,
  "auto_post_fully_correct": 0.35802469135802467,
  "latency_ms_median_extractor": 0.2,
- "token_entity_f1": 0.4280519480519481,
- "token_entity_precision": 0.5953757225433526,
- "token_entity_recall": 0.33414436334144365
+ "token_entity_f1": 0.6107347576862949,
+ "token_entity_precision": 0.846820809248555,
+ "token_entity_recall": 0.47758761206193967
 }

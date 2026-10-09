@@ -36,12 +36,18 @@ def set_seed(s):
     torch.cuda.manual_seed_all(s)
 
 
-def build_examples(split, tok, l2i):
+def build_examples(split, tok, l2i, source="gold"):
+    """source: gold words, real-OCR words with projected labels (train only), or both."""
+    seqs = []
+    if source in ("gold", "both"):
+        seqs += [(rec, gold_sequence(rec), rec["width"], rec["height"]) for rec in load_split(split)]
+    if source in ("ocr", "both"):
+        from .project_labels import ocr_train_sequences
+        seqs += ocr_train_sequences(split)
     exs, n_chunked = [], 0
-    for rec in load_split(split):
-        ws = gold_sequence(rec)
+    for rec, ws, W, H in seqs:
         texts = [w["text"] for w in ws]
-        boxes = normalise_boxes(ws, rec["width"], rec["height"])
+        boxes = normalise_boxes(ws, W, H)
         labs = [l2i[w["label"]] for w in ws]
         chunks = chunk_words(tok, texts)
         n_chunked += len(chunks) > 1
@@ -93,6 +99,8 @@ def main():
     ap.add_argument("--freeze-layers", type=int, default=0, help="freeze embeddings + first N encoder layers")
     ap.add_argument("--max-train", type=int, default=0, help="use only the first N train chunks (learning curve)")
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--source", default="both", choices=["gold", "ocr", "both"],
+                    help="train words: CORD gold, real OCR with projected labels, or both (default)")
     ap.add_argument("--out", default=str(ROOT / "ml" / "artifacts" / "lilt"))
     ap.add_argument("--bench", action="store_true")
     ap.add_argument("--push-to-hub", default="")
@@ -104,7 +112,7 @@ def main():
     labels = label_list()
     l2i = {l: i for i, l in enumerate(labels)}
     tok = get_tokenizer()
-    train, n_ch = build_examples("train", tok, l2i)
+    train, n_ch = build_examples("train", tok, l2i, a.source)
     val, _ = build_examples("validation", tok, l2i)
     if a.max_train:
         train = train[: a.max_train]
@@ -191,7 +199,7 @@ def main():
         if new:
             w.writerow(["timestamp", "model", "lr", "weight_decay", "batch", "epochs_max", "epochs_run", "best_epoch",
                         "freeze_layers", "max_train", "seed", "val_entity_f1", "train_time_s", "device"])
-        w.writerow([datetime.now().isoformat(timespec="seconds"), "lilt-roberta-en-base", a.lr, a.wd, a.batch, a.epochs,
+        w.writerow([datetime.now().isoformat(timespec="seconds"), f"lilt-roberta-en-base[{a.source}]", a.lr, a.wd, a.batch, a.epochs,
                     len(history), best_ep, a.freeze_layers, a.max_train, a.seed, round(best_f1, 4),
                     meta["train_time_s"], meta["gpu"] or device])
     print(f"saved {out} best_epoch={best_ep} val_entity_f1={best_f1:.4f}")

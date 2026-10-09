@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import io
 import os
+import re
 import shutil
 from functools import lru_cache
 
@@ -79,6 +80,25 @@ def tesseract_words(img: Image.Image) -> list[dict]:
 
 ENGINES = {"rapidocr": rapidocr_words, "tesseract": tesseract_words}
 
+# "1EGG", "2xNASI", "1S-Ovaltine": OCR glues the printed quantity onto the item name
+_QTY_PREFIX = re.compile(r"^(\d{1,2})([xX]?)([A-Za-z][A-Za-z\-].*)$")
+
+
+def normalise_words(words: list[dict]) -> list[dict]:
+    """Engine-agnostic clean-up applied to every real-OCR output (same for all models)."""
+    out = []
+    for w in words:
+        m = _QTY_PREFIX.match(w["text"])
+        if m:
+            x0, y0, x1, y1 = w["box"]
+            q, name = m.group(1) + m.group(2), m.group(3)
+            split = x0 + (x1 - x0) * len(q) / len(w["text"])
+            out.append({**w, "text": q, "box": [x0, y0, split, y1]})
+            out.append({**w, "text": name, "box": [split, y0, x1, y1]})
+        else:
+            out.append(w)
+    return out
+
 
 def run_ocr(img: Image.Image, engine: str = "rapidocr") -> list[dict]:
-    return ENGINES[engine](img)
+    return normalise_words(ENGINES[engine](img))

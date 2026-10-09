@@ -19,8 +19,10 @@ MAX_LEN = 512
 
 
 def get_tokenizer(name_or_path: str = BASE_CHECKPOINT):
-    from transformers import AutoTokenizer
-    return AutoTokenizer.from_pretrained(name_or_path, add_prefix_space=True)
+    # The checkpoint's tokenizer_config points at LayoutLMv3Tokenizer (which insists on boxes);
+    # LiLT-roberta uses the plain RoBERTa BPE vocab, so load that directly. Boxes are added in encode().
+    from transformers import RobertaTokenizerFast
+    return RobertaTokenizerFast.from_pretrained(name_or_path, add_prefix_space=True)
 
 
 def chunk_words(tokenizer, texts: list[str], max_len: int = MAX_LEN) -> list[tuple[int, int]]:
@@ -68,9 +70,7 @@ class LiltTagger:
         model = LiltForTokenClassification.from_pretrained(path)
         tok = get_tokenizer(str(path))
         labels = json.loads((path / "labels.json").read_text())
-        cal = path / "calibration.json"
-        T = json.loads(cal.read_text())["temperature"] if cal.exists() else 1.0
-        return cls(model, tok, labels, T)
+        return cls(model, tok, labels, 1.0)  # temperature set by taggers.load()
 
     @torch.inference_mode()
     def word_logits(self, ws: list[dict], width: float, height: float) -> np.ndarray:
@@ -100,6 +100,7 @@ class LiltTagger:
         for w, row in zip(ws, p):
             k = int(row.argmax())
             w["label"], w["prob"] = self.labels[k], float(row[k])
+            w["probs"] = {l: float(v) for l, v in zip(self.labels, row) if v > 1e-6}
         return _fix_bio(ws)
 
 

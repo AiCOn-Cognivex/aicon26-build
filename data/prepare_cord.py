@@ -4,7 +4,7 @@ Outputs (gitignored, reproducible):
   data/raw/images/{split}/{idx}.png
   data/processed/{split}.jsonl   one receipt per line:
      id, split, idx, width, height, gt_parse,
-     words: [{text, box:[x0,y0,x1,y1] (pixels), category, group_id, row_id, line_idx}],
+     words: [{text, box:[x0,y0,x1,y1] (pixels), category, group_id, row_id, line_idx, is_key}],
      issues: [...]   problems found while flattening (logged, never silently dropped)
 
 Usage: python data/prepare_cord.py
@@ -49,7 +49,7 @@ def flatten(gt: dict, width: int, height: int) -> tuple[list[dict], list[str]]:
                 issues.append(f"line {li}: box outside image for '{text}'")
             words.append({
                 "text": text, "box": box, "category": cat, "group_id": gid,
-                "row_id": w.get("row_id"), "line_idx": li,
+                "row_id": w.get("row_id"), "line_idx": li, "is_key": int(w.get("is_key", 0) or 0),
             })
     if not words:
         issues.append("no words")

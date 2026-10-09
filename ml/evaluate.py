@@ -18,6 +18,7 @@ from .dataset import ROOT, gold_sequence, load_split
 from .decision import decide, receipt_confidence
 from .fields import assemble, gold_fields
 from .metrics import aggregate, compare, stp_metrics
+from .ocr import normalise_words
 from .ocr_cache import load_cache
 from . import taggers
 
@@ -39,7 +40,7 @@ def run(model: str, split: str, mode: str, engine: str = "rapidocr", policy: dic
             W, H = r["width"], r["height"]
         else:
             c = cache[r["id"]]
-            words, W, H = c["words"], c["width"], c["height"]
+            words, W, H = normalise_words(c["words"]), c["width"], c["height"]
         t0 = time.perf_counter()
         tagged = fn(words, W, H)
         lat.append(time.perf_counter() - t0)

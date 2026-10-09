@@ -221,8 +221,6 @@ __marimo__/
 
 # --- project ---
 data/raw/
-data/processed/
-data/cache/
 ml/artifacts/
 *.ckpt
 *.safetensors
