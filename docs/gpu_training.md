@@ -52,3 +52,45 @@ git add results/experiments.csv && git commit -m "LiLT training runs" && git pus
 ## What happens next (on the laptop)
 `python setup_models.py --repo <MODEL_REPO>` downloads the model; then `python -m ml.calibrate --model lilt`
 fits the temperature and decision threshold on validation, and `python -m ml.evaluate` scores it in both modes.
+
+## Experimenting (Hassan)
+
+After `scripts/gpu_train.*` has run once, the venv exists. Activate it in each new terminal:
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass; .\.venv\Scripts\Activate.ps1     # Windows
+source .venv/bin/activate                                                   # Linux/WSL
+```
+
+**Train variants** (each into its own folder; every run is appended to `results/experiments.csv`):
+```bash
+python -m ml.train_lilt --bench --batch 8                                              # speed check
+python -m ml.train_lilt --epochs 30 --lr 5e-5 --source both --out ml/artifacts/lilt              # main
+python -m ml.train_lilt --epochs 30 --lr 3e-5 --source both --out ml/artifacts/lilt_lr3e-5      # learning rate
+python -m ml.train_lilt --epochs 30 --lr 8e-5 --source both --out ml/artifacts/lilt_lr8e-5
+python -m ml.train_lilt --epochs 30 --lr 5e-5 --source gold --out ml/artifacts/lilt_gold        # data ablation
+python -m ml.train_lilt --epochs 30 --lr 5e-5 --source both --freeze-layers 6 --out ml/artifacts/lilt_freeze6
+python -m ml.train_lilt --epochs 30 --lr 5e-5 --source both --max-train 400 --out ml/artifacts/lilt_n400   # learning curve (1600 = all)
+python -m ml.train_lilt --epochs 30 --lr 5e-5 --source both --wd 0.05 --out ml/artifacts/lilt_wd05
+```
+Only tune: learning rate, epochs, weight decay, freezing (and the data source ablation).
+Early stopping (patience 6) on validation entity F1 is automatic; the best epoch is restored.
+
+**Evaluate a variant on VALIDATION** (no images needed: uses the committed OCR cache):
+```powershell
+$env:LILT_DIR="ml/artifacts/lilt_lr3e-5"          # Linux: export LILT_DIR=ml/artifacts/lilt_lr3e-5
+python -m ml.evaluate --model lilt --split validation --mode A    # gold OCR
+python -m ml.evaluate --model lilt --split validation --mode B    # real OCR (what the app does)
+python -m ml.calibrate --model lilt                               # decision policy + STP at 98%
+```
+Compare with the CRF line in the README (validation Mode B: posting-correct 83%, STP 52% with 52/52 correct).
+**Pick the winner by validation Mode B** (posting-correct, then STP). Never touch the test split:
+`ml.evaluate --split test` refuses without `--final`, and the one test run is done at the end on the laptop.
+
+**Hand over the winner**
+```bash
+python scripts/upload_artifacts.py --repo <hf-user>/cord-receipt-models --path ml/artifacts/<winner> --as lilt
+git add results/experiments.csv && git commit -m "LiLT experiments" && git push
+git checkout -- results/ ml/artifacts/ 2>/dev/null; git status   # do NOT push other results/*.json or policy files
+```
+Tell Mohid the winner's folder name and its validation numbers; the laptop re-runs calibration + evaluation
+with the downloaded model so all committed results come from one place.

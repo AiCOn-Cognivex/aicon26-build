@@ -9,6 +9,8 @@ from . import rules_baseline
 
 ROOT = Path(__file__).resolve().parents[1]
 ART = Path(os.getenv("MODEL_DIR", ROOT / "ml" / "artifacts"))
+# point at another trained LiLT folder to evaluate a variant: LILT_DIR=ml/artifacts/lilt_lr3e-5
+LILT_DIR = Path(os.getenv("LILT_DIR", ART / "lilt"))
 
 NAMES = {
     "rules": ("Rules baseline (keywords + regex)", 0),
@@ -21,7 +23,7 @@ def available() -> list[str]:
     out = ["rules"]
     if (ART / "crf.pkl").exists():
         out.append("crf")
-    if (ART / "lilt" / "labels.json").exists():
+    if (LILT_DIR / "labels.json").exists():
         out.append("lilt")
     return out
 
@@ -38,7 +40,7 @@ def load(kind: str, calibrated: bool = True):
     name, rung = NAMES[kind]
     if kind == "lilt":
         from .lilt_model import LiltTagger
-        t = LiltTagger.load(ART / "lilt")
+        t = LiltTagger.load(LILT_DIR)
         t.T = _temperature("lilt") if calibrated else 1.0
         return name, rung, t.tag
     if kind == "crf":

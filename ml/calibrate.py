@@ -181,16 +181,21 @@ def main():
         # ties in coverage -> the most conservative (highest) threshold
         best = max(feasible, key=lambda c: (c[1], c[0]["threshold"]))
         note = f"Chosen: most coverage with >= {int(TARGET * 100)}% correctness among >= 20 auto-posted validation receipts."
-    else:
+    elif [c for c in candidates if c[2] is not None and c[3] >= 10]:
         best = max([c for c in candidates if c[2] is not None and c[3] >= 10], key=lambda c: (c[2], c[1]))
         note = f"No policy reached {int(TARGET * 100)}% on validation; chose the most accurate policy with >= 10 auto-posts."
+    else:  # model too weak to auto-post anything safely: send everything to review
+        never = {**DEFAULT_POLICY, "threshold": 1.01, "require_reconciliation": True}
+        best = (never, 0.0, None, 0, ["HUMAN_REVIEW"] * len(preds))
+        note = "No policy auto-posted >= 10 validation receipts; everything goes to human review."
     pol = best[0]
     lo, hi = ci(best[4])
     k_ok = round(best[2] * best[3]) if best[2] is not None else 0
     cp_lo, cp_hi = clopper_pearson(k_ok, best[3])
-    note += (f" {k_ok}/{best[3]} auto-posted validation receipts were correct; exact 95% CI {cp_lo:.1%}-{cp_hi:.1%}"
-             f" (bootstrap {lo:.1%}-{hi:.1%}). {best[3]} receipts cannot establish 98%;"
-             f" the single test-set run is the independent check.")
+    if best[3]:
+        note += (f" {k_ok}/{best[3]} auto-posted validation receipts were correct; exact 95% CI {cp_lo:.1%}-{cp_hi:.1%}"
+                 f" (bootstrap {lo:.1%}-{hi:.1%}). {best[3]} receipts cannot establish 98%;"
+                 f" the single test-set run is the independent check.")
     for c in candidates:  # curve for the chosen switches
         if all(c[0][k] == pol[k] for k in ("require_reconciliation", "use_ocr_conf", "check_absent")):
             l, h = ci(c[4])
