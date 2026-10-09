@@ -89,8 +89,9 @@ Compare with the CRF line in the README (validation Mode B: posting-correct 83%,
 **Hand over the winner**
 ```bash
 python scripts/upload_artifacts.py --repo <hf-user>/cord-receipt-models --path ml/artifacts/<winner> --as lilt
-git add results/experiments.csv && git commit -m "LiLT experiments" && git push
-git checkout -- results/ ml/artifacts/ 2>/dev/null; git status   # do NOT push other results/*.json or policy files
+git add results/experiments.csv              # ONLY this file; leave other results/*.json uncommitted
+git commit -m "LiLT experiments"
+git pull --rebase --autostash && git push
 ```
 Tell Mohid the winner's folder name and its validation numbers; the laptop re-runs calibration + evaluation
 with the downloaded model so all committed results come from one place.
