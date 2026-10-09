@@ -1,6 +1,7 @@
 # Backend image (FastAPI + RapidOCR + model). Runs on Railway or any Docker host (PORT env var).
 # Build with --build-arg WITH_LILT=1 to include torch/transformers for the LiLT model (~1.05 GB RAM).
-FROM python:3.13-slim
+# Official python image via the AWS ECR Public mirror (Docker Hub rate-limited the Railway builder: 429)
+FROM public.ecr.aws/docker/library/python:3.13-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1 \
     HF_HUB_DISABLE_SYMLINKS_WARNING=1 OMP_NUM_THREADS=2
