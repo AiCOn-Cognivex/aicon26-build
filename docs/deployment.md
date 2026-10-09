@@ -61,7 +61,8 @@ tabs still work from the snapshot bundled in `frontend/public/demo/`.
 
 ## Local fallback for the live demo (two commands)
 From the repo root, in two terminals (the venv must exist: `py -3.13 -m venv .venv` and
-`.venv\Scripts\pip install -r backend\requirements.txt`, and `cd frontend && npm install` once):
+`.venv\Scripts\pip install -r backend\requirements.txt` (plus `backend\requirements-lilt.txt` to serve
+LiLT), and `cd frontend && npm install` once):
 ```powershell
 .venv\Scripts\python -m uvicorn backend.app.main:app --port 8000
 cd frontend; npm run build; npx next start -p 3000      # NEXT_PUBLIC_API_URL defaults to http://localhost:8000
