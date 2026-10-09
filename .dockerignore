@@ -1,0 +1,9 @@
+.venv
+.git
+frontend
+data/raw
+data/processed
+data/cache
+results/details
+*.log
+**/__pycache__

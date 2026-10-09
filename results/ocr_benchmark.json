@@ -1,0 +1,22 @@
+{
+ "rapidocr_validation_n30": {
+  "engine": "rapidocr",
+  "split": "validation",
+  "n": 30,
+  "word_recall": 0.6913,
+  "key_amount_recall": 0.9692,
+  "latency_s_median": 0.968,
+  "latency_s_p90": 1.41,
+  "peak_rss_mb": 112
+ },
+ "tesseract_validation_n30": {
+  "engine": "tesseract",
+  "split": "validation",
+  "n": 30,
+  "word_recall": 0.291,
+  "key_amount_recall": 0.2769,
+  "latency_s_median": 0.513,
+  "latency_s_p90": 0.784,
+  "peak_rss_mb": 92
+ }
+}

@@ -1,0 +1,441 @@
+{
+ "splits": {
+  "train": {
+   "n_receipts": 800,
+   "n_with_issues": 1,
+   "issue_types": {
+    "line #: box outside image for #": 1
+   },
+   "examples": [
+    {
+     "id": "train_676",
+     "issues": [
+      "line 5: box outside image for '80,000'"
+     ]
+    }
+   ],
+   "words_per_receipt": {
+    "min": 5,
+    "median": 20,
+    "max": 135
+   }
+  },
+  "validation": {
+   "n_receipts": 100,
+   "n_with_issues": 0,
+   "issue_types": {},
+   "examples": [],
+   "words_per_receipt": {
+    "min": 7,
+    "median": 20,
+    "max": 70
+   }
+  },
+  "test": {
+   "n_receipts": 100,
+   "n_with_issues": 0,
+   "issue_types": {},
+   "examples": [],
+   "words_per_receipt": {
+    "min": 8,
+    "median": 20,
+    "max": 66
+   }
+  }
+ },
+ "money_parse_failures_in_gold": [
+  {
+   "id": "train_261",
+   "field": "tax",
+   "text": "-"
+  },
+  {
+   "id": "train_406",
+   "field": "tax",
+   "text": "-"
+  },
+  {
+   "id": "train_644",
+   "field": "tax",
+   "text": "-"
+  },
+  {
+   "id": "train_689",
+   "field": "discount",
+   "text": "-"
+  },
+  {
+   "id": "test_60",
+   "field": "tax",
+   "text": "-"
+  },
+  {
+   "id": "test_65",
+   "field": "tax",
+   "text": "-"
+  }
+ ],
+ "cross_split_duplicate_images": [],
+ "cross_split_duplicate_word_sequences": [
+  [
+   "train_15",
+   "validation_35"
+  ],
+  [
+   "train_44",
+   "test_75"
+  ],
+  [
+   "train_47",
+   "train_506",
+   "validation_73",
+   "test_68"
+  ],
+  [
+   "train_84",
+   "validation_53"
+  ],
+  [
+   "train_85",
+   "validation_51"
+  ],
+  [
+   "train_133",
+   "test_25"
+  ],
+  [
+   "train_168",
+   "train_627",
+   "validation_96"
+  ],
+  [
+   "train_183",
+   "validation_85"
+  ],
+  [
+   "train_221",
+   "validation_6"
+  ],
+  [
+   "train_223",
+   "test_90"
+  ],
+  [
+   "train_283",
+   "validation_28"
+  ],
+  [
+   "train_325",
+   "validation_45"
+  ],
+  [
+   "train_420",
+   "validation_98"
+  ],
+  [
+   "train_489",
+   "validation_67"
+  ],
+  [
+   "train_589",
+   "test_28"
+  ],
+  [
+   "train_766",
+   "test_69"
+  ],
+  [
+   "train_785",
+   "test_31"
+  ]
+ ],
+ "within_split_duplicate_word_sequences": [
+  [
+   "train_7",
+   "train_636"
+  ],
+  [
+   "train_29",
+   "train_256"
+  ],
+  [
+   "train_34",
+   "train_148"
+  ],
+  [
+   "train_120",
+   "train_578"
+  ],
+  [
+   "train_141",
+   "train_405"
+  ],
+  [
+   "train_164",
+   "train_663"
+  ],
+  [
+   "train_195",
+   "train_641"
+  ],
+  [
+   "train_204",
+   "train_391"
+  ],
+  [
+   "train_209",
+   "train_360"
+  ],
+  [
+   "train_255",
+   "train_466"
+  ],
+  [
+   "train_310",
+   "train_665"
+  ],
+  [
+   "train_335",
+   "train_646"
+  ],
+  [
+   "train_379",
+   "train_552"
+  ],
+  [
+   "train_412",
+   "train_594"
+  ],
+  [
+   "train_418",
+   "train_726"
+  ],
+  [
+   "train_438",
+   "train_704"
+  ],
+  [
+   "train_477",
+   "train_650"
+  ],
+  [
+   "train_546",
+   "train_658"
+  ],
+  [
+   "train_595",
+   "train_764"
+  ],
+  [
+   "train_628",
+   "train_698"
+  ],
+  [
+   "train_639",
+   "train_673"
+  ],
+  [
+   "train_724",
+   "train_789"
+  ]
+ ],
+ "gold_reconciliation": {
+  "sub+tax+svc-disc=total": {
+   "<=1%": 46,
+   "exact": 581,
+   "not_checkable": 349,
+   "fail": 24
+  },
+  "sum(items)=subtotal": {
+   "exact": 595,
+   "not_checkable": 340,
+   "fail": 65
+  }
+ },
+ "gold_reconciliation_fail_examples": {
+  "sub+tax+svc-disc=total": [
+   {
+    "id": "train_77",
+    "total": 118100.0,
+    "subtotal": 118101.0,
+    "tax": 10736.0,
+    "service_charge": null,
+    "discount": 1.0,
+    "expected": 128836.0
+   },
+   {
+    "id": "train_98",
+    "total": 25900.0,
+    "subtotal": 25900.0,
+    "tax": 2355.0,
+    "service_charge": null,
+    "discount": null,
+    "expected": 28255.0
+   },
+   {
+    "id": "train_191",
+    "total": 33500.0,
+    "subtotal": 33500.0,
+    "tax": 30273200.0,
+    "service_charge": null,
+    "discount": null,
+    "expected": 30306700.0
+   },
+   {
+    "id": "train_257",
+    "total": 165000.0,
+    "subtotal": 165000.0,
+    "tax": 15000.0,
+    "service_charge": null,
+    "discount": null,
+    "expected": 180000.0
+   },
+   {
+    "id": "train_290",
+    "total": 107998.0,
+    "subtotal": 98180.0,
+    "tax": null,
+    "service_charge": null,
+    "discount": 9818.0,
+    "expected": 88362.0
+   },
+   {
+    "id": "train_297",
+    "total": 300300.0,
+    "subtotal": 273000.0,
+    "tax": 0.0,
+    "service_charge": null,
+    "discount": 0.0,
+    "expected": 273000.0
+   },
+   {
+    "id": "train_344",
+    "total": 121000.0,
+    "subtotal": 121000.0,
+    "tax": 11000.0,
+    "service_charge": null,
+    "discount": null,
+    "expected": 132000.0
+   },
+   {
+    "id": "train_361",
+    "total": 282000.0,
+    "subtotal": 243000.0,
+    "tax": null,
+    "service_charge": 13365.0,
+    "discount": 0.0,
+    "expected": 256365.0
+   }
+  ]
+ },
+ "field_presence": {
+  "train": {
+   "total": 779,
+   "subtotal": 530,
+   "tax": 352,
+   "service_charge": 98,
+   "line_items>0": 799,
+   "discount": 61
+  },
+  "validation": {
+   "total": 98,
+   "line_items>0": 100,
+   "subtotal": 67,
+   "tax": 47,
+   "discount": 6,
+   "service_charge": 13
+  },
+  "test": {
+   "total": 95,
+   "subtotal": 65,
+   "tax": 41,
+   "discount": 6,
+   "line_items>0": 100,
+   "service_charge": 12
+  }
+ },
+ "category_entities": {
+  "train": {
+   "menu.cnt": 1903,
+   "menu.nm": 2100,
+   "menu.price": 2093,
+   "sub_total.subtotal_price": 541,
+   "sub_total.service_price": 98,
+   "sub_total.tax_price": 362,
+   "sub_total.etc": 112,
+   "total.total_price": 784,
+   "menu.sub.nm": 319,
+   "total.cashprice": 526,
+   "total.changeprice": 502,
+   "total.menutype_cnt": 43,
+   "total.menuqty_cnt": 233,
+   "sub_total.discount_price": 68,
+   "menu.unitprice": 621,
+   "total.total_etc": 28,
+   "total.creditcardprice": 124,
+   "menu.num": 94,
+   "menu.sub.cnt": 142,
+   "menu.discountprice": 97,
+   "menu.sub.price": 123,
+   "total.emoneyprice": 47,
+   "menu.sub.unitprice": 14,
+   "void_menu.nm": 1,
+   "void_menu.price": 1,
+   "sub_total.othersvc_price": 2,
+   "menu.vatyn": 2,
+   "menu.itemsubtotal": 1,
+   "menu.etc": 6
+  },
+  "validation": {
+   "menu.cnt": 210,
+   "menu.nm": 222,
+   "menu.price": 220,
+   "total.total_price": 98,
+   "total.cashprice": 64,
+   "total.changeprice": 64,
+   "menu.unitprice": 50,
+   "sub_total.tax_price": 47,
+   "sub_total.subtotal_price": 67,
+   "menu.vatyn": 1,
+   "menu.sub.nm": 49,
+   "menu.sub.cnt": 32,
+   "menu.sub.price": 14,
+   "total.menuqty_cnt": 26,
+   "total.creditcardprice": 15,
+   "menu.discountprice": 4,
+   "sub_total.discount_price": 6,
+   "total.emoneyprice": 4,
+   "sub_total.service_price": 13,
+   "total.menutype_cnt": 3,
+   "total.total_etc": 4,
+   "menu.num": 4,
+   "sub_total.etc": 2
+  },
+  "test": {
+   "menu.num": 11,
+   "menu.nm": 251,
+   "menu.cnt": 220,
+   "menu.price": 246,
+   "menu.itemsubtotal": 6,
+   "sub_total.discount_price": 7,
+   "sub_total.tax_price": 45,
+   "sub_total.subtotal_price": 66,
+   "total.total_price": 96,
+   "total.menuqty_cnt": 29,
+   "total.creditcardprice": 17,
+   "total.cashprice": 69,
+   "menu.sub.nm": 36,
+   "menu.sub.price": 20,
+   "total.changeprice": 56,
+   "menu.unitprice": 67,
+   "menu.sub.cnt": 17,
+   "sub_total.etc": 13,
+   "menu.discountprice": 10,
+   "sub_total.service_price": 12,
+   "total.total_etc": 3,
+   "menu.etc": 3,
+   "total.menutype_cnt": 7,
+   "total.emoneyprice": 2
+  }
+ }
+}

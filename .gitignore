@@ -218,3 +218,16 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# --- project ---
+data/raw/
+data/processed/
+data/cache/
+ml/artifacts/
+*.ckpt
+*.safetensors
+*.bin
+*.onnx
+.env
+frontend/node_modules/
+frontend/.next/

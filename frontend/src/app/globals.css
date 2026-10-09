@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+/* ===== Design tokens: change these to restyle the whole app ===== */
+@theme {
+  --color-canvas: #f5f7fa;
+  --color-surface: #ffffff;
+  --color-ink: #0f172a;
+  --color-muted: #5b6577;
+  --color-line: #e3e8ef;
+  --color-brand: #0f6e66;
+  --color-brand-strong: #0a524c;
+  --color-brand-soft: #e1f3f1;
+  --color-ok: #157a3c;
+  --color-ok-soft: #e3f5e9;
+  --color-warn: #a35a00;
+  --color-warn-soft: #fff1d6;
+  --color-bad: #b42318;
+  --color-bad-soft: #fde8e6;
+  --font-sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", Consolas, monospace;
+  --radius-card: 0.75rem;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
