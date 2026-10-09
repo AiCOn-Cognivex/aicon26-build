@@ -25,7 +25,7 @@ def _shape(t: str) -> str:
 
 
 def _amount_context(words: list[dict]) -> list[dict]:
-    """Receipt-level context for money tokens (feature set v2): rank of the amount on the receipt,
+    """Receipt-level context for money tokens: rank of the amount on the receipt,
     whether the same value appears elsewhere, size relative to the largest amount, and
     position among the amounts on its line."""
     vals = [parse_money(w["text"]) if is_money(w["text"]) else None for w in words]
@@ -53,14 +53,14 @@ def _amount_context(words: list[dict]) -> list[dict]:
     return out
 
 
-def featurise(words: list[dict], width: float, height: float, version: str = "v2") -> list[dict]:
+def featurise(words: list[dict], width: float, height: float) -> list[dict]:
     """words must already be in reading order with line_no / pos_in_line / line_len."""
     lines: dict[int, list[int]] = {}
     for i, w in enumerate(words):
         lines.setdefault(w["line_no"], []).append(i)
     line_text = {ln: " ".join(words[i]["text"] for i in idx) for ln, idx in lines.items()}
     n_lines = max(1, len(lines))
-    ctx = _amount_context(words) if version == "v2" else None
+    ctx = _amount_context(words)
     feats = []
     for i, w in enumerate(words):
         t = w["text"]
@@ -93,21 +93,22 @@ def featurise(words: list[dict], width: float, height: float, version: str = "v2
         prev = line_text.get(w["line_no"] - 1, "")
         for name, rx in _KW:
             f[f"prev_kw_{name}"] = bool(rx.search(prev))
-        if version == "v2":
-            nxt = line_text.get(w["line_no"] + 1, "")
-            for name, rx in _KW:
-                f[f"next_kw_{name}"] = bool(rx.search(nxt))
-            f.update(ctx[i])
+        nxt = line_text.get(w["line_no"] + 1, "")
+        for name, rx in _KW:
+            f[f"next_kw_{name}"] = bool(rx.search(nxt))
+        f.update(ctx[i])
         feats.append(f)
     return feats
 
 
+FEATURES = "v2"  # feature-set version stored in the pickle; v1 (no amount context) is in git history
+
+
 class CRFTagger:
-    def __init__(self, c1: float = 0.05, c2: float = 0.05, max_iter: int = 200, features: str = "v2"):
+    def __init__(self, c1: float = 0.5, c2: float = 0.1, max_iter: int = 200):
         import sklearn_crfsuite
         self.crf = sklearn_crfsuite.CRF(algorithm="lbfgs", c1=c1, c2=c2, max_iterations=max_iter,
                                         all_possible_transitions=True)
-        self.features = features
         self.T = 1.0
 
     def fit(self, X, y):
@@ -119,10 +120,10 @@ class CRFTagger:
         ws = reading_order(words)
         if not ws:
             return []
-        X = featurise(ws, width, height, getattr(self, "features", "v1"))
+        X = featurise(ws, width, height)
         labels = self.crf.predict_single(X)
         marg = self.crf.predict_marginals_single(X)
-        T = getattr(self, "T", 1.0)
+        T = self.T
         for w, lab, m in zip(ws, labels, marg):
             if T != 1.0:  # temperature scaling of the marginals (fitted on validation)
                 logs = {k: math.log(max(v, 1e-12)) / T for k, v in m.items()}
@@ -137,16 +138,14 @@ class CRFTagger:
     def save(self, path: Path):
         path.parent.mkdir(parents=True, exist_ok=True)
         with open(path, "wb") as f:
-            pickle.dump({"crf": self.crf, "features": self.features}, f)
+            pickle.dump({"crf": self.crf, "features": FEATURES}, f)
 
     @classmethod
     def load(cls, path: Path) -> "CRFTagger":
         obj = cls.__new__(cls)
         with open(path, "rb") as f:
-            obj.crf = pickle.load(f)
-        if isinstance(obj.crf, dict):  # versioned format
-            obj.features, obj.crf = obj.crf["features"], obj.crf["crf"]
-        else:  # models saved before feature versioning used v1
-            obj.features = "v1"
-        obj.T = 1.0
+            d = pickle.load(f)
+        if not isinstance(d, dict) or d.get("features") != FEATURES:
+            raise ValueError(f"{path}: CRF saved with another feature set; retrain with python -m ml.train_crf")
+        obj.crf, obj.T = d["crf"], 1.0
         return obj

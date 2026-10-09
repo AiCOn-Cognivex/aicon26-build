@@ -67,7 +67,7 @@ models with `python setup_models.py --repo <model repo>`, or train them:
 python data\prepare_cord.py        # downloads CORD v2 images (only needed for OCR / demos)
 python data\profile_cord.py        # results/data_profile.md, data/label_map.json
 python -m ml.ocr_cache --split train   # (and validation, test) real-OCR cache, already committed
-python -m ml.train_crf --source both
+python -m ml.train_crf            # production settings
 python -m ml.calibrate --model crf
 python -m ml.evaluate --model crf --split validation --mode B
 ```
@@ -121,7 +121,7 @@ In line with Rule 5 of the AICON'26 rulebook. **All code in this repository was 
 **Public datasets used:**
 - CORD v2 (`naver-clova-ix/cord-v2`), CC-BY-4.0, official 800/100/100 split unchanged. `data/processed/` and `data/cache/` are derived from it (attribution: Park et al., "CORD: A Consolidated Receipt Dataset for Post-OCR Parsing", 2019).
 
-**Libraries and OCR engines:** PyTorch, Hugging Face Transformers, sklearn-crfsuite / python-crfsuite, scikit-learn, seqeval, RapidOCR + ONNX Runtime, Tesseract 5 (benchmark only), FastAPI, Uvicorn, Pillow, NumPy, Next.js, React, Tailwind CSS.
+**Libraries and OCR engines:** PyTorch, Hugging Face Transformers, sklearn-crfsuite / python-crfsuite, scikit-learn, seqeval, RapidOCR + ONNX Runtime, Tesseract 5 (benchmark only, D5), FastAPI, Uvicorn, Pillow, NumPy, Next.js, React, Tailwind CSS.
 
 **APIs and services:** Hugging Face Hub (dataset and pretrained/fine-tuned model hosting), Railway (backend API hosting), Vercel (frontend hosting), GitHub. No LLM API is used anywhere in the pipeline.
 

@@ -24,11 +24,10 @@ from pathlib import Path
 from . import taggers
 from .decision import DEFAULT_POLICY, decide
 from .fields import assemble
-from .ocr import load_image, run_ocr
+from .ocr import ENGINE, load_image, run_ocr
 
 ROOT = Path(__file__).resolve().parents[1]
 ART = Path(os.getenv("MODEL_DIR", ROOT / "ml" / "artifacts"))
-OCR_ENGINE = os.getenv("OCR_ENGINE", "rapidocr")
 
 
 def policy_for(kind: str) -> dict:
@@ -79,10 +78,10 @@ def predict_words(words: list[dict], width: int, height: int) -> dict:
 def predict(image_bytes: bytes) -> dict:
     t0 = time.perf_counter()
     img = load_image(image_bytes)
-    words = run_ocr(img, OCR_ENGINE)
+    words = run_ocr(img)
     t1 = time.perf_counter()
     res = predict_words(words, img.width, img.height)
-    res["ocr"]["engine"] = OCR_ENGINE
+    res["ocr"]["engine"] = ENGINE
     res["timings_ms"]["ocr"] = round(1000 * (t1 - t0), 1)
     res["timings_ms"]["total"] = round(1000 * (time.perf_counter() - t0), 1)
     return res

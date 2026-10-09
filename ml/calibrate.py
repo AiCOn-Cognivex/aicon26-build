@@ -82,7 +82,6 @@ def retag(ws, T):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="crf")
-    ap.add_argument("--engine", default="rapidocr")
     a = ap.parse_args()
     name, rung, fn = taggers.load(a.model, calibrated=False)  # fit T on raw scores
     recs = load_split("validation")
@@ -120,7 +119,7 @@ def main():
                       "token_ece_after": tok_ece(T), "n_tokens": len(tok_cache)})
 
     # ---- 2+3. real-OCR receipts on validation
-    cache = load_cache(a.engine, "validation")
+    cache = load_cache("validation")
     rows = []
     for r in recs:
         c = cache[r["id"]]

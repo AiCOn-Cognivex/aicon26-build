@@ -14,8 +14,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
+/lib/
+/lib64/
 parts/
 sdist/
 var/
@@ -223,8 +223,6 @@ __marimo__/
 data/raw/
 ml/artifacts/*
 !ml/artifacts/crf.pkl
-!ml/artifacts/crf_gold.pkl
-!ml/artifacts/crf_v1.pkl
 !ml/artifacts/*.json
 *.ckpt
 *.safetensors

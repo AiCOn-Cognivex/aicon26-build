@@ -31,7 +31,7 @@ def main():
     ap.add_argument("--n-auto", type=int, default=5)
     ap.add_argument("--n-review", type=int, default=4)
     a = ap.parse_args()
-    cache = load_cache("rapidocr", "validation")
+    cache = load_cache("validation")
     picked, n_auto, n_rev, seen_reasons = [], 0, 0, set()
     (RES / "demo_images").mkdir(parents=True, exist_ok=True)
     FRONT.mkdir(parents=True, exist_ok=True)

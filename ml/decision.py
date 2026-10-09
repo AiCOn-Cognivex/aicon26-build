@@ -12,7 +12,6 @@ DEFAULT_POLICY = {
     "tol_abs": 50.0,            # rounding tolerance in currency units (IDR), chosen on TRAIN gold
     "tol_rel": 0.01,            # ...but never more than 1% of the amount
     "require_reconciliation": False,  # if True, NOT_CHECKABLE also goes to review
-    "use_item_rule": False,     # check sum(line items) == subtotal (off: fails on 9% of TRAIN gold)
     "use_ocr_conf": False,      # field confidence = min(tagger prob, OCR confidence of its words)
     "check_absent": False,      # review if a field we did not extract might be on the receipt
 }
@@ -42,16 +41,7 @@ def reconcile(fields: dict, items: list[dict], policy: dict = DEFAULT_POLICY) ->
         else:
             checks.append({"rule": "subtotal (tax included) + service - discount = total",
                            "expected": round(exp_incl, 2), "actual": total, "ok": True})
-    prices = [it["price_value"] for it in items if it.get("price_value") is not None]
-    if policy.get("use_item_rule") and prices:
-        s = sum(prices)
-        if sub is not None:
-            checks.append({"rule": "sum(line items) = subtotal", "expected": round(s, 2), "actual": sub,
-                           "ok": abs(s - sub) <= tol(sub)})
-        elif total is not None:
-            exp = s + tax + svc - disc
-            checks.append({"rule": "sum(line items) + tax + service - discount = total",
-                           "expected": round(exp, 2), "actual": total, "ok": abs(exp - total) <= tol(total)})
+    # sum(line items) = subtotal is deliberately NOT checked: it fails on 9% of TRAIN gold receipts
     if not checks:
         status = "NOT_CHECKABLE"
     else:

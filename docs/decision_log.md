@@ -130,7 +130,7 @@ Mode A posting-correct 91% -> 95%, fully-correct 74% -> 78%, auto-posted 57% (56
 52% -> 53% (all correct). Root cause on real OCR: "wrong number picked" fell 6 -> 4, but 9 errors
 are amounts OCR never read and 9 are amounts the model missed; real-OCR accuracy is now limited by
 OCR and data, not by CRF settings. Next levers: LiLT (pretrained, so less data-hungry), and OCR.
-Old model kept as `ml/artifacts/crf_v1.pkl`.
+Old model and the v1 feature code are in git history (commit 02cef9f); removed from the tree in D18.
 
 ### D16 · 10 Oct 01:00 · OCR improvements
 Error analysis (CRF, validation, real OCR): 7 of 100 receipts had a needed amount that OCR never read
@@ -161,8 +161,24 @@ c2=0.3: loss 0.244, F1 0.921/0.872 vs 0.918/0.874). (2) Token F1 under scaling i
 96% -> 93% (Mode A, paired). (3) Validation real OCR: posting-correct 91% -> 90%, fully-correct
 21% -> 19%. **Rejected**; augmentation B (image augmentation + re-OCR) was gated on A and not run.
 Likely reason: x10 / /10 creates implausible receipts, and real amount magnitudes carry signal (item
-prices vs totals). Kept in the code (`--augment`, `--augment-scale`, default off) with results in
-`results/crf_tuning_v2_aug*.json` and `results/robustness_crf.json`.
+prices vs totals). Results stay in `results/crf_tuning_v2_aug*.json` and `results/robustness_crf.json`;
+the code (`ml/augment.py`, `ml/robustness.py`) was removed in D18 and is in git history (commit 02cef9f).
+
+### D18 · 10 Oct 03:00 · Codebase audit before the product build
+Goal: keep only what the live product and Hassan's training need. Removed: augmentation code and flags
+(D17), Tesseract engine (benchmark only, never in the image; its numbers stay in `results/ocr_benchmark.json`),
+CRF feature set v1 and the `--features` switch (production uses v2), ablation pickles `crf_v1.pkl` /
+`crf_gold.pkl`, the unused item-sum reconciliation switch, the optional SQLite prediction log, the HF Space
+deploy script (402), unused training deps (pandas, lightgbm, accelerate, pytesseract). `python -m ml.train_crf`
+now reproduces production by default (gold + OCR words, c1=0.5, c2=0.1).
+Fixes: (1) `.gitignore` rule `lib/` also ignored `frontend/src/lib/`, so a fresh clone of the repo could not
+build the frontend (the live site was deployed from a laptop); now tracked. (2) `/extract` ran OCR on the
+event loop, so every other request waited ~10 s behind it; OCR now runs in a worker thread, one at a time.
+(3) ONNX Runtime starts one busy-waiting thread per visible core; in a container capped at ~1 vCPU these
+threads compete. Thread count now follows the container CPU quota (`OCR_THREADS` overrides). Laptop,
+15 validation receipts: default 0.76 s, 1 thread 1.10 s, 2 threads 0.78 s, identical OCR output in all cases.
+**Regression check:** rules and CRF, Mode A and B on validation, and end-to-end `predict()` on 6 images:
+identical metrics and outputs before and after the audit.
 
 ## Definitions (fixed before reporting; see `ml/metrics.py`)
 - Field exact match: both absent, or both present with equal parsed amounts (0 = absent, D11).

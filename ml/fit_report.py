@@ -11,7 +11,7 @@ import math
 
 from seqeval.metrics import f1_score
 
-from .crf_model import CRFTagger, featurise
+from .crf_model import FEATURES, CRFTagger, featurise
 from .dataset import ROOT, gold_sequence, load_split
 from .project_labels import ocr_train_sequences
 
@@ -30,13 +30,12 @@ def main():
     ap.add_argument("--name", required=True)
     a = ap.parse_args()
     t = CRFTagger.load(a.model)
-    v = t.features
-    gold = [(featurise(gold_sequence(r), r["width"], r["height"], v), [w["label"] for w in gold_sequence(r)])
+    gold = [(featurise(gold_sequence(r), r["width"], r["height"]), [w["label"] for w in gold_sequence(r)])
             for r in load_split("train")]
-    ocr = [(featurise(ws, W, H, v), [w["label"] for w in ws]) for _, ws, W, H in ocr_train_sequences("train")]
-    val = [(featurise(gold_sequence(r), r["width"], r["height"], v), [w["label"] for w in gold_sequence(r)])
+    ocr = [(featurise(ws, W, H), [w["label"] for w in ws]) for _, ws, W, H in ocr_train_sequences("train")]
+    val = [(featurise(gold_sequence(r), r["width"], r["height"]), [w["label"] for w in gold_sequence(r)])
            for r in load_split("validation")]
-    rep = {"model": a.model.replace("\\", "/").split("aicon26-build/")[-1], "features": v,
+    rep = {"model": a.model.replace("\\", "/").split("aicon26-build/")[-1], "features": FEATURES,
            "c1": t.crf.c1, "c2": t.crf.c2, "n_state_features": len(t.crf.state_features_),
            "train_gold": _stats(t.crf, *zip(*gold)), "train_ocr": _stats(t.crf, *zip(*ocr)),
            "validation_gold": _stats(t.crf, *zip(*val))}

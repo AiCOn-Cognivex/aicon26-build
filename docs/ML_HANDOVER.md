@@ -135,9 +135,9 @@ switch off RapidOCR's angle classifier (it sometimes flipped upright text). Read
 lower thresholds and higher detection resolution were tested and gave no gain.
 
 ### 4d. Augmentation tried and rejected (decision log D17)
-Amount-scaling augmentation (`--augment` / `--augment-scale`, default off) made the CRF less dependent on exact
-amount values at token level, but lowered real-receipt accuracy (validation real OCR 91% -> 90%, clean OCR 95% -> 92%).
-Rejected by gates fixed in advance. You can still try `--augment-scale 1` for LiLT; judge it on validation Mode B only.
+Amount-scaling augmentation made the CRF less dependent on exact amount values at token level, but lowered
+real-receipt accuracy (validation real OCR 91% -> 90%, clean OCR 95% -> 92%). Rejected by gates fixed in advance;
+the code was removed in the audit (D18) and is in git history (commit 02cef9f) if you want it for LiLT.
 
 ---
 
@@ -252,7 +252,7 @@ python -m ml.train_lilt --epochs 30 --lr 5e-5 --source both --out ml/artifacts/l
 LILT_DIR=ml/artifacts/lilt python -m ml.evaluate --model lilt --split validation --mode A
 LILT_DIR=ml/artifacts/lilt python -m ml.evaluate --model lilt --split validation --mode B
 LILT_DIR=ml/artifacts/lilt python -m ml.calibrate --model lilt
-python -m ml.train_crf --source both            # CRF (CPU, ~4 min for the 3-setting grid)
+python -m ml.train_crf                          # CRF, production settings (CPU, ~2 min)
 python -m ml.evaluate --model crf --split validation --mode B
 python scripts/upload_artifacts.py --repo <hf-user>/cord-receipt-models --path ml/artifacts/lilt --as lilt
 ```

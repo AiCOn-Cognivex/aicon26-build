@@ -1,8 +1,7 @@
-"""Run OCR over a split, cache word outputs, and benchmark engines against gold words.
+"""Run OCR over a split, cache word outputs, and benchmark them against gold words.
 
-  python -m ml.ocr_cache --split validation --engine rapidocr
-  python -m ml.ocr_cache --split validation --engine tesseract --limit 30
-Writes data/cache/ocr_{engine}_{split}.jsonl and results/ocr_benchmark.json (merged per engine/split).
+  python -m ml.ocr_cache --split validation
+Writes data/cache/ocr_rapidocr_{split}.jsonl and results/ocr_benchmark.json (merged per split).
 
 Benchmark measures (vs CORD gold words, no tuning on test):
   word_recall          share of gold words found verbatim (case-insensitive) among OCR words
@@ -23,24 +22,23 @@ import psutil
 from .dataset import ROOT, image_path, load_split
 from .fields import gold_fields
 from .money import parse_money
-from .ocr import load_image, run_ocr
+from .ocr import ENGINE, load_image, run_ocr
 
 CACHE = ROOT / "data" / "cache"
 
 
-def cache_path(engine, split):
-    return CACHE / f"ocr_{engine}_{split}.jsonl"
+def cache_path(split):
+    return CACHE / f"ocr_{ENGINE}_{split}.jsonl"
 
 
-def load_cache(engine, split) -> dict:
-    with open(cache_path(engine, split), encoding="utf-8") as f:
+def load_cache(split) -> dict:
+    with open(cache_path(split), encoding="utf-8") as f:
         return {r["id"]: r for r in map(json.loads, f)}
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--split", default="validation")
-    ap.add_argument("--engine", default="rapidocr")
     ap.add_argument("--limit", type=int, default=0)
     a = ap.parse_args()
     CACHE.mkdir(parents=True, exist_ok=True)
@@ -50,12 +48,12 @@ def main():
     proc = psutil.Process()
     lat, peak = [], 0
     wr_hit = wr_tot = ka_hit = ka_tot = 0
-    out = cache_path(a.engine, a.split) if not a.limit else CACHE / f"ocr_{a.engine}_{a.split}_first{a.limit}.jsonl"
+    out = cache_path(a.split) if not a.limit else CACHE / f"ocr_{ENGINE}_{a.split}_first{a.limit}.jsonl"
     with open(out, "w", encoding="utf-8") as f:
         for r in recs:
             img = load_image(image_path(r).read_bytes())
             t0 = time.perf_counter()
-            words = run_ocr(img, a.engine)
+            words = run_ocr(img)
             lat.append(time.perf_counter() - t0)
             peak = max(peak, proc.memory_info().rss)
             f.write(json.dumps({"id": r["id"], "width": img.width, "height": img.height,
@@ -70,7 +68,7 @@ def main():
                     ka_tot += 1
                     ka_hit += parse_money(fv["text"]) in vals
     lat.sort()
-    res = {"engine": a.engine, "split": a.split, "n": len(recs),
+    res = {"engine": ENGINE, "split": a.split, "n": len(recs),
            "word_recall": round(wr_hit / wr_tot, 4), "key_amount_recall": round(ka_hit / max(ka_tot, 1), 4),
            "latency_s_median": round(lat[len(lat) // 2], 3), "latency_s_p90": round(lat[int(0.9 * (len(lat) - 1))], 3),
            "peak_rss_mb": round(peak / 2**20)}
@@ -79,7 +77,7 @@ def main():
         return
     bench = ROOT / "results" / "ocr_benchmark.json"
     allres = json.loads(bench.read_text()) if bench.exists() else {}
-    allres[f"{a.engine}_{a.split}_n{len(recs)}"] = res
+    allres[f"{ENGINE}_{a.split}_n{len(recs)}"] = res
     bench.write_text(json.dumps(allres, indent=1))
     print(json.dumps(res))
 

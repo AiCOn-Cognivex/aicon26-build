@@ -39,10 +39,10 @@ def project(rec: dict, ocr_words: list[dict], min_overlap: float = 0.5) -> list[
     return ws
 
 
-def ocr_train_sequences(split: str = "train", engine: str = "rapidocr") -> list[tuple[dict, list[dict], int, int]]:
+def ocr_train_sequences(split: str = "train") -> list[tuple[dict, list[dict], int, int]]:
     """[(record, labelled OCR words, width, height)] for receipts present in the OCR cache."""
     assert split == "train", "label projection is only used to build training data"
-    cache = load_cache(engine, split)
+    cache = load_cache(split)
     out = []
     for rec in load_split(split):
         c = cache.get(rec["id"])

@@ -4,7 +4,7 @@ Mode A = gold OCR (CORD's own words + boxes, labels hidden): isolates the extrac
 Mode B = real OCR (cached engine output on the image): the true end-to-end number.
 
   python -m ml.evaluate --model rules --split validation --mode A
-  python -m ml.evaluate --model crf --split validation --mode B --engine rapidocr
+  python -m ml.evaluate --model crf --split validation --mode B
 The test split refuses to run without --final (evaluated exactly once, after freezing everything).
 Writes results/eval_{model}_{split}_mode{A|B}.json and results/details/... (per receipt).
 """
@@ -18,20 +18,20 @@ from .dataset import ROOT, gold_sequence, load_split
 from .decision import decide, receipt_confidence
 from .fields import assemble, gold_fields
 from .metrics import aggregate, compare, stp_metrics
-from .ocr import normalise_words
+from .ocr import ENGINE, normalise_words
 from .ocr_cache import load_cache
 from . import taggers
 
 RES = ROOT / "results"
 
 
-def run(model: str, split: str, mode: str, engine: str = "rapidocr", policy: dict | None = None,
+def run(model: str, split: str, mode: str, policy: dict | None = None,
         tagger=None) -> dict:
     from .predict import policy_for
     pol = policy or policy_for(model)
     name, rung, fn = tagger or taggers.load(model)
     recs = load_split(split)
-    cache = load_cache(engine, split) if mode == "B" else None
+    cache = load_cache(split) if mode == "B" else None
     comps, decisions, details, lat = [], [], [], []
     y_true, y_pred = [], []
     for r in recs:
@@ -62,7 +62,7 @@ def run(model: str, split: str, mode: str, engine: str = "rapidocr", policy: dic
                         "pred": {k: (v["text"] if v else None) for k, v in pred["fields"].items()},
                         "gold": {k: (v["text"] if v else None) for k, v in gold["fields"].items()},
                         "items_tp": comp["items_tp"], "items_pred": comp["items_pred"], "items_gold": comp["items_gold"]})
-    out = {"model": name, "rung": rung, "split": split, "mode": mode, "ocr": "gold" if mode == "A" else engine,
+    out = {"model": name, "rung": rung, "split": split, "mode": mode, "ocr": "gold" if mode == "A" else ENGINE,
            "policy": pol, **aggregate(comps), **stp_metrics(decisions, comps),
            "latency_ms_median_extractor": round(1000 * sorted(lat)[len(lat) // 2], 1)}
     if mode == "A":
@@ -78,12 +78,11 @@ def main():
     ap.add_argument("--model", default="rules")
     ap.add_argument("--split", default="validation")
     ap.add_argument("--mode", default="A", choices=["A", "B"])
-    ap.add_argument("--engine", default="rapidocr")
     ap.add_argument("--final", action="store_true")
     a = ap.parse_args()
     if a.split == "test" and not a.final:
         raise SystemExit("test split is evaluated once, at the end: pass --final")
-    res = run(a.model, a.split, a.mode, a.engine)
+    res = run(a.model, a.split, a.mode)
     (RES / "details").mkdir(parents=True, exist_ok=True)
     tag = f"{a.model}_{a.split}_mode{a.mode}"
     (RES / f"eval_{tag}.json").write_text(json.dumps(res["summary"], indent=1))

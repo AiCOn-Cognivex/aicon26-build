@@ -3,7 +3,6 @@
  "tol_abs": 50.0,
  "tol_rel": 0.01,
  "require_reconciliation": false,
- "use_item_rule": false,
  "use_ocr_conf": false,
  "check_absent": true,
  "model": "crf",

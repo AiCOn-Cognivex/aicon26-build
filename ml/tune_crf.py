@@ -1,6 +1,7 @@
 """Over/underfitting diagnosis and regularisation tuning for the CRF, using 4-fold CV on TRAIN only.
 
-  python -m ml.tune_crf            # grid search + learning curve, writes results/crf_tuning.json
+  python -m ml.tune_crf                       # full grid + learning curve -> results/crf_tuning_v2.json
+  python -m ml.tune_crf --grid "0.5:0.1,1.0:0.1" --no-curve
 Folds are split by receipt, so the gold-word and OCR-word copies of one receipt never sit on both
 sides. For every (c1, c2) we record train and held-out entity F1 and token NLL ("loss"):
 a large train/held-out gap = overfitting (raise regularisation), both poor = underfitting.
@@ -17,6 +18,7 @@ from itertools import product
 from multiprocessing import Pool
 from pathlib import Path
 
+from .crf_model import FEATURES
 from .dataset import ROOT, gold_sequence, load_split
 
 C1 = [0.1, 0.5, 1.0, 2.0]
@@ -66,11 +68,8 @@ def _fit_eval(job):
     return out
 
 
-def build_features(version="v2", augment=0):
-    from .crf_model import featurise as _f
-
-    def featurise(ws, W, H):
-        return _f(ws, W, H, version)
+def build_features():
+    from .crf_model import featurise
     from .project_labels import ocr_train_sequences
     X, y, meta = [], [], []
     for r in load_split("train"):
@@ -82,14 +81,6 @@ def build_features(version="v2", augment=0):
         X.append((rec["id"], featurise(ws, W, H)))
         y.append((rec["id"], [w["label"] for w in ws]))
         meta.append((rec["id"], "ocr"))
-    if augment:  # scaled copies are tagged "aug": used for fitting only, never scored as held-out
-        from .augment import augment_sequences
-        base = [(r["id"], gold_sequence(r), r["width"], r["height"]) for r in load_split("train")]
-        base += [(rec["id"], ws, W, H) for rec, ws, W, H in ocr_train_sequences("train")]
-        for rid, ws, W, H in augment_sequences(base, augment):
-            X.append((rid, featurise(ws, W, H)))
-            y.append((rid, [w["label"] for w in ws]))
-            meta.append((rid, "aug"))
     val = [(featurise(gold_sequence(r), r["width"], r["height"]), [w["label"] for w in gold_sequence(r)])
            for r in load_split("validation")]
     recs = [r["id"] for r in load_split("train")]
@@ -102,12 +93,10 @@ def build_features(version="v2", augment=0):
 def main():
     import argparse
     ap = argparse.ArgumentParser()
-    ap.add_argument("--features", default="v2", choices=["v1", "v2"])
     ap.add_argument("--grid", default="", help='e.g. "0.5:0.5,0.1:0.1" (default: full C1 x C2 grid)')
     ap.add_argument("--no-curve", action="store_true")
-    ap.add_argument("--augment", type=int, default=0, help="amount-scaling copies (training folds only)")
     a = ap.parse_args()
-    build_features(a.features, a.augment)
+    build_features()
     settings = [tuple(map(float, g.split(":"))) for g in a.grid.split(",")] if a.grid else list(product(C1, C2))
     jobs = [(c1, c2, k, 1.0) for c1, c2 in settings for k in range(K)]
     t0 = time.time()
@@ -125,11 +114,11 @@ def main():
               f"loss gold {agg['heldout_gold_nll']:.3f} | gap {agg['gap_f1']:.3f}", flush=True)
     best = max(grid, key=lambda g: g["heldout_f1"])
     print(f"best by CV held-out F1: c1={best['c1']} c2={best['c2']} ({time.time() - t0:.0f}s)")
-    out_path = ROOT / "results" / (f"crf_tuning_{a.features}" + (f"_aug{a.augment}" if a.augment else "")
+    out_path = ROOT / "results" / (f"crf_tuning_{FEATURES}"
                                    + (f"_{a.grid.replace(':', '-').replace(',', '_')}" if a.grid else "") + ".json")
     if a.no_curve:
         out_path.write_text(json.dumps({"method": f"{K}-fold CV on train, split by receipt; gold+OCR words",
-                                        "features": a.features, "augment": a.augment, "grid": grid}, indent=1))
+                                        "features": FEATURES, "grid": grid}, indent=1))
         Path(DATA).unlink(missing_ok=True)
         return
     # learning curve with the chosen setting, scored on validation gold words
@@ -139,7 +128,7 @@ def main():
     for r in lc:
         print(f"learning curve: {int(r['frac'] * 800)} receipts -> train F1 {r['train_f1']:.3f}, "
               f"val F1 {r['heldout_gold_f1']:.3f}, val loss {r['heldout_gold_nll']:.3f}")
-    out = {"method": f"{K}-fold CV on train, split by receipt; gold+OCR words", "features": a.features, "grid": grid,
+    out = {"method": f"{K}-fold CV on train, split by receipt; gold+OCR words", "features": FEATURES, "grid": grid,
            "best": {"c1": best["c1"], "c2": best["c2"]},
            "learning_curve": [{"train_receipts": int(r["frac"] * 800), "train_f1": r["train_f1"],
                                "val_f1": r["heldout_gold_f1"], "val_nll": r["heldout_gold_nll"]} for r in lc]}

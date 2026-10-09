@@ -15,8 +15,7 @@ LiLT + RapidOCR 1,040 MB. Railway allows 0.5 GB (Free) / 1 GB (Trial) per servic
 (docs.railway.com, 9 Oct 2026), so the live API serves the CRF (250 MB measured on Railway).
 Hugging Face Docker Spaces were the first choice for LiLT, but creating one returned HTTP 402:
 Docker Spaces on free CPU now require HF PRO. To serve LiLT live: build with
-`--build-arg WITH_LILT=1` on a host with >= 2 GB RAM (e.g. Railway Hobby, or HF PRO with
-`scripts/deploy_space.py`).
+`--build-arg WITH_LILT=1` on a host with >= 2 GB RAM (e.g. Railway Hobby).
 
 Measured live (9 Oct, 22:4x PKT): `/health` 200 in 0.5 s; `/extract` 200 in 10-18 s per receipt
 (OCR 8-12 s on Railway's CPU vs 1.8 s on the laptop); CORS header returned for the Vercel origin.
@@ -29,8 +28,7 @@ Measured live (9 Oct, 22:4x PKT): `/health` 200 in 0.5 s; `/extract` 200 in 10-1
 | `ALLOWED_ORIGINS` | `https://cognivex-aicon.vercel.app,http://localhost:3000` | CORS allow-list |
 | `MODEL_KIND` | `crf` | `rules`, `crf`, `lilt`, or `auto` (best artifact present) |
 | `MODEL_REPO` | `<hf-user>/cord-receipt-models` | public model repo pulled at image build |
-| `OCR_ENGINE` | `rapidocr` | (Tesseract is not in the slim image) |
-| `PREDICTIONS_DB` | `/tmp/predictions.db` | optional SQLite prediction log; unset = off |
+| `OCR_THREADS` | `1` | optional; default = container CPU quota (shown in `/health`) |
 
 **Frontend (Vercel project env, Production)**
 | Name | Value |

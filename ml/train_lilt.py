@@ -36,18 +36,14 @@ def set_seed(s):
     torch.cuda.manual_seed_all(s)
 
 
-def build_examples(split, tok, l2i, source="gold", augment=0):
-    """source: gold words, real-OCR words with projected labels (train only), or both.
-    augment: amount-scaling copies per sequence (ml/augment.py), training only."""
+def build_examples(split, tok, l2i, source="gold"):
+    """source: gold words, real-OCR words with projected labels (train only), or both."""
     seqs = []
     if source in ("gold", "both"):
         seqs += [(rec, gold_sequence(rec), rec["width"], rec["height"]) for rec in load_split(split)]
     if source in ("ocr", "both"):
         from .project_labels import ocr_train_sequences
         seqs += ocr_train_sequences(split)
-    if augment:
-        from .augment import augment_sequences
-        seqs += augment_sequences(seqs, augment)
     exs, n_chunked = [], 0
     for rec, ws, W, H in seqs:
         texts = [w["text"] for w in ws]
@@ -107,7 +103,6 @@ def main():
     ap.add_argument("--freeze-layers", type=int, default=0, help="freeze embeddings + first N encoder layers")
     ap.add_argument("--max-train", type=int, default=0, help="use only the first N train chunks (learning curve)")
     ap.add_argument("--seed", type=int, default=42)
-    ap.add_argument("--augment-scale", type=int, default=0, help="amount-scaling copies per training sequence")
     ap.add_argument("--source", default="both", choices=["gold", "ocr", "both"],
                     help="train words: CORD gold, real OCR with projected labels, or both (default)")
     ap.add_argument("--out", default=str(ROOT / "ml" / "artifacts" / "lilt"))
@@ -121,7 +116,7 @@ def main():
     labels = label_list()
     l2i = {l: i for i, l in enumerate(labels)}
     tok = get_tokenizer()
-    train, n_ch = build_examples("train", tok, l2i, a.source, a.augment_scale)
+    train, n_ch = build_examples("train", tok, l2i, a.source)
     val, _ = build_examples("validation", tok, l2i)
     if a.max_train:
         train = train[: a.max_train]
@@ -211,7 +206,7 @@ def main():
         if new:
             w.writerow(["timestamp", "model", "lr", "weight_decay", "batch", "epochs_max", "epochs_run", "best_epoch",
                         "freeze_layers", "max_train", "seed", "val_entity_f1", "train_time_s", "device"])
-        w.writerow([datetime.now().isoformat(timespec="seconds"), f"lilt-roberta-en-base[{a.source}" + (f",scale{a.augment_scale}" if a.augment_scale else "") + "]", a.lr, a.wd, a.batch, a.epochs,
+        w.writerow([datetime.now().isoformat(timespec="seconds"), f"lilt-roberta-en-base[{a.source}]", a.lr, a.wd, a.batch, a.epochs,
                     len(history), best_ep, a.freeze_layers, a.max_train, a.seed, round(best_f1, 4),
                     meta["train_time_s"], meta["gpu"] or device])
     print(f"saved {out} best_epoch={best_ep} val_entity_f1={best_f1:.4f}")

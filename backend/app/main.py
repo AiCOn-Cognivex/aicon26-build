@@ -4,19 +4,21 @@ Env vars (all optional):
   ALLOWED_ORIGINS   comma-separated CORS origins (default "*")
   MODEL_KIND        rules | crf | lilt | auto (default auto = best artifact present)
   MODEL_DIR         where artifacts live (default ml/artifacts)
-  OCR_ENGINE        rapidocr | tesseract (default rapidocr)
-  PREDICTIONS_DB    path to a SQLite file for prediction logging (unset = no logging)
+  OCR_THREADS       ONNX Runtime threads for OCR (default: the container's CPU quota)
 """
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
 import os
 import sys
 import time
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
@@ -24,33 +26,36 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 from ml import predict as ml_predict  # noqa: E402
-
-from .logging_db import log_prediction  # noqa: E402
+from ml.ocr import ocr_threads  # noqa: E402
 
 log = logging.getLogger("uvicorn.error")
 RESULTS = ROOT / "results"
 DEMO = ROOT / "results" / "demo_examples.json"
 MAX_BYTES = 8 * 1024 * 1024
 STARTED = time.time()
-
-app = FastAPI(title="Cognivex receipt extraction API", version="1.0.0")
-origins = [o.strip() for o in os.getenv("ALLOWED_ORIGINS", "*").split(",") if o.strip()]
-app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["*"], allow_headers=["*"])
+# One OCR at a time: two in parallel only share the same CPU, and each adds ~100 MB of RAM
+_ocr_slot = asyncio.Semaphore(1)
 
 
-@app.on_event("startup")
-def _warm():
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
     try:
         ml_predict.warmup()
         log.info("model ready: %s", ml_predict.tagger()[0])
     except Exception as e:  # app must still start (rules fallback inside predict)
         log.exception("warmup failed: %s", e)
+    yield
+
+
+app = FastAPI(title="Cognivex receipt extraction API", version="1.1.0", lifespan=lifespan)
+origins = [o.strip() for o in os.getenv("ALLOWED_ORIGINS", "*").split(",") if o.strip()]
+app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["*"], allow_headers=["*"])
 
 
 @app.get("/health")
 def health():
     name, rung, _, _ = ml_predict.tagger()
-    return {"status": "ok", "model": name, "rung": rung, "ocr_engine": ml_predict.OCR_ENGINE,
+    return {"status": "ok", "model": name, "rung": rung, "ocr_threads": ocr_threads(),
             "policy": ml_predict.policy(), "uptime_s": round(time.time() - STARTED, 1)}
 
 
@@ -62,12 +67,11 @@ async def extract(file: UploadFile = File(...)):
     if len(data) > MAX_BYTES:
         raise HTTPException(413, "image larger than 8 MB")
     try:
-        res = ml_predict.predict(data)
+        async with _ocr_slot:  # OCR runs in a worker thread so other requests are not blocked
+            return await run_in_threadpool(ml_predict.predict, data)
     except Exception as e:
         log.exception("extract failed")
         raise HTTPException(422, f"could not process image: {type(e).__name__}") from e
-    log_prediction(file.filename, res)
-    return res
 
 
 @app.get("/results")
