@@ -1,6 +1,6 @@
 # ML handover for Hassan
 
-Status as of **Fri 9 Oct, 23:00 PKT**. Submission deadline: **Sat 10 Oct evening**.
+Status as of **Sat 10 Oct, 00:30 PKT** (CRF tuned, see section 4b). Submission deadline: **Sat 10 Oct evening**.
 Every number below comes from a file in `results/` (validation split, n=100 receipts, unless stated).
 The test split has **not** been touched yet. It gets evaluated exactly once, at the end.
 
@@ -10,7 +10,7 @@ The test split has **not** been touched yet. It gets evaluated exactly once, at 
 
 - We read a receipt photo, extract the amounts (total, subtotal, tax, service charge, discount) and line
   items, and decide **AUTO-POST** (safe to put in the ledger without a person) or **HUMAN REVIEW**.
-- A trained **CRF** is live today. On real photos, with the same decision rules, it auto-posts **52%** of
+- A trained **CRF** is live today. On real photos, with the same decision rules, it auto-posts **53%** of
   validation receipts with **0 wrong auto-posts**. The rules-only baseline auto-posts **34%**. That
   difference is our "the model matters" story.
 - **Your job:** train **LiLT** (layout-aware transformer) on the GPU, try to beat the CRF on validation
@@ -87,18 +87,18 @@ Definitions: `ml/metrics.py`. An amount of 0 counts as absent (same ledger entry
 
 | Metric (validation) | Rules A | CRF A | Rules B | **CRF B (live)** |
 |---|---|---|---|---|
-| Token entity F1 (seqeval) | 0.611 | **0.931** | — | — |
-| Key-field exact match (5 fields) | 0.914 | 0.966 | 0.878 | 0.950 |
-| Posting-correct receipts (all 5 amounts right) | 71% | 91% | 61% | **83%** |
-| Fully-correct receipts (+ every line item exact) | 32% | 74% | 14% | 20% |
-| Line-item F1 strict / lenient name | 0.53 / 0.74 | 0.80 / 0.88 | 0.24 / 0.67 | 0.32 / 0.73 |
-| **Auto-posted (STP)** | 42% | 57% | 34% | **52%** |
-| **Correct among auto-posted** | 100% | 98.2% (56/57) | 100% (34/34) | **100% (52/52)** |
+| Token entity F1 (seqeval) | 0.611 | **0.934** | — | — |
+| Key-field exact match (5 fields) | 0.914 | 0.972 | 0.878 | 0.952 |
+| Posting-correct receipts (all 5 amounts right) | 71% | 95% | 61% | **83%** |
+| Fully-correct receipts (+ every line item exact) | 32% | 78% | 14% | 20% |
+| Line-item F1 strict / lenient name | 0.53 / 0.74 | 0.82 / 0.90 | 0.24 / 0.67 | 0.32 / 0.73 |
+| **Auto-posted (STP)** | 42% | 60% | 34% | **53%** |
+| **Correct among auto-posted** | 100% | 100% (60/60) | 100% (34/34) | **100% (53/53)** |
 
-- **Calibration (CRF):** temperature 1.1. Token ECE 0.0097 → 0.0093 (it was already well calibrated).
-  **Field-level ECE is 0.08** before and after, because the tagger cannot see OCR misreads.
+- **Calibration (CRF):** temperature 1.1. Token ECE 0.0144 → 0.0049. Field-level ECE 0.043 raw, 0.053 after
+  temperature (the tagger cannot see OCR misreads; the decision does not rely on a confidence floor).
 - **Chosen CRF policy:** require the arithmetic to PASS; confidence threshold 0. Any higher threshold only removed
-  correct receipts on validation. Exact 95% CI for 52/52 is **93.2%–100%**, so 100 validation receipts cannot prove 98%.
+  correct receipts on validation. Exact 95% CI for 53/53 is **93.3%–100%**, so 100 validation receipts cannot prove 98%.
 - **LiLT so far:** only a 16-example smoke test (meaningless numbers). The CPU benchmark is 19 min/epoch, which is why it trains on the GPU.
 - **OCR (validation):** RapidOCR finds 94% of gold header amounts (97% on the first 30). Tesseract finds 28% (first 30).
 - **Speed and memory:**
@@ -110,6 +110,19 @@ Definitions: `ml/metrics.py`. An amount of 0 counts as absent (same ledger entry
   | OCR time per receipt | 1.8 s on the laptop, 8–12 s on Railway | same |
 
 - Full log of runs: `results/experiments.csv`.
+
+### 4b. CRF over/underfitting work (10 Oct, 00:00; details in `docs/decision_log.md` D15)
+- **Diagnosis:** train F1 0.992 vs validation 0.931, token loss 0.046 vs 0.215. That's **overfitting** (high variance).
+- **c1/c2 grid, 4-fold CV on train** (`results/crf_tuning_v1.json`): stronger penalties cut the gap from 0.105 to 0.034,
+  but held-out F1 stays flat (and drops when the penalty is too strong, i.e. underfitting).
+- **Learning curve:** validation F1 0.843 → 0.928 from 100 to 800 receipts and still rising, so the model is **data-limited**.
+- **Fix that worked:** features v2 (amount rank on the receipt, repeated values, magnitude, next-line keywords) plus c1=0.5, c2=0.1.
+  Lower CV loss at every setting tried. Validation Mode A posting-correct 91% → 95%, auto-posted 57% → 60% with all correct.
+- **Real OCR (Mode B) did not move** (83%). Of the 24 wrong amounts left, 9 are amounts OCR never read, 9 are model misses,
+  4 are wrong numbers (down from 6), and 2 are spurious. **This is where LiLT should help most.**
+- **For LiLT,** `train_lilt` now prints `train_loss` and `val_loss` every epoch. Train loss falling while val loss rises means overfitting:
+  lower lr or epochs, raise `--wd`, or `--freeze-layers 6`. Both losses staying high means underfitting: raise lr or epochs.
+  Early stopping already restores the best epoch.
 
 ---
 
@@ -164,10 +177,10 @@ Change only learning rate, epochs, weight decay, freezing, and the data source. 
 
 1. Open **https://cognivex-aicon.vercel.app** and wait for the badge at the top right to say **"API online"**.
 2. Get a test image. The 8 demo receipts are public, so download one:
-   `https://cognivex-aicon.vercel.app/demo/validation_22.jpg` (also `_0, _2, _3, _4, _7, _8, _11`).
+   `https://cognivex-aicon.vercel.app/demo/validation_3.jpg` (also `_0, _2, _4, _5, _7, _8, _11`).
    Any receipt photo works (keep it under 8 MB). Don't use personal receipts with names or card numbers.
 3. On **Extract & Decide** click *Choose or capture receipt*, pick the file, then press *Extract & decide*.
-   Expect **about 10 s** (OCR on Railway's free CPU).
+   Expect **about 10-13 s** (OCR on Railway's free CPU).
 4. Read the result:
    - **Decision banner + reasons.**
    - **Receipt with coloured boxes.** Hover a box to see the word, the predicted label and the probability.
@@ -175,23 +188,23 @@ Change only learning rate, epochs, weight decay, freezing, and the data source. 
    - **Reconciliation** (✓/✗ per rule).
    - **Mock journal entry.**
    - **Line items.**
-5. What the **live site** returns for these JPGs (checked 9 Oct, 23:10, HTTP 200 in 12-14 s each):
+5. What the **live site** returns for these JPGs (tuned CRF, checked 10 Oct 00:35, HTTP 200 in 10-13 s each):
 
    | Image | Decision | Why |
    |---|---|---|
-   | validation_3 | AUTO-POST | arithmetic reconciles |
-   | validation_22 | HUMAN REVIEW | OCR read the total as "000802" (gold 308,000) and missed the tax; arithmetic fails, so it is caught |
-   | validation_0 | HUMAN REVIEW | no subtotal, so the arithmetic can't be checked |
-   | validation_7 | HUMAN REVIEW | OCR read the total as "59,50" (gold 59,500) and the discount was missed; arithmetic fails, so it is caught |
+   | validation_3 | AUTO-POST | total 28,000 = subtotal 28,000 + tax 0, so the arithmetic reconciles (gold agrees) |
+   | validation_5 | HUMAN REVIEW | OCR misread the total ("222"); no subtotal found, so it can't be checked and goes to review |
+   | validation_0 | HUMAN REVIEW | total 45,500 read correctly, but there's no subtotal, so the arithmetic can't be checked |
+   | validation_7 | HUMAN REVIEW | OCR read the total as "59,50" (gold 59,500); arithmetic fails, so the misread is caught |
 
    The demo JPGs are resized copies of the CORD PNGs, so the Batch Demo tab (computed from the PNG OCR) can show a
-   slightly different reason for the same receipt: validation_7 says "total not found" there. The decision is the same.
-   This is a nice illustration of OCR sensitivity, and of the arithmetic check catching misreads.
+   different reason for the same receipt. The decisions are the same. It's a nice illustration of OCR sensitivity, and of the
+   decision layer refusing to auto-post when it can't verify the numbers.
 6. **Batch Demo** shows pre-computed results (instant, offline-safe). **Results** shows the rules-vs-model tables.
 7. Without the UI (raw JSON):
    ```bash
    curl https://api-production-8136.up.railway.app/health
-   curl -F "file=@validation_22.jpg" https://api-production-8136.up.railway.app/extract
+   curl -F "file=@validation_3.jpg" https://api-production-8136.up.railway.app/extract
    ```
 
 ---
