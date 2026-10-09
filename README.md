@@ -7,7 +7,7 @@
 
 Upload a receipt image. The system runs OCR, extracts key accounting fields (total, subtotal, tax, discount, service charge, line items) with a trained model, checks the arithmetic, estimates per-field confidence, and decides **AUTO-POST** or **HUMAN REVIEW**, with the reasons.
 
-Before/after: a rules-only extractor (current practice) vs a learned model plus a decision layer tuned on validation data. With the same decision rules, the trained model auto-posts **52%** of validation receipts vs **34%** for rules, with no wrong auto-posts in either case (real OCR, n=100). Details below and in the app's Results tab; every number comes from a file in `results/`.
+Before/after: a rules-only extractor (current practice) vs a learned model plus a decision layer tuned on validation data. With the same decision rules, the trained model auto-posts **53%** of validation receipts vs **34%** for rules, with no wrong auto-posts in either case (real OCR, n=100). Details below and in the app's Results tab; every number comes from a file in `results/`.
 
 ## Team
 
@@ -79,12 +79,12 @@ Definitions in `ml/metrics.py`. Source files: `results/eval_<model>_validation_m
 
 | Metric | Rules A | CRF A | Rules B | CRF B |
 | --- | --- | --- | --- | --- |
-| Posting-correct receipts (all 5 amounts right) | 71% | 91% | 61% | 83% |
-| Fully-correct receipts (+ every line item) | 32% | 74% | 14% | 20% |
-| Line-item F1, strict / lenient name | 0.53 / 0.74 | 0.80 / 0.88 | 0.24 / 0.67 | 0.32 / 0.73 |
+| Posting-correct receipts (all 5 amounts right) | 71% | 95% | 61% | 83% |
+| Fully-correct receipts (+ every line item) | 32% | 78% | 14% | 20% |
+| Line-item F1, strict / lenient name | 0.53 / 0.74 | 0.82 / 0.90 | 0.24 / 0.67 | 0.32 / 0.73 |
 | Token entity F1 (seqeval) | 0.61 | 0.93 | — | — |
-| Auto-posted (STP) | 42% | 57% | 34% | 52% |
-| Correct among auto-posted | 100% | 98.2% | 100% (34/34) | 100% (52/52) |
+| Auto-posted (STP) | 42% | 60% | 34% | 53% |
+| Correct among auto-posted | 100% | 100% (60/60) | 100% (34/34) | 100% (53/53) |
 
 The test set is evaluated exactly once, after the final model, preprocessing and threshold are frozen
 (`results/test_metrics.json`). The LiLT rung is trained on a GPU machine and added when available.
@@ -93,8 +93,9 @@ Impact figures in the app are **simulated**, not measured.
 ## Limitations
 
 - Trained on CORD v2 (Indonesian receipts). Performance on Pakistani receipts may differ substantially.
-- 52/52 correct auto-posts on validation gives an exact 95% interval of 93.2%-100%: 100 validation receipts cannot establish the 98% target. The test set is the independent check.
+- 53/53 correct auto-posts on validation gives an exact 95% interval of 93.3%-100%: 100 validation receipts cannot establish the 98% target. The test set is the independent check.
 - Real-OCR spelling errors make strict line-item matching weak (F1 0.32); posted header amounts are much more reliable.
+- The CRF is data-limited: its learning curve is still rising at 800 receipts and regularisation tuning did not raise held-out accuracy (`results/crf_tuning_v1.json`).
 - 17 receipt word sequences repeat across CORD splits (templated receipts); test results are also reported without them.
 - The arithmetic check only applies when a subtotal is printed (about two thirds of receipts); the rest go to review under the chosen policy.
 

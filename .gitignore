@@ -224,6 +224,7 @@ data/raw/
 ml/artifacts/*
 !ml/artifacts/crf.pkl
 !ml/artifacts/crf_gold.pkl
+!ml/artifacts/crf_v1.pkl
 !ml/artifacts/*.json
 *.ckpt
 *.safetensors

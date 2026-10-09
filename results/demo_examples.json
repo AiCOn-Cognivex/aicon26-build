@@ -28,7 +28,7 @@
         586.0
        ],
        "label": "B-menu.cnt",
-       "prob": 0.9762
+       "prob": 0.9754
       },
       {
        "text": "REAL",
@@ -39,7 +39,7 @@
         586.0
        ],
        "label": "B-menu.nm",
-       "prob": 0.992
+       "prob": 0.9909
       },
       {
        "text": "GANACHE",
@@ -50,7 +50,7 @@
         586.0
        ],
        "label": "I-menu.nm",
-       "prob": 0.9942
+       "prob": 0.9926
       },
       {
        "text": "16,500",
@@ -72,7 +72,7 @@
         621.0
        ],
        "label": "B-menu.cnt",
-       "prob": 0.9681
+       "prob": 0.9665
       },
       {
        "text": "EGG",
@@ -83,7 +83,7 @@
         621.0
        ],
        "label": "B-menu.nm",
-       "prob": 0.9969
+       "prob": 0.996
       },
       {
        "text": "TART",
@@ -94,7 +94,7 @@
         621.0
        ],
        "label": "I-menu.nm",
-       "prob": 0.9955
+       "prob": 0.9948
       },
       {
        "text": "13,000",
@@ -105,7 +105,7 @@
         617.0
        ],
        "label": "B-menu.price",
-       "prob": 0.9994
+       "prob": 0.9993
       },
       {
        "text": "1",
@@ -116,7 +116,7 @@
         654.0
        ],
        "label": "B-menu.cnt",
-       "prob": 0.9635
+       "prob": 0.9613
       },
       {
        "text": "PIZZA",
@@ -127,7 +127,7 @@
         654.0
        ],
        "label": "B-menu.nm",
-       "prob": 0.9715
+       "prob": 0.9686
       },
       {
        "text": "TOAST",
@@ -138,7 +138,7 @@
         654.0
        ],
        "label": "I-menu.nm",
-       "prob": 0.9691
+       "prob": 0.9664
       },
       {
        "text": "16,000",
@@ -149,7 +149,7 @@
         651.0
        ],
        "label": "B-menu.price",
-       "prob": 0.9943
+       "prob": 0.997
       },
       {
        "text": "TOTAL",
@@ -160,7 +160,7 @@
         746.0
        ],
        "label": "O",
-       "prob": 0.9994
+       "prob": 0.9992
       },
       {
        "text": "45,500",
@@ -171,7 +171,7 @@
         743.0
        ],
        "label": "B-total.total_price",
-       "prob": 0.9977
+       "prob": 0.9962
       },
       {
        "text": "CASH",
@@ -182,7 +182,7 @@
         780.0
        ],
        "label": "O",
-       "prob": 0.9998
+       "prob": 0.9997
       },
       {
        "text": "50,000",
@@ -193,7 +193,7 @@
         772.0
        ],
        "label": "B-total.cashprice",
-       "prob": 0.999
+       "prob": 0.9992
       },
       {
        "text": "CHANGE",
@@ -204,7 +204,7 @@
         840.0
        ],
        "label": "O",
-       "prob": 0.9999
+       "prob": 0.9998
       },
       {
        "text": "4,500",
@@ -215,7 +215,7 @@
         833.0
        ],
        "label": "B-total.changeprice",
-       "prob": 0.9999
+       "prob": 0.9994
       }
      ],
      "image_size": [
@@ -228,7 +228,7 @@
      "total": {
       "text": "45,500",
       "value": 45500.0,
-      "confidence": 0.9977,
+      "confidence": 0.9962,
       "ocr_confidence": 0.8547
      },
      "subtotal": null,
@@ -241,7 +241,7 @@
       "name": "REAL GANACHE",
       "qty": "1",
       "price": "16,500",
-      "confidence": 0.9762,
+      "confidence": 0.9754,
       "price_value": 16500.0,
       "qty_value": 1.0
      },
@@ -249,7 +249,7 @@
       "name": "EGG TART",
       "qty": "1",
       "price": "13,000",
-      "confidence": 0.9681,
+      "confidence": 0.9665,
       "price_value": 13000.0,
       "qty_value": 1.0
      },
@@ -257,7 +257,7 @@
       "name": "PIZZA TOAST",
       "qty": "1",
       "price": "16,000",
-      "confidence": 0.9635,
+      "confidence": 0.9613,
       "price_value": 16000.0,
       "qty_value": 1.0
      }
@@ -275,7 +275,7 @@
      "rung": 1
     },
     "timings_ms": {
-     "model": 11.0
+     "model": 13.3
     }
    },
    "gold": {
@@ -303,7 +303,7 @@
         398.0
        ],
        "label": "B-menu.unitprice",
-       "prob": 0.9865
+       "prob": 0.9888
       },
       {
        "text": "20,000",
@@ -314,7 +314,7 @@
         389.0
        ],
        "label": "B-menu.price",
-       "prob": 0.9983
+       "prob": 0.9982
       },
       {
        "text": "1",
@@ -325,7 +325,7 @@
         413.0
        ],
        "label": "B-menu.sub.cnt",
-       "prob": 0.4913
+       "prob": 0.4769
       },
       {
        "text": "S-Ovaltine",
@@ -336,7 +336,7 @@
         413.0
        ],
        "label": "B-menu.sub.nm",
-       "prob": 0.5163
+       "prob": 0.5112
       },
       {
        "text": "50%",
@@ -347,7 +347,7 @@
         432.0
        ],
        "label": "B-menu.sub.nm",
-       "prob": 0.7374
+       "prob": 0.6208
       },
       {
        "text": "PB1:",
@@ -358,7 +358,7 @@
         457.0
        ],
        "label": "O",
-       "prob": 0.9982
+       "prob": 0.9968
       },
       {
        "text": "1,818",
@@ -369,7 +369,7 @@
         448.0
        ],
        "label": "B-sub_total.tax_price",
-       "prob": 0.9762
+       "prob": 0.9121
       },
       {
        "text": "Subtotal:",
@@ -391,7 +391,7 @@
         467.0
        ],
        "label": "B-sub_total.subtotal_price",
-       "prob": 0.9959
+       "prob": 0.9379
       },
       {
        "text": "Total:",
@@ -402,7 +402,7 @@
         500.0
        ],
        "label": "O",
-       "prob": 0.9998
+       "prob": 0.9994
       },
       {
        "text": "20,000",
@@ -413,7 +413,7 @@
         488.0
        ],
        "label": "B-total.total_price",
-       "prob": 0.995
+       "prob": 0.993
       },
       {
        "text": "Cash:",
@@ -424,7 +424,7 @@
         521.0
        ],
        "label": "O",
-       "prob": 0.9992
+       "prob": 0.9985
       },
       {
        "text": "100,000",
@@ -435,7 +435,7 @@
         509.0
        ],
        "label": "B-total.cashprice",
-       "prob": 0.9915
+       "prob": 0.9949
       },
       {
        "text": "CHANGE:",
@@ -446,7 +446,7 @@
         563.0
        ],
        "label": "O",
-       "prob": 0.9997
+       "prob": 0.999
       },
       {
        "text": "80000",
@@ -457,7 +457,7 @@
         552.0
        ],
        "label": "B-total.changeprice",
-       "prob": 0.9811
+       "prob": 0.8832
       },
       {
        "text": "10%",
@@ -468,7 +468,7 @@
         715.0
        ],
        "label": "O",
-       "prob": 0.9989
+       "prob": 0.9978
       },
       {
        "text": "Tax",
@@ -479,7 +479,7 @@
         715.0
        ],
        "label": "O",
-       "prob": 0.9895
+       "prob": 0.989
       },
       {
        "text": "Included",
@@ -490,7 +490,7 @@
         715.0
        ],
        "label": "O",
-       "prob": 0.984
+       "prob": 0.9706
       }
      ],
      "image_size": [
@@ -503,19 +503,19 @@
      "total": {
       "text": "20,000",
       "value": 20000.0,
-      "confidence": 0.995,
+      "confidence": 0.993,
       "ocr_confidence": 0.7047
      },
      "subtotal": {
       "text": "18,181",
       "value": 18181.0,
-      "confidence": 0.9959,
+      "confidence": 0.9379,
       "ocr_confidence": 0.7383
      },
      "tax": {
       "text": "1,818",
       "value": 1818.0,
-      "confidence": 0.9762,
+      "confidence": 0.9121,
       "ocr_confidence": 0.7893
      },
      "service_charge": null,
@@ -526,7 +526,7 @@
       "name": null,
       "qty": null,
       "price": "20,000",
-      "confidence": 0.9983,
+      "confidence": 0.9982,
       "price_value": 20000.0,
       "qty_value": null
      }
@@ -551,7 +551,7 @@
      "rung": 1
     },
     "timings_ms": {
-     "model": 2.7
+     "model": 3.7
     }
    },
    "gold": {
@@ -579,7 +579,7 @@
         731.0
        ],
        "label": "B-menu.cnt",
-       "prob": 0.9281
+       "prob": 0.9412
       },
       {
        "text": "M-Caramel",
@@ -590,7 +590,7 @@
         731.0
        ],
        "label": "B-menu.nm",
-       "prob": 0.9186
+       "prob": 0.9383
       },
       {
        "text": "Black",
@@ -601,7 +601,7 @@
         731.0
        ],
        "label": "I-menu.nm",
-       "prob": 0.905
+       "prob": 0.9241
       },
       {
        "text": "Tea",
@@ -612,7 +612,7 @@
         731.0
        ],
        "label": "I-menu.nm",
-       "prob": 0.9617
+       "prob": 0.9589
       },
       {
        "text": "@28,000",
@@ -623,7 +623,7 @@
         731.0
        ],
        "label": "B-menu.unitprice",
-       "prob": 0.9854
+       "prob": 0.992
       },
       {
        "text": "28,000",
@@ -634,7 +634,7 @@
         723.0
        ],
        "label": "B-menu.price",
-       "prob": 0.9923
+       "prob": 0.9841
       },
       {
        "text": "70%",
@@ -645,7 +645,7 @@
         761.0
        ],
        "label": "B-menu.sub.nm",
-       "prob": 0.9842
+       "prob": 0.9816
       },
       {
        "text": "Less",
@@ -656,7 +656,7 @@
         792.0
        ],
        "label": "B-menu.sub.nm",
-       "prob": 0.9694
+       "prob": 0.9564
       },
       {
        "text": "Ice",
@@ -667,7 +667,7 @@
         792.0
        ],
        "label": "I-menu.sub.nm",
-       "prob": 0.9736
+       "prob": 0.9487
       },
       {
        "text": "PB1:",
@@ -678,7 +678,7 @@
         854.0
        ],
        "label": "O",
-       "prob": 0.9945
+       "prob": 0.9907
       },
       {
        "text": "0.",
@@ -689,7 +689,7 @@
         851.0
        ],
        "label": "B-sub_total.tax_price",
-       "prob": 0.9324
+       "prob": 0.8514
       },
       {
        "text": "Subtotal:",
@@ -711,7 +711,7 @@
         885.0
        ],
        "label": "B-sub_total.subtotal_price",
-       "prob": 0.9821
+       "prob": 0.9696
       },
       {
        "text": "Total:",
@@ -722,7 +722,7 @@
         918.0
        ],
        "label": "O",
-       "prob": 0.9997
+       "prob": 0.9995
       },
       {
        "text": "28,000",
@@ -733,7 +733,7 @@
         918.0
        ],
        "label": "B-total.total_price",
-       "prob": 0.9601
+       "prob": 0.9736
       },
       {
        "text": "Cash:",
@@ -744,7 +744,7 @@
         950.0
        ],
        "label": "O",
-       "prob": 0.9988
+       "prob": 0.9981
       },
       {
        "text": "28,000",
@@ -755,7 +755,7 @@
         952.0
        ],
        "label": "B-total.cashprice",
-       "prob": 0.9721
+       "prob": 0.964
       },
       {
        "text": "CHANGE:",
@@ -766,7 +766,7 @@
         1016.0
        ],
        "label": "O",
-       "prob": 0.9786
+       "prob": 0.9784
       }
      ],
      "image_size": [
@@ -779,19 +779,19 @@
      "total": {
       "text": "28,000",
       "value": 28000.0,
-      "confidence": 0.9601,
+      "confidence": 0.9736,
       "ocr_confidence": 0.7194
      },
      "subtotal": {
       "text": "28,000",
       "value": 28000.0,
-      "confidence": 0.9821,
+      "confidence": 0.9696,
       "ocr_confidence": 0.8082
      },
      "tax": {
       "text": "0.",
       "value": 0.0,
-      "confidence": 0.9324,
+      "confidence": 0.8514,
       "ocr_confidence": 0.6207
      },
      "service_charge": null,
@@ -802,7 +802,7 @@
       "name": "M-Caramel Black Tea",
       "qty": "1X",
       "price": "28,000",
-      "confidence": 0.905,
+      "confidence": 0.9241,
       "price_value": 28000.0,
       "qty_value": 1.0
      }
@@ -827,7 +827,7 @@
      "rung": 1
     },
     "timings_ms": {
-     "model": 3.3
+     "model": 6.3
     }
    },
    "gold": {
@@ -855,7 +855,7 @@
         535.0
        ],
        "label": "B-menu.nm",
-       "prob": 0.6166
+       "prob": 0.6618
       },
       {
        "text": "41,000",
@@ -866,7 +866,7 @@
         529.0
        ],
        "label": "B-menu.price",
-       "prob": 0.9856
+       "prob": 0.9699
       },
       {
        "text": "-Sedang",
@@ -877,7 +877,7 @@
         560.0
        ],
        "label": "B-menu.sub.nm",
-       "prob": 0.8719
+       "prob": 0.8546
       },
       {
        "text": "ITEMS:1",
@@ -888,7 +888,7 @@
         620.0
        ],
        "label": "O",
-       "prob": 0.9299
+       "prob": 0.925
       },
       {
        "text": "41,000",
@@ -899,7 +899,7 @@
         605.0
        ],
        "label": "B-sub_total.subtotal_price",
-       "prob": 0.8861
+       "prob": 0.8843
       },
       {
        "text": "Total.",
@@ -910,7 +910,7 @@
         643.0
        ],
        "label": "O",
-       "prob": 0.9969
+       "prob": 0.996
       },
       {
        "text": "41,000",
@@ -921,7 +921,7 @@
         631.0
        ],
        "label": "B-total.total_price",
-       "prob": 0.9464
+       "prob": 0.9488
       },
       {
        "text": "PayCash50.000",
@@ -932,7 +932,7 @@
         673.0
        ],
        "label": "O",
-       "prob": 0.9462
+       "prob": 0.9651
       },
       {
        "text": "Change:9.000",
@@ -943,7 +943,7 @@
         665.0
        ],
        "label": "O",
-       "prob": 0.7031
+       "prob": 0.7654
       }
      ],
      "image_size": [
@@ -956,13 +956,13 @@
      "total": {
       "text": "41,000",
       "value": 41000.0,
-      "confidence": 0.9464,
+      "confidence": 0.9488,
       "ocr_confidence": 0.7487
      },
      "subtotal": {
       "text": "41,000",
       "value": 41000.0,
-      "confidence": 0.8861,
+      "confidence": 0.8843,
       "ocr_confidence": 0.7412
      },
      "tax": null,
@@ -974,7 +974,7 @@
       "name": "BBQChicken",
       "qty": null,
       "price": "41,000",
-      "confidence": 0.6166,
+      "confidence": 0.6618,
       "price_value": 41000.0,
       "qty_value": null
      }
@@ -999,7 +999,7 @@
      "rung": 1
     },
     "timings_ms": {
-     "model": 1.6
+     "model": 2.4
     }
    },
    "gold": {
@@ -1010,6 +1010,227 @@
     "discount": null
    },
    "posting_correct": true
+  },
+  {
+   "id": "validation_5",
+   "image": "validation_5.jpg",
+   "note": "Sent to human review. Some amounts differ from the gold labels.",
+   "result": {
+    "ocr": {
+     "words": [
+      {
+       "text": "LE",
+       "box": [
+        230.0,
+        645.0,
+        265.4,
+        692.0
+       ],
+       "label": "B-menu.nm",
+       "prob": 0.9479
+      },
+      {
+       "text": "HINERAL",
+       "box": [
+        283.1,
+        645.0,
+        407.0,
+        692.0
+       ],
+       "label": "I-menu.nm",
+       "prob": 0.9516
+      },
+      {
+       "text": "1.00",
+       "box": [
+        372.0,
+        694.0,
+        453.0,
+        734.0
+       ],
+       "label": "B-menu.cnt",
+       "prob": 0.8088
+      },
+      {
+       "text": "NETI",
+       "box": [
+        227.0,
+        731.0,
+        300.5,
+        781.0
+       ],
+       "label": "O",
+       "prob": 0.5803
+      },
+      {
+       "text": "ANT",
+       "box": [
+        318.9,
+        731.0,
+        374.0,
+        781.0
+       ],
+       "label": "O",
+       "prob": 0.6139
+      },
+      {
+       "text": "71273",
+       "box": [
+        588.0,
+        734.0,
+        688.0,
+        785.0
+       ],
+       "label": "B-sub_total.subtotal_price",
+       "prob": 0.5116
+      },
+      {
+       "text": "TAX",
+       "box": [
+        235.0,
+        779.0,
+        291.1,
+        828.0
+       ],
+       "label": "O",
+       "prob": 0.9926
+      },
+      {
+       "text": "ANT",
+       "box": [
+        309.9,
+        779.0,
+        366.0,
+        828.0
+       ],
+       "label": "O",
+       "prob": 0.9923
+      },
+      {
+       "text": "727",
+       "box": [
+        634.0,
+        780.0,
+        693.0,
+        831.0
+       ],
+       "label": "B-sub_total.tax_price",
+       "prob": 0.9144
+      },
+      {
+       "text": "TOTAL",
+       "box": [
+        227.0,
+        823.0,
+        319.0,
+        873.0
+       ],
+       "label": "O",
+       "prob": 0.998
+      },
+      {
+       "text": "8-000",
+       "box": [
+        587.0,
+        829.0,
+        686.0,
+        875.0
+       ],
+       "label": "B-total.total_price",
+       "prob": 0.9466
+      },
+      {
+       "text": "CASH",
+       "box": [
+        228.0,
+        870.0,
+        317.0,
+        922.0
+       ],
+       "label": "O",
+       "prob": 0.9992
+      },
+      {
+       "text": "000.8",
+       "box": [
+        598.0,
+        876.0,
+        696.0,
+        924.0
+       ],
+       "label": "B-total.cashprice",
+       "prob": 0.7884
+      }
+     ],
+     "image_size": [
+      960,
+      1280
+     ],
+     "engine": "rapidocr (cached)"
+    },
+    "fields": {
+     "total": {
+      "text": "8-000",
+      "value": 8000.0,
+      "confidence": 0.9466,
+      "ocr_confidence": 0.5383
+     },
+     "subtotal": {
+      "text": "71273",
+      "value": 71273.0,
+      "confidence": 0.5116,
+      "ocr_confidence": 0.6484
+     },
+     "tax": {
+      "text": "727",
+      "value": 727.0,
+      "confidence": 0.9144,
+      "ocr_confidence": 0.7348
+     },
+     "service_charge": null,
+     "discount": null
+    },
+    "line_items": [
+     {
+      "name": "LE HINERAL",
+      "qty": "1.00",
+      "price": null,
+      "confidence": 0.8088,
+      "price_value": null,
+      "qty_value": 1.0
+     }
+    ],
+    "reconciliation": {
+     "status": "FAIL",
+     "checks": [
+      {
+       "rule": "subtotal + tax + service - discount = total",
+       "expected": 72000.0,
+       "actual": 8000.0,
+       "ok": false
+      }
+     ]
+    },
+    "decision": "HUMAN_REVIEW",
+    "reasons": [
+     "arithmetic check failed: subtotal + tax + service - discount = total (expected 72,000.00, got 8,000.00)"
+    ],
+    "model": {
+     "name": "CRF (token + layout features)",
+     "rung": 1
+    },
+    "timings_ms": {
+     "model": 2.6
+    }
+   },
+   "gold": {
+    "total": "8,000",
+    "subtotal": "7,273",
+    "tax": "727",
+    "service_charge": null,
+    "discount": null
+   },
+   "posting_correct": false
   },
   {
    "id": "validation_7",
@@ -1027,7 +1248,7 @@
         149.0
        ],
        "label": "O",
-       "prob": 0.9741
+       "prob": 0.9457
       },
       {
        "text": "63,636",
@@ -1038,7 +1259,7 @@
         430.0
        ],
        "label": "B-sub_total.subtotal_price",
-       "prob": 0.6578
+       "prob": 0.5914
       },
       {
        "text": "CP",
@@ -1049,7 +1270,7 @@
         463.0
        ],
        "label": "O",
-       "prob": 0.9201
+       "prob": 0.933
       },
       {
        "text": "360",
@@ -1060,7 +1281,7 @@
         463.0
        ],
        "label": "O",
-       "prob": 0.4437
+       "prob": 0.6187
       },
       {
        "text": "Club",
@@ -1071,7 +1292,7 @@
         463.0
        ],
        "label": "O",
-       "prob": 0.679
+       "prob": 0.6958
       },
       {
        "text": "Card",
@@ -1082,7 +1303,7 @@
         463.0
        ],
        "label": "O",
-       "prob": 0.6919
+       "prob": 0.6961
       },
       {
        "text": "SubTotal:",
@@ -1093,7 +1314,7 @@
         522.0
        ],
        "label": "O",
-       "prob": 0.9956
+       "prob": 0.992
       },
       {
        "text": "63",
@@ -1103,8 +1324,8 @@
         437.7,
         521.0
        ],
-       "label": "O",
-       "prob": 0.4986
+       "label": "B-sub_total.subtotal_price",
+       "prob": 0.6758
       },
       {
        "text": "636",
@@ -1114,8 +1335,8 @@
         491.0,
         521.0
        ],
-       "label": "B-sub_total.subtotal_price",
-       "prob": 0.7298
+       "label": "I-sub_total.subtotal_price",
+       "prob": 0.5632
       },
       {
        "text": "Discount:",
@@ -1137,7 +1358,7 @@
         554.0
        ],
        "label": "B-sub_total.discount_price",
-       "prob": 0.5029
+       "prob": 0.7447
       },
       {
        "text": "PB1:",
@@ -1148,7 +1369,7 @@
         591.0
        ],
        "label": "O",
-       "prob": 0.9997
+       "prob": 0.9996
       },
       {
        "text": "5.409",
@@ -1159,7 +1380,7 @@
         587.0
        ],
        "label": "B-sub_total.tax_price",
-       "prob": 0.9887
+       "prob": 0.9968
       },
       {
        "text": "Total:",
@@ -1170,7 +1391,7 @@
         681.0
        ],
        "label": "O",
-       "prob": 0.9684
+       "prob": 0.9363
       },
       {
        "text": "cash:",
@@ -1181,7 +1402,7 @@
         716.0
        ],
        "label": "O",
-       "prob": 0.9829
+       "prob": 0.9822
       },
       {
        "text": "100,0000",
@@ -1192,7 +1413,7 @@
         705.0
        ],
        "label": "B-total.cashprice",
-       "prob": 0.9992
+       "prob": 0.9979
       },
       {
        "text": "Change:",
@@ -1203,7 +1424,7 @@
         744.0
        ],
        "label": "O",
-       "prob": 0.9999
+       "prob": 0.9998
       },
       {
        "text": "40,500",
@@ -1214,7 +1435,7 @@
         734.0
        ],
        "label": "B-total.changeprice",
-       "prob": 0.9628
+       "prob": 0.9945
       }
      ],
      "image_size": [
@@ -1226,22 +1447,22 @@
     "fields": {
      "total": null,
      "subtotal": {
-      "text": "636",
-      "value": 636.0,
-      "confidence": 0.7298,
-      "ocr_confidence": 0.7552
+      "text": "63,636",
+      "value": 63636.0,
+      "confidence": 0.5914,
+      "ocr_confidence": 0.7374
      },
      "tax": {
       "text": "5.409",
       "value": 5409.0,
-      "confidence": 0.9887,
+      "confidence": 0.9968,
       "ocr_confidence": 0.7897
      },
      "service_charge": null,
      "discount": {
       "text": "-9,545",
       "value": -9545.0,
-      "confidence": 0.5029,
+      "confidence": 0.7447,
       "ocr_confidence": 0.8017
      }
     },
@@ -1260,7 +1481,7 @@
      "rung": 1
     },
     "timings_ms": {
-     "model": 2.7
+     "model": 3.7
     }
    },
    "gold": {
@@ -1288,7 +1509,7 @@
         403.0
        ],
        "label": "B-menu.cnt",
-       "prob": 0.9888
+       "prob": 0.9905
       },
       {
        "text": "06500",
@@ -1299,7 +1520,7 @@
         407.0
        ],
        "label": "B-menu.unitprice",
-       "prob": 0.9092
+       "prob": 0.9703
       },
       {
        "text": "TALAM",
@@ -1310,7 +1531,7 @@
         427.0
        ],
        "label": "B-menu.nm",
-       "prob": 0.9889
+       "prob": 0.995
       },
       {
        "text": "UNGU",
@@ -1321,7 +1542,7 @@
         427.0
        ],
        "label": "I-menu.nm",
-       "prob": 0.9749
+       "prob": 0.9842
       },
       {
        "text": "19,500",
@@ -1332,7 +1553,7 @@
         428.0
        ],
        "label": "B-menu.price",
-       "prob": 0.9972
+       "prob": 0.9891
       },
       {
        "text": "DISC",
@@ -1343,7 +1564,7 @@
         448.0
        ],
        "label": "O",
-       "prob": 0.999
+       "prob": 0.9991
       },
       {
        "text": "ITEM",
@@ -1354,7 +1575,7 @@
         448.0
        ],
        "label": "O",
-       "prob": 0.9999
+       "prob": 0.9998
       },
       {
        "text": "-40.000%",
@@ -1365,7 +1586,7 @@
         450.0
        ],
        "label": "O",
-       "prob": 0.9854
+       "prob": 0.9808
       },
       {
        "text": "AMOUNT",
@@ -1376,7 +1597,7 @@
         470.0
        ],
        "label": "O",
-       "prob": 0.9967
+       "prob": 0.997
       },
       {
        "text": "-7.800",
@@ -1387,7 +1608,7 @@
         471.0
        ],
        "label": "B-menu.discountprice",
-       "prob": 0.4063
+       "prob": 0.7414
       },
       {
        "text": "1X",
@@ -1398,7 +1619,7 @@
         490.0
        ],
        "label": "B-menu.cnt",
-       "prob": 0.5673
+       "prob": 0.667
       },
       {
        "text": "@Q",
@@ -1409,7 +1630,7 @@
         492.0
        ],
        "label": "B-menu.unitprice",
-       "prob": 0.2564
+       "prob": 0.3253
       },
       {
        "text": "MIKA",
@@ -1420,7 +1641,7 @@
         515.0
        ],
        "label": "B-menu.nm",
-       "prob": 0.7665
+       "prob": 0.8987
       },
       {
        "text": "KECIL",
@@ -1431,7 +1652,7 @@
         515.0
        ],
        "label": "I-menu.nm",
-       "prob": 0.7578
+       "prob": 0.8943
       },
       {
        "text": "4.00xITEMS",
@@ -1442,7 +1663,7 @@
         539.0
        ],
        "label": "B-total.menuqty_cnt",
-       "prob": 0.8851
+       "prob": 0.8318
       },
       {
        "text": "SUBTOTAL",
@@ -1464,7 +1685,7 @@
         565.0
        ],
        "label": "B-sub_total.subtotal_price",
-       "prob": 0.9677
+       "prob": 0.9716
       },
       {
        "text": "TOTAL",
@@ -1475,7 +1696,7 @@
         585.0
        ],
        "label": "O",
-       "prob": 0.9999
+       "prob": 0.9998
       },
       {
        "text": "11,700",
@@ -1486,7 +1707,7 @@
         588.0
        ],
        "label": "B-total.total_price",
-       "prob": 0.9934
+       "prob": 0.996
       },
       {
        "text": "CASH",
@@ -1497,7 +1718,7 @@
         608.0
        ],
        "label": "O",
-       "prob": 0.9998
+       "prob": 0.9996
       },
       {
        "text": "20,000",
@@ -1508,7 +1729,7 @@
         614.0
        ],
        "label": "B-total.cashprice",
-       "prob": 0.9971
+       "prob": 0.9989
       },
       {
        "text": "CHANGE",
@@ -1519,7 +1740,7 @@
         633.0
        ],
        "label": "O",
-       "prob": 0.9998
+       "prob": 0.9997
       },
       {
        "text": "8,300",
@@ -1530,7 +1751,7 @@
         638.0
        ],
        "label": "B-total.changeprice",
-       "prob": 0.9976
+       "prob": 0.9979
       }
      ],
      "image_size": [
@@ -1543,13 +1764,13 @@
      "total": {
       "text": "11,700",
       "value": 11700.0,
-      "confidence": 0.9934,
+      "confidence": 0.996,
       "ocr_confidence": 0.8433
      },
      "subtotal": {
       "text": "11,700",
       "value": 11700.0,
-      "confidence": 0.9677,
+      "confidence": 0.9716,
       "ocr_confidence": 0.7696
      },
      "tax": null,
@@ -1561,7 +1782,7 @@
       "name": "TALAM UNGU",
       "qty": "3X",
       "price": "19,500",
-      "confidence": 0.9749,
+      "confidence": 0.9842,
       "price_value": 19500.0,
       "qty_value": 3.0
      },
@@ -1569,7 +1790,7 @@
       "name": "MIKA KECIL",
       "qty": "1X",
       "price": null,
-      "confidence": 0.5673,
+      "confidence": 0.667,
       "price_value": null,
       "qty_value": 1.0
      }
@@ -1594,7 +1815,7 @@
      "rung": 1
     },
     "timings_ms": {
-     "model": 4.0
+     "model": 8.3
     }
    },
    "gold": {
@@ -1622,7 +1843,7 @@
         562.0
        ],
        "label": "B-menu.nm",
-       "prob": 0.7439
+       "prob": 0.6933
       },
       {
        "text": "Sapi",
@@ -1633,7 +1854,7 @@
         562.0
        ],
        "label": "I-menu.nm",
-       "prob": 0.7458
+       "prob": 0.695
       },
       {
        "text": "Sambal",
@@ -1644,7 +1865,7 @@
         562.0
        ],
        "label": "I-menu.nm",
-       "prob": 0.9615
+       "prob": 0.9594
       },
       {
        "text": "Matah（R",
@@ -1655,7 +1876,7 @@
         562.0
        ],
        "label": "I-menu.nm",
-       "prob": 0.9345
+       "prob": 0.9545
       },
       {
        "text": ")1",
@@ -1666,7 +1887,7 @@
         562.0
        ],
        "label": "I-menu.nm",
-       "prob": 0.7757
+       "prob": 0.7903
       },
       {
        "text": "20.000",
@@ -1677,7 +1898,7 @@
         560.0
        ],
        "label": "B-menu.price",
-       "prob": 0.9836
+       "prob": 0.9938
       },
       {
        "text": "Se'Sapi",
@@ -1688,7 +1909,7 @@
         599.0
        ],
        "label": "B-menu.nm",
-       "prob": 0.9464
+       "prob": 0.9276
       },
       {
        "text": "Lada",
@@ -1699,7 +1920,7 @@
         599.0
        ],
        "label": "I-menu.nm",
-       "prob": 0.9451
+       "prob": 0.9246
       },
       {
        "text": "Hitam",
@@ -1710,7 +1931,7 @@
         599.0
        ],
        "label": "I-menu.nm",
-       "prob": 0.986
+       "prob": 0.9816
       },
       {
        "text": "(J)",
@@ -1721,7 +1942,7 @@
         599.0
        ],
        "label": "I-menu.nm",
-       "prob": 0.9791
+       "prob": 0.9683
       },
       {
        "text": "35.000",
@@ -1732,7 +1953,7 @@
         597.0
        ],
        "label": "B-menu.price",
-       "prob": 0.9978
+       "prob": 0.9988
       },
       {
        "text": "Nasi",
@@ -1743,7 +1964,7 @@
         638.0
        ],
        "label": "B-menu.nm",
-       "prob": 0.974
+       "prob": 0.9785
       },
       {
        "text": "Putih2",
@@ -1754,7 +1975,7 @@
         638.0
        ],
        "label": "I-menu.nm",
-       "prob": 0.861
+       "prob": 0.8855
       },
       {
        "text": "10.000",
@@ -1765,7 +1986,7 @@
         633.0
        ],
        "label": "B-menu.price",
-       "prob": 0.9979
+       "prob": 0.9987
       },
       {
        "text": "Milk",
@@ -1776,7 +1997,7 @@
         677.0
        ],
        "label": "B-menu.nm",
-       "prob": 0.9673
+       "prob": 0.9489
       },
       {
        "text": "Shake",
@@ -1787,7 +2008,7 @@
         677.0
        ],
        "label": "I-menu.nm",
-       "prob": 0.9584
+       "prob": 0.9415
       },
       {
        "text": "Coklat",
@@ -1798,7 +2019,7 @@
         677.0
        ],
        "label": "I-menu.nm",
-       "prob": 0.9586
+       "prob": 0.959
       },
       {
        "text": "16.000",
@@ -1809,7 +2030,7 @@
         673.0
        ],
        "label": "B-menu.price",
-       "prob": 0.9969
+       "prob": 0.998
       },
       {
        "text": "Subtotal",
@@ -1820,7 +2041,7 @@
         755.0
        ],
        "label": "O",
-       "prob": 0.9994
+       "prob": 0.9996
       },
       {
        "text": "81.000",
@@ -1831,7 +2052,7 @@
         747.0
        ],
        "label": "B-sub_total.subtotal_price",
-       "prob": 0.9836
+       "prob": 0.9985
       },
       {
        "text": "PB110%",
@@ -1842,7 +2063,7 @@
         795.0
        ],
        "label": "O",
-       "prob": 1.0
+       "prob": 0.9999
       },
       {
        "text": "8.100",
@@ -1853,7 +2074,7 @@
         786.0
        ],
        "label": "B-sub_total.tax_price",
-       "prob": 0.9955
+       "prob": 0.9966
       },
       {
        "text": "Total",
@@ -1864,7 +2085,7 @@
         876.0
        ],
        "label": "O",
-       "prob": 0.9989
+       "prob": 0.9991
       },
       {
        "text": "89.100",
@@ -1875,7 +2096,7 @@
         862.0
        ],
        "label": "B-total.total_price",
-       "prob": 0.9816
+       "prob": 0.9946
       },
       {
        "text": "Kartu",
@@ -1886,7 +2107,7 @@
         954.0
        ],
        "label": "O",
-       "prob": 0.9961
+       "prob": 0.9958
       },
       {
        "text": "89.100",
@@ -1897,7 +2118,7 @@
         937.0
        ],
        "label": "B-total.creditcardprice",
-       "prob": 0.8213
+       "prob": 0.7064
       },
       {
        "text": "Kembali",
@@ -1908,7 +2129,7 @@
         994.0
        ],
        "label": "O",
-       "prob": 0.9936
+       "prob": 0.9926
       }
      ],
      "image_size": [
@@ -1921,19 +2142,19 @@
      "total": {
       "text": "89.100",
       "value": 89100.0,
-      "confidence": 0.9816,
+      "confidence": 0.9946,
       "ocr_confidence": 0.8468
      },
      "subtotal": {
       "text": "81.000",
       "value": 81000.0,
-      "confidence": 0.9836,
+      "confidence": 0.9985,
       "ocr_confidence": 0.7102
      },
      "tax": {
       "text": "8.100",
       "value": 8100.0,
-      "confidence": 0.9955,
+      "confidence": 0.9966,
       "ocr_confidence": 0.7132
      },
      "service_charge": null,
@@ -1944,7 +2165,7 @@
       "name": "Se'I Sapi Sambal Matah（R )1",
       "qty": null,
       "price": "20.000",
-      "confidence": 0.7439,
+      "confidence": 0.6933,
       "price_value": 20000.0,
       "qty_value": null
      },
@@ -1952,7 +2173,7 @@
       "name": "Se'Sapi Lada Hitam (J)",
       "qty": null,
       "price": "35.000",
-      "confidence": 0.9451,
+      "confidence": 0.9246,
       "price_value": 35000.0,
       "qty_value": null
      },
@@ -1960,7 +2181,7 @@
       "name": "Nasi Putih2",
       "qty": null,
       "price": "10.000",
-      "confidence": 0.861,
+      "confidence": 0.8855,
       "price_value": 10000.0,
       "qty_value": null
      },
@@ -1968,7 +2189,7 @@
       "name": "Milk Shake Coklat",
       "qty": null,
       "price": "16.000",
-      "confidence": 0.9584,
+      "confidence": 0.9415,
       "price_value": 16000.0,
       "qty_value": null
      }
@@ -1993,7 +2214,7 @@
      "rung": 1
     },
     "timings_ms": {
-     "model": 5.1
+     "model": 8.5
     }
    },
    "gold": {
@@ -2004,298 +2225,6 @@
     "discount": null
    },
    "posting_correct": true
-  },
-  {
-   "id": "validation_22",
-   "image": "validation_22.jpg",
-   "note": "Sent to human review. Some amounts differ from the gold labels.",
-   "result": {
-    "ocr": {
-     "words": [
-      {
-       "text": "I",
-       "box": [
-        86.0,
-        442.0,
-        96.4,
-        462.0
-       ],
-       "label": "B-menu.cnt",
-       "prob": 0.6809
-      },
-      {
-       "text": "RedVelvet",
-       "box": [
-        106.8,
-        442.0,
-        200.6,
-        462.0
-       ],
-       "label": "B-menu.nm",
-       "prob": 0.8965
-      },
-      {
-       "text": "Nutella",
-       "box": [
-        211.1,
-        442.0,
-        284.0,
-        462.0
-       ],
-       "label": "I-menu.nm",
-       "prob": 0.9185
-      },
-      {
-       "text": "280,000",
-       "box": [
-        408.0,
-        439.0,
-        489.0,
-        467.0
-       ],
-       "label": "B-menu.price",
-       "prob": 0.9979
-      },
-      {
-       "text": "5",
-       "box": [
-        84.0,
-        464.0,
-        94.7,
-        484.0
-       ],
-       "label": "B-menu.cnt",
-       "prob": 0.8336
-      },
-      {
-       "text": "Free",
-       "box": [
-        105.3,
-        464.0,
-        148.0,
-        484.0
-       ],
-       "label": "B-menu.nm",
-       "prob": 0.8314
-      },
-      {
-       "text": "Mini",
-       "box": [
-        158.7,
-        464.0,
-        201.3,
-        484.0
-       ],
-       "label": "I-menu.nm",
-       "prob": 0.8521
-      },
-      {
-       "text": "Candle",
-       "box": [
-        212.0,
-        464.0,
-        276.0,
-        484.0
-       ],
-       "label": "I-menu.nm",
-       "prob": 0.803
-      },
-      {
-       "text": "Large",
-       "box": [
-        82.0,
-        483.0,
-        150.3,
-        508.0
-       ],
-       "label": "B-menu.nm",
-       "prob": 0.6921
-      },
-      {
-       "text": "Box",
-       "box": [
-        164.0,
-        483.0,
-        205.0,
-        508.0
-       ],
-       "label": "I-menu.nm",
-       "prob": 0.7255
-      },
-      {
-       "text": "SUBTOTAL",
-       "box": [
-        104.0,
-        525.0,
-        193.0,
-        549.0
-       ],
-       "label": "O",
-       "prob": 0.9994
-      },
-      {
-       "text": "280,000",
-       "box": [
-        412.0,
-        526.0,
-        491.0,
-        551.0
-       ],
-       "label": "B-sub_total.subtotal_price",
-       "prob": 0.9923
-      },
-      {
-       "text": "28,000",
-       "box": [
-        419.0,
-        550.0,
-        491.0,
-        575.0
-       ],
-       "label": "B-sub_total.tax_price",
-       "prob": 0.5321
-      },
-      {
-       "text": "TOTAL",
-       "box": [
-        106.0,
-        588.0,
-        206.0,
-        614.0
-       ],
-       "label": "O",
-       "prob": 0.9993
-      },
-      {
-       "text": "000802",
-       "box": [
-        335.0,
-        590.0,
-        488.0,
-        620.0
-       ],
-       "label": "B-total.total_price",
-       "prob": 0.9379
-      },
-      {
-       "text": "BCA",
-       "box": [
-        105.0,
-        631.0,
-        139.5,
-        658.0
-       ],
-       "label": "O",
-       "prob": 0.9945
-      },
-      {
-       "text": "Card",
-       "box": [
-        151.0,
-        631.0,
-        197.0,
-        658.0
-       ],
-       "label": "O",
-       "prob": 0.9859
-      },
-      {
-       "text": "308,000",
-       "box": [
-        410.0,
-        633.0,
-        494.0,
-        666.0
-       ],
-       "label": "B-total.creditcardprice",
-       "prob": 0.9981
-      }
-     ],
-     "image_size": [
-      576,
-      864
-     ],
-     "engine": "rapidocr (cached)"
-    },
-    "fields": {
-     "total": {
-      "text": "000802",
-      "value": 802.0,
-      "confidence": 0.9379,
-      "ocr_confidence": 0.7338
-     },
-     "subtotal": {
-      "text": "280,000",
-      "value": 280000.0,
-      "confidence": 0.9923,
-      "ocr_confidence": 0.7741
-     },
-     "tax": {
-      "text": "28,000",
-      "value": 28000.0,
-      "confidence": 0.5321,
-      "ocr_confidence": 0.7587
-     },
-     "service_charge": null,
-     "discount": null
-    },
-    "line_items": [
-     {
-      "name": "RedVelvet Nutella",
-      "qty": "I",
-      "price": "280,000",
-      "confidence": 0.6809,
-      "price_value": 280000.0,
-      "qty_value": null
-     },
-     {
-      "name": "Free Mini Candle",
-      "qty": "5",
-      "price": null,
-      "confidence": 0.803,
-      "price_value": null,
-      "qty_value": 5.0
-     },
-     {
-      "name": "Large Box",
-      "qty": null,
-      "price": null,
-      "confidence": 0.6921,
-      "price_value": null,
-      "qty_value": null
-     }
-    ],
-    "reconciliation": {
-     "status": "FAIL",
-     "checks": [
-      {
-       "rule": "subtotal + tax + service - discount = total",
-       "expected": 308000.0,
-       "actual": 802.0,
-       "ok": false
-      }
-     ]
-    },
-    "decision": "HUMAN_REVIEW",
-    "reasons": [
-     "arithmetic check failed: subtotal + tax + service - discount = total (expected 308,000.00, got 802.00)"
-    ],
-    "model": {
-     "name": "CRF (token + layout features)",
-     "rung": 1
-    },
-    "timings_ms": {
-     "model": 2.8
-    }
-   },
-   "gold": {
-    "total": "308,000",
-    "subtotal": "280,000",
-    "tax": "28,000",
-    "service_charge": null,
-    "discount": null
-   },
-   "posting_correct": false
   }
  ]
 }

@@ -17,9 +17,9 @@ Numbers come from files in `results/` (validation split unless stated). Times ar
    confident enough; otherwise HUMAN REVIEW with the reasons. The policy is tuned on validation data.
 
 **Why the model matters (the before/after):** with the same decision rules, the rules-only
-extractor auto-posts 34% of validation receipts, the trained CRF auto-posts 52%, both with no wrong
-auto-posts on validation (real OCR). Remove the model and 18 percentage points of receipts go back
-to manual entry. (`results/eval_{rules,crf}_validation_modeB.json`)
+extractor auto-posts 34% of validation receipts, the trained CRF auto-posts 53%, both with no wrong
+auto-posts on validation (real OCR). Remove the model and 19 percentage points of receipts go back
+to manual entry. (`results/eval_{rules,crf}_validation_modeB.json`; 52% before the D15 tuning)
 
 ## Decisions
 
@@ -107,6 +107,29 @@ LiLT (`SCUT-DLVCLab/lilt-roberta-en-base`, MIT) reads each word with its box, so
 rejected: its weights are licensed non-commercial. CPU benchmark on the laptop: 19.3 min/epoch, too
 slow for 15-30 epochs, so training runs on a separate GPU PC (`docs/gpu_training.md`). Same data,
 same early stopping on validation entity F1, same evaluation.
+
+### D15 · 10 Oct 00:00 · CRF over/underfitting diagnosis and tuning
+**Diagnosis** (`results/fit_report_crf.json`): train entity F1 0.992 vs validation 0.931; token loss
+(NLL) 0.046 vs 0.215 (4.7x) = **overfitting / high variance**.
+**Regularisation grid** (`results/crf_tuning_v1.json`, 16 settings of c1 (L1) x c2 (L2), 4-fold CV on
+train split by receipt, never validation): stronger penalties shrink the train/held-out F1 gap from
+0.105 to 0.034, but held-out F1 stays flat (0.90-0.92 gold words, 0.86-0.87 OCR words) and drops at
+the strongest settings (underfitting). **Learning curve** (validation F1 0.843 / 0.845 / 0.904 / 0.928
+at 100 / 200 / 400 / 800 train receipts, still rising): the model is data-limited, so the penalty
+alone cannot fix it.
+**Features v2** (targeting the "wrong number picked" errors): amount rank on the receipt, value
+repeated elsewhere, magnitude, relative size, position among amounts on the line, keywords on the next
+line. Same CV: lower held-out loss at all 4 settings tried (by 0.010-0.012) and +0.2 to +0.4 F1 on OCR
+words (`results/crf_tuning_v2_*.json`). Chosen by the script's criterion (best CV held-out F1):
+**v2, c1=0.5, c2=0.1**.
+**Before -> after on validation** (same decision layer, re-fitted on validation):
+Mode A posting-correct 91% -> 95%, fully-correct 74% -> 78%, auto-posted 57% (56/57 correct) ->
+60% (60/60); token F1 0.931 -> 0.934; token ECE after temperature 0.0093 -> 0.0049; raw field ECE
+0.080 -> 0.043. **Mode B (real OCR, the live app): posting-correct unchanged at 83%**, auto-posted
+52% -> 53% (all correct). Root cause on real OCR: "wrong number picked" fell 6 -> 4, but 9 errors
+are amounts OCR never read and 9 are amounts the model missed; real-OCR accuracy is now limited by
+OCR and data, not by CRF settings. Next levers: LiLT (pretrained, so less data-hungry), and OCR.
+Old model kept as `ml/artifacts/crf_v1.pkl`.
 
 ## Definitions (fixed before reporting; see `ml/metrics.py`)
 - Field exact match: both absent, or both present with equal parsed amounts (0 = absent, D11).

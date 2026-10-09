@@ -1,0 +1,44 @@
+{
+ "before_v1_c1-0.5_c2-0.05": {
+  "model": "ml/artifacts/crf_v1.pkl",
+  "features": "v1",
+  "c1": 0.5,
+  "c2": 0.05,
+  "n_state_features": 9107,
+  "train_gold": {
+   "entity_f1": 0.9915592666545652,
+   "token_nll": 0.04551245539423439
+  },
+  "train_ocr": {
+   "entity_f1": 0.9760574620909815,
+   "token_nll": 0.08438092077063845
+  },
+  "validation_gold": {
+   "entity_f1": 0.9308227589029882,
+   "token_nll": 0.21460854272526048
+  },
+  "f1_gap_train_minus_val": 0.06073650775157702,
+  "loss_ratio_val_over_train": 4.715380457202217
+ },
+ "after_v2_c1-0.5_c2-0.1": {
+  "model": "ml/artifacts/crf.pkl",
+  "features": "v2",
+  "c1": 0.5,
+  "c2": 0.1,
+  "n_state_features": 9791,
+  "train_gold": {
+   "entity_f1": 0.9910147032129244,
+   "token_nll": 0.047212601098313094
+  },
+  "train_ocr": {
+   "entity_f1": 0.9709567198177677,
+   "token_nll": 0.09013909911514204
+  },
+  "validation_gold": {
+   "entity_f1": 0.9344799344799345,
+   "token_nll": 0.21318831824316195
+  },
+  "f1_gap_train_minus_val": 0.056534768732989904,
+  "loss_ratio_val_over_train": 4.515496144752321
+ }
+}

@@ -74,10 +74,14 @@ def evaluate(model, exs, labels, device, pad_id, bs=16):
     from seqeval.metrics import f1_score
     model.eval()
     y_true, y_pred = [], []
+    loss_sum, n_b = 0.0, 0
     for i in range(0, len(exs), bs):
         b = collate(exs[i:i + bs], pad_id)
         b = {k: v.to(device) for k, v in b.items()}
-        logits = model(input_ids=b["input_ids"], attention_mask=b["attention_mask"], bbox=b["bbox"]).logits
+        outp = model(**b)
+        logits = outp.logits
+        loss_sum += outp.loss.item()
+        n_b += 1
         pred = logits.argmax(-1).cpu().numpy()
         gold = b["labels"].cpu().numpy()
         for p, g in zip(pred, gold):
@@ -85,7 +89,7 @@ def evaluate(model, exs, labels, device, pad_id, bs=16):
             y_true.append([labels[x] for x in g[m]])
             y_pred.append([labels[x] for x in p[m]])
     model.train()
-    return f1_score(y_true, y_pred)
+    return f1_score(y_true, y_pred), loss_sum / max(n_b, 1)
 
 
 def main():
@@ -166,9 +170,12 @@ def main():
                 dt = (time.time() - t_ep) / 20
                 print(f"BENCH {dt:.2f}s/step batch={a.batch} -> {dt * steps_per_epoch / 60:.1f} min/epoch on {device}")
                 return
-        f1 = evaluate(model, val, labels, device, pad_id)
-        history.append({"epoch": ep, "train_loss": loss_sum / steps_per_epoch, "val_f1": f1, "epoch_s": time.time() - t_ep})
-        print(f"epoch {ep} loss={loss_sum / steps_per_epoch:.4f} val_entity_f1={f1:.4f} ({time.time() - t_ep:.0f}s)", flush=True)
+        f1, vloss = evaluate(model, val, labels, device, pad_id)
+        tloss = loss_sum / steps_per_epoch
+        history.append({"epoch": ep, "train_loss": tloss, "val_loss": vloss, "val_f1": f1, "epoch_s": time.time() - t_ep})
+        # train loss falling while val loss rises = overfitting; both high and flat = underfitting
+        print(f"epoch {ep} train_loss={tloss:.4f} val_loss={vloss:.4f} val_entity_f1={f1:.4f} "
+              f"({time.time() - t_ep:.0f}s)", flush=True)
         if f1 > best_f1:
             best_f1, best_ep, bad = f1, ep, 0
             if best_dir.exists():

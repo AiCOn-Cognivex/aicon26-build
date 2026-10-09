@@ -15,7 +15,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9977,
+  "conf": 0.9962,
   "pred": {
    "total": "45,500",
    "subtotal": null,
@@ -50,7 +50,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9524,
+  "conf": 0.9271,
   "pred": {
    "total": "23.000",
    "subtotal": null,
@@ -66,7 +66,7 @@
    "discount": null
   },
   "items_tp": 0,
-  "items_pred": 2,
+  "items_pred": 1,
   "items_gold": 1
  },
  {
@@ -85,7 +85,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9762,
+  "conf": 0.9121,
   "pred": {
    "total": "20,000",
    "subtotal": "18,181",
@@ -120,7 +120,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9324,
+  "conf": 0.8514,
   "pred": {
    "total": "28,000",
    "subtotal": "28,000",
@@ -155,7 +155,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8861,
+  "conf": 0.8843,
   "pred": {
    "total": "41,000",
    "subtotal": "41,000",
@@ -187,13 +187,13 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "arithmetic could not be checked (no subtotal)"
+   "arithmetic check failed: subtotal + tax + service - discount = total (expected 72,000.00, got 8,000.00)"
   ],
-  "recon": "NOT_CHECKABLE",
-  "conf": 0.9748,
+  "recon": "FAIL",
+  "conf": 0.5116,
   "pred": {
    "total": "8-000",
-   "subtotal": null,
+   "subtotal": "71273",
    "tax": "727",
    "service_charge": null,
    "discount": null
@@ -206,7 +206,7 @@
    "discount": null
   },
   "items_tp": 0,
-  "items_pred": 2,
+  "items_pred": 1,
   "items_gold": 1
  },
  {
@@ -225,7 +225,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9718,
+  "conf": 0.9283,
   "pred": {
    "total": "123,000",
    "subtotal": null,
@@ -250,7 +250,7 @@
   "fully_correct": false,
   "fields_ok": {
    "total": false,
-   "subtotal": false,
+   "subtotal": true,
    "tax": true,
    "service_charge": true,
    "discount": true
@@ -264,7 +264,7 @@
   "conf": 0.0,
   "pred": {
    "total": null,
-   "subtotal": "636",
+   "subtotal": "63,636",
    "tax": "5.409",
    "service_charge": null,
    "discount": "-9,545"
@@ -296,7 +296,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9677,
+  "conf": 0.9716,
   "pred": {
    "total": "11,700",
    "subtotal": "11,700",
@@ -331,7 +331,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.958,
+  "conf": 0.9361,
   "pred": {
    "total": "00",
    "subtotal": null,
@@ -366,7 +366,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9817,
+  "conf": 0.9634,
   "pred": {
    "total": "000",
    "subtotal": null,
@@ -401,7 +401,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9816,
+  "conf": 0.9946,
   "pred": {
    "total": "89.100",
    "subtotal": "81.000",
@@ -436,7 +436,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9383,
+  "conf": 0.9237,
   "pred": {
    "total": "72.000",
    "subtotal": null,
@@ -471,7 +471,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9919,
+  "conf": 0.9927,
   "pred": {
    "total": "45,500",
    "subtotal": "41,364",
@@ -506,7 +506,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.6568,
+  "conf": 0.5951,
   "pred": {
    "total": "Rp39.600",
    "subtotal": "36.000",
@@ -541,7 +541,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9335,
+  "conf": 0.9389,
   "pred": {
    "total": "Rp59.400",
    "subtotal": "Rp54.000",
@@ -576,7 +576,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.995,
+  "conf": 0.9738,
   "pred": {
    "total": "00002",
    "subtotal": null,
@@ -611,7 +611,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9906,
+  "conf": 0.9849,
   "pred": {
    "total": "20.000",
    "subtotal": "20.000",
@@ -646,7 +646,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9988,
+  "conf": 0.998,
   "pred": {
    "total": "25,000",
    "subtotal": null,
@@ -681,7 +681,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9988,
+  "conf": 0.9979,
   "pred": {
    "total": "42,500",
    "subtotal": null,
@@ -716,7 +716,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9855,
+  "conf": 0.9836,
   "pred": {
    "total": "16,500",
    "subtotal": "15,000",
@@ -768,7 +768,7 @@
    "discount": null
   },
   "items_tp": 3,
-  "items_pred": 3,
+  "items_pred": 4,
   "items_gold": 4
  },
  {
@@ -787,7 +787,7 @@
    "arithmetic check failed: subtotal + tax + service - discount = total (expected 308,000.00, got 802.00)"
   ],
   "recon": "FAIL",
-  "conf": 0.5321,
+  "conf": 0.7967,
   "pred": {
    "total": "000802",
    "subtotal": "280,000",
@@ -822,7 +822,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9811,
+  "conf": 0.6535,
   "pred": {
    "total": "1,818",
    "subtotal": null,
@@ -857,7 +857,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.8427,
+  "conf": 0.8793,
   "pred": {
    "total": "80,500",
    "subtotal": null,
@@ -892,7 +892,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.7926,
+  "conf": 0.898,
   "pred": {
    "total": "207,900",
    "subtotal": "180,000",
@@ -913,24 +913,24 @@
  },
  {
   "id": "validation_26",
-  "posting_correct": true,
+  "posting_correct": false,
   "fully_correct": false,
   "fields_ok": {
    "total": true,
-   "subtotal": true,
+   "subtotal": false,
    "tax": true,
    "service_charge": true,
    "discount": true
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "arithmetic could not be checked (no subtotal)"
+   "arithmetic check failed: subtotal + tax + service - discount = total (expected 14,000.00, got 35,000.00)"
   ],
-  "recon": "NOT_CHECKABLE",
-  "conf": 0.6089,
+  "recon": "FAIL",
+  "conf": 0.2005,
   "pred": {
    "total": "Rp.35.000",
-   "subtotal": null,
+   "subtotal": "14.000",
    "tax": null,
    "service_charge": null,
    "discount": null
@@ -942,8 +942,8 @@
    "service_charge": null,
    "discount": null
   },
-  "items_tp": 1,
-  "items_pred": 5,
+  "items_tp": 0,
+  "items_pred": 4,
   "items_gold": 5
  },
  {
@@ -962,7 +962,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9746,
+  "conf": 0.98,
   "pred": {
    "total": "17,999",
    "subtotal": "16363",
@@ -978,7 +978,7 @@
    "discount": null
   },
   "items_tp": 0,
-  "items_pred": 2,
+  "items_pred": 1,
   "items_gold": 1
  },
  {
@@ -997,7 +997,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.975,
+  "conf": 0.9705,
   "pred": {
    "total": "22,000",
    "subtotal": null,
@@ -1068,7 +1068,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9969,
+  "conf": 0.993,
   "pred": {
    "total": "21,000",
    "subtotal": null,
@@ -1103,7 +1103,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9645,
+  "conf": 0.9682,
   "pred": {
    "total": "24,000",
    "subtotal": null,
@@ -1138,7 +1138,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9744,
+  "conf": 0.9837,
   "pred": {
    "total": "6.000",
    "subtotal": "6.000",
@@ -1173,7 +1173,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9623,
+  "conf": 0.9877,
   "pred": {
    "total": "57,500",
    "subtotal": null,
@@ -1208,7 +1208,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.5741,
+  "conf": 0.711,
   "pred": {
    "total": "283,338",
    "subtotal": "243,000",
@@ -1243,7 +1243,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.6692,
+  "conf": 0.656,
   "pred": {
    "total": "304.326",
    "subtotal": "261,000",
@@ -1278,7 +1278,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9367,
+  "conf": 0.9894,
   "pred": {
    "total": "18999",
    "subtotal": "17,272",
@@ -1313,7 +1313,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9636,
+  "conf": 0.9795,
   "pred": {
    "total": "70,000",
    "subtotal": "63,636",
@@ -1329,7 +1329,7 @@
    "discount": null
   },
   "items_tp": 1,
-  "items_pred": 3,
+  "items_pred": 2,
   "items_gold": 2
  },
  {
@@ -1348,7 +1348,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9608,
+  "conf": 0.9649,
   "pred": {
    "total": "20000",
    "subtotal": null,
@@ -1383,7 +1383,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9908,
+  "conf": 0.9967,
   "pred": {
    "total": "97,900",
    "subtotal": "89,000",
@@ -1418,7 +1418,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9822,
+  "conf": 0.9818,
   "pred": {
    "total": "379,500",
    "subtotal": "345.000",
@@ -1439,26 +1439,26 @@
  },
  {
   "id": "validation_41",
-  "posting_correct": false,
+  "posting_correct": true,
   "fully_correct": false,
   "fields_ok": {
    "total": true,
    "subtotal": true,
    "tax": true,
-   "service_charge": false,
+   "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "arithmetic check failed: subtotal + tax + service - discount = total (expected 2,212,460.00, got 2,352,460.00)"
+   "all key fields confident and arithmetic reconciles"
   ],
-  "recon": "FAIL",
-  "conf": 0.7274,
+  "recon": "PASS",
+  "conf": 0.7337,
   "pred": {
    "total": "2,352,460",
    "subtotal": "2,000,000",
    "tax": "212.460",
-   "service_charge": null,
+   "service_charge": "140000",
    "discount": null
   },
   "gold": {
@@ -1469,7 +1469,7 @@
    "discount": "0"
   },
   "items_tp": 0,
-  "items_pred": 6,
+  "items_pred": 8,
   "items_gold": 11
  },
  {
@@ -1488,7 +1488,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9843,
+  "conf": 0.9726,
   "pred": {
    "total": "53.000",
    "subtotal": "53.000",
@@ -1523,7 +1523,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9692,
+  "conf": 0.9054,
   "pred": {
    "total": "278.000",
    "subtotal": null,
@@ -1558,7 +1558,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9746,
+  "conf": 0.98,
   "pred": {
    "total": "17,999",
    "subtotal": "16363",
@@ -1574,7 +1574,7 @@
    "discount": null
   },
   "items_tp": 0,
-  "items_pred": 2,
+  "items_pred": 1,
   "items_gold": 1
  },
  {
@@ -1593,7 +1593,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9733,
+  "conf": 0.9769,
   "pred": {
    "total": "287760",
    "subtotal": "240.000",
@@ -1628,7 +1628,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9163,
+  "conf": 0.9508,
   "pred": {
    "total": "22,000",
    "subtotal": null,
@@ -1699,7 +1699,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9387,
+  "conf": 0.962,
   "pred": {
    "total": "61,500",
    "subtotal": "55,908",
@@ -1770,7 +1770,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9487,
+  "conf": 0.941,
   "pred": {
    "total": "26,000",
    "subtotal": null,
@@ -1805,7 +1805,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.7732,
+  "conf": 0.8506,
   "pred": {
    "total": "57.200",
    "subtotal": "57.200",
@@ -1820,7 +1820,7 @@
    "service_charge": null,
    "discount": null
   },
-  "items_tp": 0,
+  "items_tp": 1,
   "items_pred": 2,
   "items_gold": 2
  },
@@ -1840,7 +1840,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9758,
+  "conf": 0.9867,
   "pred": {
    "total": "56.000",
    "subtotal": "56.000",
@@ -1875,7 +1875,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9327,
+  "conf": 0.9145,
   "pred": {
    "total": "31.000",
    "subtotal": null,
@@ -1910,7 +1910,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9733,
+  "conf": 0.9834,
   "pred": {
    "total": "40.000",
    "subtotal": null,
@@ -1945,7 +1945,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.8891,
+  "conf": 0.9306,
   "pred": {
    "total": "60.000",
    "subtotal": null,
@@ -2015,7 +2015,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.5368,
+  "conf": 0.59,
   "pred": {
    "total": "288,585",
    "subtotal": "247,500",
@@ -2037,7 +2037,7 @@
  {
   "id": "validation_58",
   "posting_correct": true,
-  "fully_correct": false,
+  "fully_correct": true,
   "fields_ok": {
    "total": true,
    "subtotal": true,
@@ -2050,7 +2050,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9912,
+  "conf": 0.9755,
   "pred": {
    "total": "25.000",
    "subtotal": "25.000",
@@ -2066,30 +2066,30 @@
    "discount": null
   },
   "items_tp": 1,
-  "items_pred": 2,
+  "items_pred": 1,
   "items_gold": 1
  },
  {
   "id": "validation_59",
-  "posting_correct": false,
+  "posting_correct": true,
   "fully_correct": false,
   "fields_ok": {
    "total": true,
    "subtotal": true,
-   "tax": false,
+   "tax": true,
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "arithmetic check failed: subtotal + tax + service - discount = total (expected 603,935.00, got 664,329.00)"
+   "all key fields confident and arithmetic reconciles"
   ],
-  "recon": "FAIL",
-  "conf": 0.6766,
+  "recon": "PASS",
+  "conf": 0.8527,
   "pred": {
    "total": "664,329",
    "subtotal": "561,800",
-   "tax": null,
+   "tax": "60,394",
    "service_charge": "42135",
    "discount": null
   },
@@ -2120,7 +2120,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9369,
+  "conf": 0.8933,
   "pred": {
    "total": "180,000",
    "subtotal": null,
@@ -2155,7 +2155,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.6186,
+  "conf": 0.3874,
   "pred": {
    "total": "8,250",
    "subtotal": "7,500",
@@ -2190,7 +2190,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9699,
+  "conf": 0.9438,
   "pred": {
    "total": "62.000",
    "subtotal": "56.364",
@@ -2225,7 +2225,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9503,
+  "conf": 0.8232,
   "pred": {
    "total": "56.800",
    "subtotal": "51,636",
@@ -2260,7 +2260,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9927,
+  "conf": 0.9912,
   "pred": {
    "total": "20,000",
    "subtotal": null,
@@ -2295,7 +2295,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9178,
+  "conf": 0.876,
   "pred": {
    "total": "54.600",
    "subtotal": "49.636",
@@ -2330,7 +2330,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.7683,
+  "conf": 0.9073,
   "pred": {
    "total": "7.000",
    "subtotal": null,
@@ -2365,7 +2365,7 @@
    "arithmetic check failed: subtotal + tax + service - discount = total (expected 75,160.00, got 92.00)"
   ],
   "recon": "FAIL",
-  "conf": 0.9668,
+  "conf": 0.9149,
   "pred": {
    "total": "00092",
    "subtotal": "69,091",
@@ -2400,7 +2400,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9515,
+  "conf": 0.8888,
   "pred": {
    "total": ":26.000",
    "subtotal": null,
@@ -2435,7 +2435,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.394,
+  "conf": 0.5408,
   "pred": {
    "total": "174.983",
    "subtotal": "151,500",
@@ -2470,7 +2470,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9194,
+  "conf": 0.9313,
   "pred": {
    "total": "121798",
    "subtotal": "103,000",
@@ -2505,7 +2505,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.983,
+  "conf": 0.9812,
   "pred": {
    "total": "20.000",
    "subtotal": "20.000",
@@ -2540,7 +2540,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9704,
+  "conf": 0.9676,
   "pred": {
    "total": "36.000",
    "subtotal": "36.000",
@@ -2575,7 +2575,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9504,
+  "conf": 0.9685,
   "pred": {
    "total": "20000",
    "subtotal": null,
@@ -2610,7 +2610,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9652,
+  "conf": 0.9664,
   "pred": {
    "total": "20.000",
    "subtotal": "20.000",
@@ -2645,7 +2645,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.978,
+  "conf": 0.9877,
   "pred": {
    "total": "66,500",
    "subtotal": "60,454",
@@ -2680,7 +2680,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9058,
+  "conf": 0.8127,
   "pred": {
    "total": "99.000",
    "subtotal": null,
@@ -2715,7 +2715,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.957,
+  "conf": 0.9396,
   "pred": {
    "total": "R:58000.00",
    "subtotal": "Rp58000.00",
@@ -2742,7 +2742,7 @@
    "total": true,
    "subtotal": false,
    "tax": true,
-   "service_charge": false,
+   "service_charge": true,
    "discount": true
   },
   "decision": "HUMAN_REVIEW",
@@ -2750,12 +2750,12 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9663,
+  "conf": 0.6045,
   "pred": {
    "total": "177.870",
    "subtotal": null,
    "tax": "16170",
-   "service_charge": null,
+   "service_charge": "7.700",
    "discount": null
   },
   "gold": {
@@ -2766,7 +2766,7 @@
    "discount": null
   },
   "items_tp": 1,
-  "items_pred": 6,
+  "items_pred": 4,
   "items_gold": 4
  },
  {
@@ -2785,7 +2785,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8365,
+  "conf": 0.8657,
   "pred": {
    "total": "72.000",
    "subtotal": "72.000",
@@ -2820,7 +2820,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.981,
+  "conf": 0.9877,
   "pred": {
    "total": "25.000",
    "subtotal": null,
@@ -2855,7 +2855,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9921,
+  "conf": 0.9911,
   "pred": {
    "total": "276,000",
    "subtotal": "250,909",
@@ -2876,24 +2876,24 @@
  },
  {
   "id": "validation_82",
-  "posting_correct": true,
+  "posting_correct": false,
   "fully_correct": false,
   "fields_ok": {
    "total": true,
-   "subtotal": true,
+   "subtotal": false,
    "tax": true,
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident and arithmetic reconciles"
+   "arithmetic could not be checked (no subtotal)"
   ],
-  "recon": "PASS",
-  "conf": 0.4637,
+  "recon": "NOT_CHECKABLE",
+  "conf": 0.989,
   "pred": {
    "total": "35.000",
-   "subtotal": "35.000",
+   "subtotal": null,
    "tax": null,
    "service_charge": null,
    "discount": null
@@ -2906,7 +2906,7 @@
    "discount": null
   },
   "items_tp": 2,
-  "items_pred": 2,
+  "items_pred": 3,
   "items_gold": 4
  },
  {
@@ -2925,7 +2925,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8954,
+  "conf": 0.9345,
   "pred": {
    "total": "17,000",
    "subtotal": "17,000",
@@ -2947,7 +2947,7 @@
  {
   "id": "validation_84",
   "posting_correct": true,
-  "fully_correct": true,
+  "fully_correct": false,
   "fields_ok": {
    "total": true,
    "subtotal": true,
@@ -2960,7 +2960,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9782,
+  "conf": 0.9442,
   "pred": {
    "total": "52,000",
    "subtotal": "52,000",
@@ -2975,8 +2975,8 @@
    "service_charge": null,
    "discount": null
   },
-  "items_tp": 2,
-  "items_pred": 2,
+  "items_tp": 1,
+  "items_pred": 3,
   "items_gold": 2
  },
  {
@@ -2995,7 +2995,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9762,
+  "conf": 0.9608,
   "pred": {
    "total": "15,000",
    "subtotal": "13,636",
@@ -3030,7 +3030,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.984,
+  "conf": 0.9792,
   "pred": {
    "total": "26.000",
    "subtotal": "26,000",
@@ -3065,7 +3065,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9489,
+  "conf": 0.97,
   "pred": {
    "total": "29,000",
    "subtotal": "29.000",
@@ -3100,7 +3100,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9812,
+  "conf": 0.99,
   "pred": {
    "total": "170,000",
    "subtotal": "154,545",
@@ -3135,7 +3135,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9722,
+  "conf": 0.9844,
   "pred": {
    "total": "29.000",
    "subtotal": null,
@@ -3170,7 +3170,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.8071,
+  "conf": 0.8832,
   "pred": {
    "total": "70000.00",
    "subtotal": null,
@@ -3205,7 +3205,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9772,
+  "conf": 0.9762,
   "pred": {
    "total": "44,000",
    "subtotal": "40,000",
@@ -3240,7 +3240,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9218,
+  "conf": 0.8573,
   "pred": {
    "total": "23,000",
    "subtotal": "20,909",
@@ -3275,7 +3275,7 @@
    "arithmetic check failed: subtotal + tax + service - discount = total (expected 171,794.00, got 172,000.00)"
   ],
   "recon": "FAIL",
-  "conf": 0.8933,
+  "conf": 0.9886,
   "pred": {
    "total": "172,000",
    "subtotal": "156.364",
@@ -3310,12 +3310,12 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.3696,
+  "conf": 0.6541,
   "pred": {
    "total": "80.100",
    "subtotal": null,
    "tax": null,
-   "service_charge": "7.280",
+   "service_charge": null,
    "discount": "3.795"
   },
   "gold": {
@@ -3345,7 +3345,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.4666,
+  "conf": 0.6956,
   "pred": {
    "total": "30,000",
    "subtotal": "27.272",
@@ -3373,20 +3373,20 @@
    "subtotal": true,
    "tax": false,
    "service_charge": true,
-   "discount": true
+   "discount": false
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "arithmetic check failed: subtotal + tax + service - discount = total (expected 11,591.00, got 12,750.00)"
+   "arithmetic check failed: subtotal + tax + service - discount = total (expected 13,636.00, got 12,750.00)"
   ],
   "recon": "FAIL",
-  "conf": 0.3426,
+  "conf": 0.3316,
   "pred": {
    "total": "12.750",
    "subtotal": "13,636",
    "tax": null,
    "service_charge": null,
-   "discount": "-2,045"
+   "discount": null
   },
   "gold": {
    "total": "12,750",
@@ -3415,7 +3415,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9696,
+  "conf": 0.9894,
   "pred": {
    "total": "25.000",
    "subtotal": null,
@@ -3450,7 +3450,7 @@
    "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9882,
+  "conf": 0.9828,
   "pred": {
    "total": "100.000",
    "subtotal": null,
@@ -3485,7 +3485,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9401,
+  "conf": 0.9825,
   "pred": {
    "total": "Rp.39.000",
    "subtotal": "Rp.39.000",
