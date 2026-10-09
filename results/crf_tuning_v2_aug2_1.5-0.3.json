@@ -1,0 +1,20 @@
+{
+ "method": "4-fold CV on train, split by receipt; gold+OCR words",
+ "features": "v2",
+ "augment": 2,
+ "grid": [
+  {
+   "c1": 1.5,
+   "c2": 0.3,
+   "fit_s": 349.4,
+   "train_f1": 0.974069448198125,
+   "train_nll": 0.08450755451581915,
+   "heldout_gold_f1": 0.9207176880684195,
+   "heldout_gold_nll": 0.2439704355249822,
+   "heldout_ocr_f1": 0.8720415854686521,
+   "heldout_ocr_nll": 0.3935266631854624,
+   "heldout_f1": 0.8963796367685357,
+   "gap_f1": 0.0776898114295893
+  }
+ ]
+}

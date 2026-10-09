@@ -10,3 +10,5 @@ timestamp,model,lr,weight_decay,batch,epochs_max,epochs_run,best_epoch,freeze_la
 2026-10-09T21:42:30,crf[both],c1=0.1,c2=0.01,,,,,,,0,0.9301,84,cpu
 2026-10-09T21:43:53,crf[both],c1=0.5,c2=0.05,,,,,,,0,0.9308,83,cpu
 2026-10-10T00:10:20,"crf[both,v2]",c1=0.5,c2=0.1,,,,,,,0,0.9345,106,cpu
+2026-10-10T01:31:00,"crf[both,v2]",c1=0.5,c2=0.1,,,,,,,0,0.932,138,cpu
+2026-10-10T02:04:15,"crf[both,v2,scale2]",c1=1.5,c2=0.3,,,,,,,0,0.9291,362,cpu

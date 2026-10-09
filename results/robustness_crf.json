@@ -1,0 +1,161 @@
+{
+ "before_aug_v2": {
+  "model": "CRF (token + layout features)",
+  "factors": {
+   "4": {
+    "n_receipts": 99,
+    "original": {
+     "entity_f1": 0.9352159468438538,
+     "posting_correct_rate": 0.9595959595959596,
+     "total_f1": 0.9644670050761421
+    },
+    "scaled": {
+     "entity_f1": 0.9256335687577898,
+     "posting_correct_rate": 0.9292929292929293,
+     "total_f1": 0.9278350515463918
+    },
+    "drop_entity_f1": 0.009582378086063992,
+    "drop_posting_correct": 0.030303030303030276
+   },
+   "7": {
+    "n_receipts": 99,
+    "original": {
+     "entity_f1": 0.9352159468438538,
+     "posting_correct_rate": 0.9595959595959596,
+     "total_f1": 0.9644670050761421
+    },
+    "scaled": {
+     "entity_f1": 0.9256335687577898,
+     "posting_correct_rate": 0.9090909090909091,
+     "total_f1": 0.9430051813471502
+    },
+    "drop_entity_f1": 0.009582378086063992,
+    "drop_posting_correct": 0.0505050505050505
+   },
+   "0.01": {
+    "n_receipts": 57,
+    "original": {
+     "entity_f1": 0.9490392648287385,
+     "posting_correct_rate": 0.9824561403508771,
+     "total_f1": 0.9909909909909909
+    },
+    "scaled": {
+     "entity_f1": 0.8830508474576271,
+     "posting_correct_rate": 0.8596491228070176,
+     "total_f1": 0.9357798165137615
+    },
+    "drop_entity_f1": 0.06598841737111139,
+    "drop_posting_correct": 0.12280701754385959
+   }
+  },
+  "mean_drop_entity_f1": 0.02838439118107979,
+  "mean_drop_posting_correct": 0.06787169945064679,
+  "mean_scaled_posting_correct": 0.8993443203969519
+ },
+ "ocrfix_noaug": {
+  "model": "CRF (token + layout features)",
+  "factors": {
+   "4": {
+    "n_receipts": 99,
+    "original": {
+     "entity_f1": 0.9327242524916944,
+     "posting_correct_rate": 0.9595959595959596,
+     "total_f1": 0.9543147208121826
+    },
+    "scaled": {
+     "entity_f1": 0.9227574750830566,
+     "posting_correct_rate": 0.9292929292929293,
+     "total_f1": 0.9278350515463918
+    },
+    "drop_entity_f1": 0.009966777408637828,
+    "drop_posting_correct": 0.030303030303030276
+   },
+   "7": {
+    "n_receipts": 99,
+    "original": {
+     "entity_f1": 0.9327242524916944,
+     "posting_correct_rate": 0.9595959595959596,
+     "total_f1": 0.9543147208121826
+    },
+    "scaled": {
+     "entity_f1": 0.922309929372663,
+     "posting_correct_rate": 0.9090909090909091,
+     "total_f1": 0.9381443298969072
+    },
+    "drop_entity_f1": 0.010414323119031454,
+    "drop_posting_correct": 0.0505050505050505
+   },
+   "0.01": {
+    "n_receipts": 57,
+    "original": {
+     "entity_f1": 0.9490392648287385,
+     "posting_correct_rate": 0.9824561403508771,
+     "total_f1": 0.972972972972973
+    },
+    "scaled": {
+     "entity_f1": 0.9098567818028642,
+     "posting_correct_rate": 0.8771929824561403,
+     "total_f1": 0.9357798165137615
+    },
+    "drop_entity_f1": 0.03918248302587424,
+    "drop_posting_correct": 0.10526315789473684
+   }
+  },
+  "mean_drop_entity_f1": 0.019854527851181174,
+  "mean_drop_posting_correct": 0.062023746234272537,
+  "mean_scaled_posting_correct": 0.9051922736133262
+ },
+ "ocrfix_aug2": {
+  "model": "CRF (token + layout features)",
+  "factors": {
+   "4": {
+    "n_receipts": 99,
+    "original": {
+     "entity_f1": 0.9297297297297297,
+     "posting_correct_rate": 0.9292929292929293,
+     "total_f1": 0.9435897435897437
+    },
+    "scaled": {
+     "entity_f1": 0.9272349272349273,
+     "posting_correct_rate": 0.9191919191919192,
+     "total_f1": 0.9326424870466321
+    },
+    "drop_entity_f1": 0.002494802494802384,
+    "drop_posting_correct": 0.010101010101010055
+   },
+   "7": {
+    "n_receipts": 99,
+    "original": {
+     "entity_f1": 0.9297297297297297,
+     "posting_correct_rate": 0.9292929292929293,
+     "total_f1": 0.9435897435897437
+    },
+    "scaled": {
+     "entity_f1": 0.9280665280665281,
+     "posting_correct_rate": 0.9090909090909091,
+     "total_f1": 0.9430051813471502
+    },
+    "drop_entity_f1": 0.0016632016632015523,
+    "drop_posting_correct": 0.02020202020202022
+   },
+   "0.01": {
+    "n_receipts": 57,
+    "original": {
+     "entity_f1": 0.9448160535117056,
+     "posting_correct_rate": 0.9473684210526315,
+     "total_f1": 0.9541284403669724
+    },
+    "scaled": {
+     "entity_f1": 0.9261744966442953,
+     "posting_correct_rate": 0.8771929824561403,
+     "total_f1": 0.9272727272727272
+    },
+    "drop_entity_f1": 0.018641556867410314,
+    "drop_posting_correct": 0.07017543859649122
+   }
+  },
+  "mean_drop_entity_f1": 0.007599853675138084,
+  "mean_drop_posting_correct": 0.033492822966507164,
+  "mean_scaled_posting_correct": 0.9018252702463229
+ }
+}

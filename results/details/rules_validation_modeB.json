@@ -250,7 +250,7 @@
   "posting_correct": false,
   "fully_correct": false,
   "fields_ok": {
-   "total": false,
+   "total": true,
    "subtotal": false,
    "tax": true,
    "service_charge": true,
@@ -258,13 +258,12 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "total not found",
-   "arithmetic could not be checked (no subtotal)"
+   "arithmetic check failed: subtotal + tax + service - discount = total (expected -3,500.00, got 59,500.00)"
   ],
-  "recon": "NOT_CHECKABLE",
-  "conf": 0.0,
+  "recon": "FAIL",
+  "conf": 1.0,
   "pred": {
-   "total": null,
+   "total": "59,500",
    "subtotal": "636",
    "tax": "5.409",
    "service_charge": null,
@@ -277,8 +276,8 @@
    "service_charge": null,
    "discount": "-9,545"
   },
-  "items_tp": 0,
-  "items_pred": 0,
+  "items_tp": 1,
+  "items_pred": 1,
   "items_gold": 1
  },
  {
@@ -354,10 +353,10 @@
  },
  {
   "id": "validation_10",
-  "posting_correct": false,
+  "posting_correct": true,
   "fully_correct": false,
   "fields_ok": {
-   "total": false,
+   "total": true,
    "subtotal": true,
    "tax": true,
    "service_charge": true,
@@ -370,7 +369,7 @@
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
   "pred": {
-   "total": "000",
+   "total": "60.000",
    "subtotal": null,
    "tax": null,
    "service_charge": null,
@@ -564,10 +563,10 @@
  },
  {
   "id": "validation_16",
-  "posting_correct": false,
+  "posting_correct": true,
   "fully_correct": false,
   "fields_ok": {
-   "total": false,
+   "total": true,
    "subtotal": true,
    "tax": true,
    "service_charge": true,
@@ -580,7 +579,7 @@
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
   "pred": {
-   "total": "00002",
+   "total": "20000",
    "subtotal": null,
    "tax": null,
    "service_charge": null,
@@ -777,7 +776,7 @@
   "posting_correct": false,
   "fully_correct": false,
   "fields_ok": {
-   "total": false,
+   "total": true,
    "subtotal": true,
    "tax": false,
    "service_charge": true,
@@ -785,12 +784,12 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "arithmetic check failed: subtotal + tax + service - discount = total (expected 280,000.00, got 802.00)"
+   "arithmetic check failed: subtotal + tax + service - discount = total (expected 280,000.00, got 308,000.00)"
   ],
   "recon": "FAIL",
   "conf": 1.0,
   "pred": {
-   "total": "000802",
+   "total": "308.000",
    "subtotal": "280,000",
    "tax": null,
    "service_charge": null,
@@ -1582,7 +1581,7 @@
  {
   "id": "validation_45",
   "posting_correct": true,
-  "fully_correct": false,
+  "fully_correct": true,
   "fields_ok": {
    "total": true,
    "subtotal": true,
@@ -1610,8 +1609,8 @@
    "service_charge": "21,600",
    "discount": null
   },
-  "items_tp": 2,
-  "items_pred": 3,
+  "items_tp": 4,
+  "items_pred": 4,
   "items_gold": 4
  },
  {
@@ -1727,7 +1726,7 @@
   "fields_ok": {
    "total": true,
    "subtotal": false,
-   "tax": false,
+   "tax": true,
    "service_charge": true,
    "discount": true
   },
@@ -1741,7 +1740,7 @@
   "pred": {
    "total": null,
    "subtotal": null,
-   "tax": "400",
+   "tax": "7.400",
    "service_charge": null,
    "discount": null
   },
@@ -2154,12 +2153,12 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "arithmetic check failed: subtotal + tax + service - discount = total (expected 8,250.00, got 800.00)"
+   "arithmetic check failed: subtotal + tax + service - discount = total (expected 8,250.00, got 1,800.00)"
   ],
   "recon": "FAIL",
   "conf": 1.0,
   "pred": {
-   "total": "800",
+   "total": "1,800",
    "subtotal": "7,500",
    "tax": "750",
    "service_charge": null,
@@ -2208,7 +2207,7 @@
    "service_charge": null,
    "discount": null
   },
-  "items_tp": 1,
+  "items_tp": 2,
   "items_pred": 3,
   "items_gold": 3
  },
@@ -2314,7 +2313,7 @@
    "discount": null
   },
   "items_tp": 0,
-  "items_pred": 3,
+  "items_pred": 2,
   "items_gold": 2
  },
  {
@@ -2355,25 +2354,25 @@
  },
  {
   "id": "validation_67",
-  "posting_correct": false,
-  "fully_correct": false,
+  "posting_correct": true,
+  "fully_correct": true,
   "fields_ok": {
-   "total": false,
+   "total": true,
    "subtotal": true,
-   "tax": false,
+   "tax": true,
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "arithmetic check failed: subtotal + tax + service - discount = total (expected 69,091.00, got 92.00)"
+   "all key fields confident and arithmetic reconciles"
   ],
-  "recon": "FAIL",
+  "recon": "PASS",
   "conf": 1.0,
   "pred": {
-   "total": "00092",
+   "total": "76,000",
    "subtotal": "69,091",
-   "tax": null,
+   "tax": "6,909",
    "service_charge": null,
    "discount": null
   },
@@ -2457,30 +2456,30 @@
    "discount": null
   },
   "items_tp": 0,
-  "items_pred": 2,
+  "items_pred": 3,
   "items_gold": 3
  },
  {
   "id": "validation_70",
-  "posting_correct": false,
+  "posting_correct": true,
   "fully_correct": false,
   "fields_ok": {
    "total": true,
    "subtotal": true,
-   "tax": false,
+   "tax": true,
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "arithmetic check failed: subtotal + tax + service - discount = total (expected 110,725.00, got 121,798.00)"
+   "all key fields confident and arithmetic reconciles"
   ],
-  "recon": "FAIL",
+  "recon": "PASS",
   "conf": 1.0,
   "pred": {
    "total": "121798",
    "subtotal": "103,000",
-   "tax": null,
+   "tax": "11,073",
    "service_charge": "7,725",
    "discount": null
   },
@@ -2747,20 +2746,20 @@
   "fully_correct": false,
   "fields_ok": {
    "total": true,
-   "subtotal": false,
+   "subtotal": true,
    "tax": true,
    "service_charge": false,
    "discount": true
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "arithmetic could not be checked (no subtotal)"
+   "arithmetic check failed: subtotal + tax + service - discount = total (expected 170,170.00, got 177,870.00)"
   ],
-  "recon": "NOT_CHECKABLE",
+  "recon": "FAIL",
   "conf": 1.0,
   "pred": {
    "total": "177.870",
-   "subtotal": null,
+   "subtotal": "154000",
    "tax": "16170",
    "service_charge": null,
    "discount": null
@@ -2773,7 +2772,7 @@
    "discount": null
   },
   "items_tp": 1,
-  "items_pred": 5,
+  "items_pred": 4,
   "items_gold": 4
  },
  {
@@ -2859,7 +2858,7 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "arithmetic check failed: subtotal + tax + service - discount = total (expected 292,066.00, got 276,000.00)"
+   "arithmetic check failed: subtotal + tax + service - discount = total (expected 285,909.00, got 276,000.00)"
   ],
   "recon": "FAIL",
   "conf": 1.0,
@@ -2867,7 +2866,7 @@
    "total": "276,000",
    "subtotal": "250,909",
    "tax": "25,091",
-   "service_charge": "16066",
+   "service_charge": "9909",
    "discount": null
   },
   "gold": {
@@ -2877,7 +2876,7 @@
    "service_charge": null,
    "discount": null
   },
-  "items_tp": 2,
+  "items_tp": 3,
   "items_pred": 3,
   "items_gold": 5
  },
@@ -3379,20 +3378,20 @@
   "fully_correct": false,
   "fields_ok": {
    "total": true,
-   "subtotal": false,
+   "subtotal": true,
    "tax": false,
    "service_charge": true,
    "discount": false
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "arithmetic check failed: subtotal + tax + service - discount = total (expected -2,045.00, got 12,750.00)"
+   "arithmetic check failed: subtotal + tax + service - discount = total (expected 13,636.00, got 12,750.00)"
   ],
   "recon": "FAIL",
   "conf": 1.0,
   "pred": {
    "total": "12.750",
-   "subtotal": "-2,045",
+   "subtotal": "13,636",
    "tax": null,
    "service_charge": null,
    "discount": null
@@ -3405,7 +3404,7 @@
    "discount": "-2,045"
   },
   "items_tp": 0,
-  "items_pred": 0,
+  "items_pred": 1,
   "items_gold": 1
  },
  {

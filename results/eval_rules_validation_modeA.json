@@ -5,7 +5,7 @@
  "mode": "A",
  "ocr": "gold",
  "policy": {
-  "threshold": 0.0,
+  "threshold": 0.999,
   "tol_abs": 50.0,
   "tol_rel": 0.01,
   "require_reconciliation": true,
@@ -42,7 +42,7 @@
  "n_auto": 42,
  "auto_post_correctness": 1.0,
  "auto_post_fully_correct": 0.42857142857142855,
- "latency_ms_median_extractor": 0.1,
+ "latency_ms_median_extractor": 0.2,
  "token_entity_f1": 0.6107347576862949,
  "token_entity_precision": 0.846820809248555,
  "token_entity_recall": 0.47758761206193967

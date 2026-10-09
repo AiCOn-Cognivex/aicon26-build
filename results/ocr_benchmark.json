@@ -23,20 +23,20 @@
   "engine": "rapidocr",
   "split": "validation",
   "n": 100,
-  "word_recall": 0.6752,
-  "key_amount_recall": 0.9394,
-  "latency_s_median": 1.123,
-  "latency_s_p90": 1.888,
-  "peak_rss_mb": 115
+  "word_recall": 0.7059,
+  "key_amount_recall": 0.9654,
+  "latency_s_median": 1.109,
+  "latency_s_p90": 1.813,
+  "peak_rss_mb": 110
  },
  "rapidocr_train_n800": {
   "engine": "rapidocr",
   "split": "train",
   "n": 800,
-  "word_recall": 0.6428,
-  "key_amount_recall": 0.9335,
-  "latency_s_median": 1.036,
-  "latency_s_p90": 1.635,
-  "peak_rss_mb": 134
+  "word_recall": 0.6753,
+  "key_amount_recall": 0.9527,
+  "latency_s_median": 0.95,
+  "latency_s_p90": 1.571,
+  "peak_rss_mb": 132
  }
 }

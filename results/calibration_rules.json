@@ -1,7 +1,7 @@
 {
  "model": "Rules baseline (keywords + regex)",
  "temperature": 1.0,
- "field_ece_before": 0.09836065573770492,
- "field_ece_after": 0.09836065573770492,
- "n_predicted_fields": 183
+ "field_ece_before": 0.06417112299465244,
+ "field_ece_after": 0.06417112299465244,
+ "n_predicted_fields": 187
 }

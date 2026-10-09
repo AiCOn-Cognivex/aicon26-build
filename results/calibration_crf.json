@@ -1,12 +1,12 @@
 {
  "model": "CRF (token + layout features)",
  "temperature": 1.1,
- "nll_before": 0.2131883182431704,
- "nll_after": 0.21049138167939135,
- "token_ece_before": 0.014385630696944767,
- "token_ece_after": 0.004904955898048211,
+ "nll_before": 0.20562635734307683,
+ "nll_after": 0.20348454981060488,
+ "token_ece_before": 0.015254021919434962,
+ "token_ece_after": 0.011821708332531256,
  "n_tokens": 2186,
- "field_ece_before": 0.04255070422535217,
- "field_ece_after": 0.05303427230046963,
- "n_predicted_fields": 213
+ "field_ece_before": 0.02590407239819004,
+ "field_ece_after": 0.03667601809954757,
+ "n_predicted_fields": 221
 }
