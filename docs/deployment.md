@@ -57,7 +57,7 @@ Railway keeps the service running (no sleep by default); a redeploy or crash res
 30 s. The frontend handles it: on page load it polls `/health` every 3 s for up to
 120 s and shows "Waking up the server... Ns". If the API never answers, the Batch Demo and Results
 tabs still work from the snapshot bundled in `frontend/public/demo/`.
-**Before the presentation:** open the site 5 minutes early so the Space is awake.
+**Before the presentation:** open the site 5 minutes early and run one receipt so OCR models are loaded (first request is the slowest).
 
 ## Local fallback for the live demo (two commands)
 From the repo root, in two terminals (the venv must exist: `py -3.13 -m venv .venv` and
