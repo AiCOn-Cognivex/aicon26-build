@@ -1,0 +1,6 @@
+# Extra deps to serve the LiLT transformer (needs ~1.05 GB RAM with OCR, measured).
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.14.1+cpu
+transformers==5.19.0
+tokenizers==0.23.3
+safetensors==0.8.0

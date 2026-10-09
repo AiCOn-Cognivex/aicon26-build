@@ -1,5 +1,5 @@
-# Runtime deps for the API (CPU only). Install: pip install -r backend/requirements.txt
---extra-index-url https://download.pytorch.org/whl/cpu
+# Runtime deps for the API with the rules/CRF extractor (CPU, small image).
+# For the LiLT transformer also install backend/requirements-lilt.txt.
 fastapi==0.143.0
 uvicorn[standard]==0.54.0
 python-multipart==0.0.32
@@ -10,9 +10,5 @@ onnxruntime==1.31.0
 pytesseract==0.3.13
 sklearn-crfsuite==0.5.0
 python-crfsuite==0.9.12
-torch==2.14.1+cpu
-transformers==5.19.0
-tokenizers==0.23.3
-safetensors==0.8.0
 huggingface_hub==2.2.0
 psutil==7.2.2

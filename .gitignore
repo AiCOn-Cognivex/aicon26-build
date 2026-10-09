@@ -221,7 +221,10 @@ __marimo__/
 
 # --- project ---
 data/raw/
-ml/artifacts/
+ml/artifacts/*
+!ml/artifacts/crf.pkl
+!ml/artifacts/crf_gold.pkl
+!ml/artifacts/*.json
 *.ckpt
 *.safetensors
 *.bin
