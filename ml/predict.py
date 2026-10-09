@@ -31,31 +31,39 @@ ART = Path(os.getenv("MODEL_DIR", ROOT / "ml" / "artifacts"))
 OCR_ENGINE = os.getenv("OCR_ENGINE", "rapidocr")
 
 
-@lru_cache(maxsize=1)
-def policy() -> dict:
-    p = ART / "policy.json"
+def policy_for(kind: str) -> dict:
+    """Decision policy fitted on validation for this model (ml/calibrate.py), else defaults."""
+    p = ART / f"policy_{kind}.json"
     if p.exists():
         return {**DEFAULT_POLICY, **json.loads(p.read_text())}
     return dict(DEFAULT_POLICY)
 
 
 @lru_cache(maxsize=1)
+def policy() -> dict:
+    return policy_for(tagger()[3])
+
+
+@lru_cache(maxsize=1)
 def tagger():
     """Returns (name, rung, fn(words, w, h) -> tagged words). Falls back to rules if loading fails."""
+    kind = os.getenv("MODEL_KIND", "auto")
+    if kind == "auto":
+        kind = taggers.available()[-1]
     try:
-        return taggers.load(os.getenv("MODEL_KIND", "auto"))
+        return (*taggers.load(kind), kind)
     except Exception as e:  # never leave the API without an extractor
         print(f"model load failed ({e!r}); falling back to rules baseline")
-        return taggers.load("rules")
+        return (*taggers.load("rules"), "rules")
 
 
 def predict_words(words: list[dict], width: int, height: int) -> dict:
     """Same pipeline from already-OCR'd words (used by evaluation and cached demos)."""
-    name, rung, fn = tagger()
+    name, rung, fn, _ = tagger()
     t0 = time.perf_counter()
     tagged = fn(words, width, height)
     out = assemble(tagged)
-    d = decide(out["fields"], out["line_items"], policy())
+    d = decide(out["fields"], out["line_items"], policy(), out.get("absent_confidence"))
     return {
         "ocr": {"words": [{"text": w["text"], "box": [round(v, 1) for v in w["box"]],
                            "label": w.get("label", "O"), "prob": round(float(w.get("prob", 1.0)), 4)}

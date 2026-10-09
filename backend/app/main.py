@@ -49,7 +49,7 @@ def _warm():
 
 @app.get("/health")
 def health():
-    name, rung, _ = ml_predict.tagger()
+    name, rung, _, _ = ml_predict.tagger()
     return {"status": "ok", "model": name, "rung": rung, "ocr_engine": ml_predict.OCR_ENGINE,
             "policy": ml_predict.policy(), "uptime_s": round(time.time() - STARTED, 1)}
 

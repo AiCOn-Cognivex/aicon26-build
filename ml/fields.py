@@ -30,10 +30,12 @@ def entities(tagged: list[dict]) -> list[dict]:
             ents.append(cur)
         cur["words"].append(w["text"])
         cur["probs"].append(float(w.get("prob", 1.0)))
+        cur.setdefault("ocr", []).append(float(w.get("ocr_conf", 1.0)))
         cur["boxes"].append(w.get("box"))
     for e in ents:
         e["text"] = " ".join(e["words"])
         e["confidence"] = min(e["probs"]) if e["probs"] else 0.0
+        e["ocr_confidence"] = min(e.get("ocr", [1.0]))
         # amount = the last token that carries digits (a stray label word must not leak into the number)
         nums = [t for t in e["words"] if any(ch.isdigit() for ch in t)]
         e["amount_text"] = nums[-1] if nums else None
@@ -51,7 +53,8 @@ def assemble(tagged: list[dict]) -> dict:
         # several candidates: keep the most confident (ties -> later on the receipt)
         if fields[f] is None or e["confidence"] >= fields[f]["confidence"]:
             fields[f] = {"text": e["amount_text"], "value": to_float(parse_money(e["amount_text"])),
-                         "confidence": round(e["confidence"], 4)}
+                         "confidence": round(e["confidence"], 4),
+                         "ocr_confidence": round(e["ocr_confidence"], 4)}
 
     items, cur = [], None
     for e in ents:
@@ -66,7 +69,15 @@ def assemble(tagged: list[dict]) -> dict:
     for it in items:
         it["price_value"] = to_float(parse_money(it["price"]))
         it["qty_value"] = _qty(it["qty"])
-    return {"fields": fields, "line_items": items}
+    # How sure are we that a field we did NOT extract is really absent?
+    # 1 - (highest probability any word had of belonging to that field). Needs per-word distributions.
+    absent = {}
+    for f, cat in HEADER_FIELDS.items():
+        if fields[f] is None:
+            pmax = max((w.get("probs", {}).get(f"B-{cat}", 0.0) + w.get("probs", {}).get(f"I-{cat}", 0.0)
+                        for w in tagged), default=0.0)
+            absent[f] = round(1.0 - pmax, 4)
+    return {"fields": fields, "line_items": items, "absent_confidence": absent}
 
 
 def _qty(s):

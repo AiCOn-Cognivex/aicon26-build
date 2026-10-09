@@ -1,0 +1,12 @@
+{
+ "model": "CRF (token + layout features)",
+ "temperature": 1.1,
+ "nll_before": 0.21460854272527635,
+ "nll_after": 0.2116694406366119,
+ "token_ece_before": 0.0096915782783562,
+ "token_ece_after": 0.009308491769696295,
+ "n_tokens": 2186,
+ "field_ece_before": 0.07994178403755872,
+ "field_ece_after": 0.08136150234741775,
+ "n_predicted_fields": 213
+}

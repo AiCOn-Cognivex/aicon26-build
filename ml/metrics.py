@@ -2,6 +2,9 @@
 
 - Field exact match (per header field): correct if gold and prediction are both absent, or both
   present and the parsed amounts are equal (money_equal; sign of discounts ignored).
+  An amount of 0 counts as absent (posting "service charge 0" == posting no service charge).
+  [Revision 1, 2026-10-09 ~22:00, after validation error analysis and before any test evaluation:
+   3 of 4 wrong CRF auto-posts were gold "0" vs not extracted. Applied to all rungs; see decision_log.]
 - Correct line item: normalised name (lowercase, collapsed whitespace) equal AND qty value equal
   AND price value equal. Line items are matched as multisets -> precision / recall / F1.
 - Lenient line item (reported separately, for real OCR): price value equal AND name similarity
@@ -39,10 +42,17 @@ def lenient_item_tp(pred_items: list[dict], gold_items: list[dict]) -> int:
     return tp
 
 
+def _nonzero(field):
+    """A field whose amount is exactly 0 is treated as absent (same ledger posting)."""
+    if field is None or field.get("value") == 0:
+        return None
+    return field
+
+
 def compare(pred: dict, gold: dict) -> dict:
     per_field = {}
     for f in HEADER_FIELDS:
-        p, g = pred["fields"].get(f), gold["fields"].get(f)
+        p, g = _nonzero(pred["fields"].get(f)), _nonzero(gold["fields"].get(f))
         if p is None and g is None:
             per_field[f] = True
         elif p is None or g is None:
@@ -54,7 +64,7 @@ def compare(pred: dict, gold: dict) -> dict:
     posting = all(per_field.values())
     return {
         "fields": per_field,
-        "gold_present": {f: gold["fields"].get(f) is not None for f in HEADER_FIELDS},
+        "gold_present": {f: _nonzero(gold["fields"].get(f)) is not None for f in HEADER_FIELDS},
         "items_tp": tp, "items_tp_lenient": lenient_item_tp(pred["line_items"], gold["line_items"]),
         "items_pred": sum(pc.values()), "items_gold": sum(gc.values()),
         "posting_correct": posting,

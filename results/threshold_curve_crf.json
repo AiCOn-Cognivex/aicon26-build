@@ -1,0 +1,182 @@
+{
+ "model": "CRF (token + layout features)",
+ "split": "validation",
+ "mode": "B",
+ "n": 100,
+ "target": 0.98,
+ "chosen_threshold": 0.0,
+ "chosen_policy": {
+  "threshold": 0.0,
+  "tol_abs": 50.0,
+  "tol_rel": 0.01,
+  "require_reconciliation": true,
+  "use_item_rule": false,
+  "use_ocr_conf": false,
+  "check_absent": false,
+  "model": "crf",
+  "temperature": 1.1
+ },
+ "chosen_coverage": 0.52,
+ "chosen_correctness": 1.0,
+ "chosen_ci95_exact": [
+  0.9315177912966804,
+  1.0
+ ],
+ "chosen_ci95_bootstrap": [
+  1.0,
+  1.0
+ ],
+ "note": "Chosen: most coverage with >= 98% correctness among >= 20 auto-posted validation receipts. 52/52 auto-posted validation receipts were correct; exact 95% CI 93.2%-100.0% (bootstrap 100.0%-100.0%). 52 receipts cannot establish 98%; the single test-set run is the independent check.",
+ "points": [
+  {
+   "threshold": 0.0,
+   "coverage": 0.52,
+   "correctness": 1.0,
+   "n_auto": 52,
+   "ci_low": 0.9315177912966804,
+   "ci_high": 1.0,
+   "boot_low": 1.0,
+   "boot_high": 1.0
+  },
+  {
+   "threshold": 0.5,
+   "coverage": 0.49,
+   "correctness": 1.0,
+   "n_auto": 49,
+   "ci_low": 0.9274807363357226,
+   "ci_high": 1.0,
+   "boot_low": 1.0,
+   "boot_high": 1.0
+  },
+  {
+   "threshold": 0.6,
+   "coverage": 0.47,
+   "correctness": 1.0,
+   "n_auto": 47,
+   "ci_low": 0.9245142663089414,
+   "ci_high": 1.0,
+   "boot_low": 1.0,
+   "boot_high": 1.0
+  },
+  {
+   "threshold": 0.7,
+   "coverage": 0.44,
+   "correctness": 1.0,
+   "n_auto": 44,
+   "ci_low": 0.9195800602364241,
+   "ci_high": 1.0,
+   "boot_low": 1.0,
+   "boot_high": 1.0
+  },
+  {
+   "threshold": 0.8,
+   "coverage": 0.42,
+   "correctness": 1.0,
+   "n_auto": 42,
+   "ci_low": 0.9159161450596448,
+   "ci_high": 1.0,
+   "boot_low": 1.0,
+   "boot_high": 1.0
+  },
+  {
+   "threshold": 0.85,
+   "coverage": 0.41,
+   "correctness": 1.0,
+   "n_auto": 41,
+   "ci_low": 0.9139561637059715,
+   "ci_high": 1.0,
+   "boot_low": 1.0,
+   "boot_high": 1.0
+  },
+  {
+   "threshold": 0.9,
+   "coverage": 0.39,
+   "correctness": 1.0,
+   "n_auto": 39,
+   "ci_low": 0.9097488990396657,
+   "ci_high": 1.0,
+   "boot_low": 1.0,
+   "boot_high": 1.0
+  },
+  {
+   "threshold": 0.925,
+   "coverage": 0.36,
+   "correctness": 1.0,
+   "n_auto": 36,
+   "ci_low": 0.902606244085508,
+   "ci_high": 1.0,
+   "boot_low": 1.0,
+   "boot_high": 1.0
+  },
+  {
+   "threshold": 0.95,
+   "coverage": 0.3,
+   "correctness": 1.0,
+   "n_auto": 30,
+   "ci_low": 0.8842966917779722,
+   "ci_high": 1.0,
+   "boot_low": 1.0,
+   "boot_high": 1.0
+  },
+  {
+   "threshold": 0.96,
+   "coverage": 0.28,
+   "correctness": 1.0,
+   "n_auto": 28,
+   "ci_low": 0.8765638814997362,
+   "ci_high": 1.0,
+   "boot_low": 1.0,
+   "boot_high": 1.0
+  },
+  {
+   "threshold": 0.97,
+   "coverage": 0.24,
+   "correctness": 1.0,
+   "n_auto": 24,
+   "ci_low": 0.8575264022774743,
+   "ci_high": 1.0,
+   "boot_low": 1.0,
+   "boot_high": 1.0
+  },
+  {
+   "threshold": 0.98,
+   "coverage": 0.13,
+   "correctness": 1.0,
+   "n_auto": 13,
+   "ci_low": 0.752947361999529,
+   "ci_high": 1.0,
+   "boot_low": 1.0,
+   "boot_high": 1.0
+  },
+  {
+   "threshold": 0.99,
+   "coverage": 0.05,
+   "correctness": 1.0,
+   "n_auto": 5,
+   "ci_low": 0.4781762498950185,
+   "ci_high": 1.0,
+   "boot_low": 1.0,
+   "boot_high": 1.0
+  },
+  {
+   "threshold": 0.995,
+   "coverage": 0.0,
+   "correctness": null,
+   "n_auto": 0,
+   "ci_low": null,
+   "ci_high": null,
+   "boot_low": null,
+   "boot_high": null
+  },
+  {
+   "threshold": 0.999,
+   "coverage": 0.0,
+   "correctness": null,
+   "n_auto": 0,
+   "ci_low": null,
+   "ci_high": null,
+   "boot_low": null,
+   "boot_high": null
+  }
+ ]
+}

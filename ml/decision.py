@@ -12,7 +12,9 @@ DEFAULT_POLICY = {
     "tol_abs": 50.0,            # rounding tolerance in currency units (IDR), chosen on TRAIN gold
     "tol_rel": 0.01,            # ...but never more than 1% of the amount
     "require_reconciliation": False,  # if True, NOT_CHECKABLE also goes to review
-    "use_item_rule": False,     # check sum(line items) == subtotal (off unless validation supports it)
+    "use_item_rule": False,     # check sum(line items) == subtotal (off: fails on 9% of TRAIN gold)
+    "use_ocr_conf": False,      # field confidence = min(tagger prob, OCR confidence of its words)
+    "check_absent": False,      # review if a field we did not extract might be on the receipt
 }
 
 
@@ -57,15 +59,26 @@ def reconcile(fields: dict, items: list[dict], policy: dict = DEFAULT_POLICY) ->
     return {"status": status, "checks": checks}
 
 
-def decide(fields: dict, items: list[dict], policy: dict = DEFAULT_POLICY) -> dict:
+def field_confidence(f: dict, policy: dict) -> float:
+    c = f.get("confidence", 1.0)
+    if policy.get("use_ocr_conf"):
+        c = min(c, f.get("ocr_confidence", 1.0))
+    return c
+
+
+def decide(fields: dict, items: list[dict], policy: dict = DEFAULT_POLICY, absent: dict | None = None) -> dict:
     rec = reconcile(fields, items, policy)
     reasons = []
     if fields.get("total") is None:
         reasons.append("total not found")
-    low = [(k, f["confidence"]) for k, f in fields.items()
-           if k in HEADER_FIELDS and f is not None and f.get("confidence", 1.0) < policy["threshold"]]
+    low = [(k, field_confidence(f, policy)) for k, f in fields.items()
+           if k in HEADER_FIELDS and f is not None and field_confidence(f, policy) < policy["threshold"]]
     for k, c in low:
         reasons.append(f"low confidence on {k} ({c:.2f} < {policy['threshold']:.2f})")
+    if policy.get("check_absent") and absent:
+        for k, c in absent.items():
+            if k != "total" and c < policy["threshold"]:
+                reasons.append(f"{k} may be on the receipt but was not extracted (absence confidence {c:.2f})")
     if rec["status"] == "FAIL":
         for c in rec["checks"]:
             if not c["ok"]:
@@ -78,8 +91,8 @@ def decide(fields: dict, items: list[dict], policy: dict = DEFAULT_POLICY) -> di
     return {"decision": decision, "reasons": reasons, "reconciliation": rec}
 
 
-def receipt_confidence(fields: dict) -> float:
+def receipt_confidence(fields: dict, policy: dict = DEFAULT_POLICY) -> float:
     """Receipt-level score = min confidence over predicted header fields (0 if no total)."""
     if fields.get("total") is None:
         return 0.0
-    return min(f["confidence"] for f in fields.values() if f is not None)
+    return min(field_confidence(f, policy) for f in fields.values() if f is not None)

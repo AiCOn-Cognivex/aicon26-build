@@ -10,12 +10,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9989,
+  "conf": 0.9977,
   "pred": {
    "total": "45,500",
    "subtotal": null,
@@ -45,12 +45,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9668,
+  "conf": 0.9486,
   "pred": {
    "total": "23.000",
    "subtotal": null,
@@ -82,11 +82,10 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "low confidence on tax (0.76 < 0.90)",
    "arithmetic check failed: subtotal + tax + service - discount = total (expected 38,181.00, got 100,000.00)"
   ],
   "recon": "FAIL",
-  "conf": 0.7592,
+  "conf": 0.7322,
   "pred": {
    "total": "100,000",
    "subtotal": "20,000",
@@ -116,12 +115,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on tax (0.90 < 0.90)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8973,
+  "conf": 0.8575,
   "pred": {
    "total": "28,000",
    "subtotal": "28,000",
@@ -154,7 +153,7 @@
   "decision": "HUMAN_REVIEW",
   "reasons": [
    "total not found",
-   "low confidence on subtotal (0.84 < 0.90)"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
@@ -187,12 +186,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9914,
+  "conf": 0.9851,
   "pred": {
    "total": "8,000",
    "subtotal": null,
@@ -222,12 +221,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9843,
+  "conf": 0.9754,
   "pred": {
    "total": "123,000",
    "subtotal": null,
@@ -257,12 +256,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on discount (0.50 < 0.90)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.4975,
+  "conf": 0.4925,
   "pred": {
    "total": "59,500",
    "subtotal": "63,636",
@@ -297,7 +296,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9795,
+  "conf": 0.9677,
   "pred": {
    "total": "11,700",
    "subtotal": "11,700",
@@ -327,12 +326,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9775,
+  "conf": 0.9657,
   "pred": {
    "total": "20,000",
    "subtotal": null,
@@ -362,12 +361,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9707,
+  "conf": 0.9565,
   "pred": {
    "total": "60.000",
    "subtotal": null,
@@ -402,7 +401,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9898,
+  "conf": 0.9816,
   "pred": {
    "total": "89.100",
    "subtotal": "81.000",
@@ -432,12 +431,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9556,
+  "conf": 0.9383,
   "pred": {
    "total": "72.000",
    "subtotal": null,
@@ -472,7 +471,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.997,
+  "conf": 0.9946,
   "pred": {
    "total": "45,500",
    "subtotal": "41,364",
@@ -502,14 +501,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on total (0.76 < 0.90)",
-   "low confidence on subtotal (0.77 < 0.90)",
-   "low confidence on tax (0.88 < 0.90)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.7573,
+  "conf": 0.7199,
   "pred": {
    "total": "39.600",
    "subtotal": "36.000",
@@ -544,7 +541,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9447,
+  "conf": 0.927,
   "pred": {
    "total": "59.400",
    "subtotal": "54.000",
@@ -574,12 +571,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9989,
+  "conf": 0.9977,
   "pred": {
    "total": "20,000",
    "subtotal": null,
@@ -614,7 +611,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9918,
+  "conf": 0.9872,
   "pred": {
    "total": "20,000",
    "subtotal": "20,000",
@@ -644,12 +641,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9996,
+  "conf": 0.9989,
   "pred": {
    "total": "25,000",
    "subtotal": null,
@@ -679,12 +676,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9995,
+  "conf": 0.9988,
   "pred": {
    "total": "42,500",
    "subtotal": null,
@@ -719,7 +716,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9912,
+  "conf": 0.9855,
   "pred": {
    "total": "16,500",
    "subtotal": "15,000",
@@ -751,11 +748,10 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "low confidence on subtotal (0.53 < 0.90)",
    "arithmetic check failed: subtotal + tax + service - discount = total (expected 215,172.00, got 224,908.00)"
   ],
   "recon": "FAIL",
-  "conf": 0.5319,
+  "conf": 0.4854,
   "pred": {
    "total": "Rp 224,908",
    "subtotal": "194,726",
@@ -790,7 +786,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9588,
+  "conf": 0.9388,
   "pred": {
    "total": "308,000",
    "subtotal": "280,000",
@@ -820,12 +816,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9855,
+  "conf": 0.9759,
   "pred": {
    "total": "1,818",
    "subtotal": null,
@@ -857,10 +853,10 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "low confidence on total (0.87 < 0.90)"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.8748,
+  "conf": 0.8426,
   "pred": {
    "total": "80,500",
    "subtotal": null,
@@ -890,12 +886,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on tax (0.84 < 0.90)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8352,
+  "conf": 0.7942,
   "pred": {
    "total": "207,900",
    "subtotal": "180,000",
@@ -927,10 +923,10 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "low confidence on total (0.34 < 0.90)"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.3361,
+  "conf": 0.3216,
   "pred": {
    "total": "35.000",
    "subtotal": null,
@@ -965,7 +961,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9863,
+  "conf": 0.975,
   "pred": {
    "total": "17,999",
    "subtotal": "16,363",
@@ -995,12 +991,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9911,
+  "conf": 0.9834,
   "pred": {
    "total": "22,000",
    "subtotal": null,
@@ -1021,19 +1017,19 @@
  },
  {
   "id": "validation_29",
-  "posting_correct": false,
-  "fully_correct": false,
+  "posting_correct": true,
+  "fully_correct": true,
   "fields_ok": {
    "total": true,
    "subtotal": true,
    "tax": true,
    "service_charge": true,
-   "discount": false
+   "discount": true
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
    "total not found",
-   "low confidence on subtotal (0.43 < 0.90)"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
@@ -1066,12 +1062,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9985,
+  "conf": 0.9969,
   "pred": {
    "total": "21,000",
    "subtotal": null,
@@ -1101,12 +1097,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9774,
+  "conf": 0.9645,
   "pred": {
    "total": "24,000",
    "subtotal": null,
@@ -1141,7 +1137,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9842,
+  "conf": 0.9744,
   "pred": {
    "total": "6.000",
    "subtotal": "6.000",
@@ -1171,12 +1167,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9738,
+  "conf": 0.9623,
   "pred": {
    "total": "57,500",
    "subtotal": null,
@@ -1211,7 +1207,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.991,
+  "conf": 0.9835,
   "pred": {
    "total": "283,338",
    "subtotal": "243,000",
@@ -1246,7 +1242,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9871,
+  "conf": 0.9775,
   "pred": {
    "total": "304,326",
    "subtotal": "261,000",
@@ -1281,7 +1277,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9891,
+  "conf": 0.9804,
   "pred": {
    "total": "18,999",
    "subtotal": "17,272",
@@ -1316,7 +1312,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.978,
+  "conf": 0.9636,
   "pred": {
    "total": "70,000",
    "subtotal": "63,636",
@@ -1346,12 +1342,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9989,
+  "conf": 0.9977,
   "pred": {
    "total": "20,000",
    "subtotal": null,
@@ -1386,7 +1382,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9965,
+  "conf": 0.9938,
   "pred": {
    "total": "97,900",
    "subtotal": "89,000",
@@ -1421,7 +1417,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9135,
+  "conf": 0.8789,
   "pred": {
    "total": "379,500",
    "subtotal": "345,000",
@@ -1442,22 +1438,21 @@
  },
  {
   "id": "validation_41",
-  "posting_correct": false,
+  "posting_correct": true,
   "fully_correct": false,
   "fields_ok": {
    "total": true,
    "subtotal": true,
    "tax": true,
    "service_charge": true,
-   "discount": false
+   "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on total (0.75 < 0.90)",
-   "low confidence on service_charge (0.60 < 0.90)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.5977,
+  "conf": 0.5674,
   "pred": {
    "total": "2,352,460",
    "subtotal": "2,000,000",
@@ -1492,7 +1487,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9815,
+  "conf": 0.9724,
   "pred": {
    "total": "53,000",
    "subtotal": "53,000",
@@ -1522,12 +1517,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9801,
+  "conf": 0.9684,
   "pred": {
    "total": "278.000",
    "subtotal": null,
@@ -1562,7 +1557,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9863,
+  "conf": 0.975,
   "pred": {
    "total": "17,999",
    "subtotal": "16.363",
@@ -1597,7 +1592,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9901,
+  "conf": 0.9829,
   "pred": {
    "total": "287,760",
    "subtotal": "240,000",
@@ -1627,12 +1622,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9912,
+  "conf": 0.9847,
   "pred": {
    "total": "22,000",
    "subtotal": null,
@@ -1662,13 +1657,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on total (0.58 < 0.90)",
-   "low confidence on subtotal (0.68 < 0.90)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.576,
+  "conf": 0.5634,
   "pred": {
    "total": "42,000",
    "subtotal": "42,000",
@@ -1703,7 +1697,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9928,
+  "conf": 0.987,
   "pred": {
    "total": "61,500",
    "subtotal": "55,908",
@@ -1735,7 +1729,8 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "total not found"
+   "total not found",
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
@@ -1768,12 +1763,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9652,
+  "conf": 0.9487,
   "pred": {
    "total": "26,000",
    "subtotal": null,
@@ -1803,13 +1798,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on total (0.43 < 0.90)",
-   "low confidence on tax (0.81 < 0.90)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.4276,
+  "conf": 0.4054,
   "pred": {
    "total": "57.200",
    "subtotal": "57.200",
@@ -1844,7 +1838,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.985,
+  "conf": 0.9758,
   "pred": {
    "total": "56.000",
    "subtotal": "56.000",
@@ -1874,12 +1868,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9533,
+  "conf": 0.9326,
   "pred": {
    "total": "31.000",
    "subtotal": null,
@@ -1909,12 +1903,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9859,
+  "conf": 0.9765,
   "pred": {
    "total": "40.000",
    "subtotal": null,
@@ -1944,12 +1938,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9175,
+  "conf": 0.889,
   "pred": {
    "total": "60.000",
    "subtotal": null,
@@ -1984,7 +1978,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9941,
+  "conf": 0.9895,
   "pred": {
    "total": "20.000",
    "subtotal": "20.000",
@@ -2014,12 +2008,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on service_charge (0.80 < 0.90)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8032,
+  "conf": 0.7516,
   "pred": {
    "total": "288,585",
    "subtotal": "247,500",
@@ -2054,7 +2048,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9921,
+  "conf": 0.9867,
   "pred": {
    "total": "25.000",
    "subtotal": "25.000",
@@ -2084,12 +2078,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on subtotal (0.71 < 0.90)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.713,
+  "conf": 0.6637,
   "pred": {
    "total": "664,329",
    "subtotal": "561,800",
@@ -2119,12 +2113,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9241,
+  "conf": 0.9028,
   "pred": {
    "total": "180,000",
    "subtotal": null,
@@ -2154,12 +2148,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on total (0.68 < 0.90)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.6768,
+  "conf": 0.6186,
   "pred": {
    "total": "8,250",
    "subtotal": "7,500",
@@ -2194,7 +2188,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9891,
+  "conf": 0.9823,
   "pred": {
    "total": "62,000",
    "subtotal": "56,364",
@@ -2229,7 +2223,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9864,
+  "conf": 0.9768,
   "pred": {
    "total": "56,800",
    "subtotal": "51,636",
@@ -2259,12 +2253,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9981,
+  "conf": 0.9962,
   "pred": {
    "total": "20,000",
    "subtotal": null,
@@ -2299,7 +2293,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9762,
+  "conf": 0.9608,
   "pred": {
    "total": "54.600",
    "subtotal": "49.636",
@@ -2329,12 +2323,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9001,
+  "conf": 0.8571,
   "pred": {
    "total": "7,000",
    "subtotal": null,
@@ -2369,7 +2363,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9898,
+  "conf": 0.9835,
   "pred": {
    "total": "76,000",
    "subtotal": "69,091",
@@ -2399,12 +2393,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9831,
+  "conf": 0.973,
   "pred": {
    "total": "26,000",
    "subtotal": null,
@@ -2434,12 +2428,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on total (0.74 < 0.90)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.7404,
+  "conf": 0.677,
   "pred": {
    "total": "174.983",
    "subtotal": "151.500",
@@ -2474,7 +2468,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9912,
+  "conf": 0.9858,
   "pred": {
    "total": "121,798",
    "subtotal": "103,000",
@@ -2509,7 +2503,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9936,
+  "conf": 0.9887,
   "pred": {
    "total": "20.000",
    "subtotal": "20.000",
@@ -2544,7 +2538,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.978,
+  "conf": 0.9638,
   "pred": {
    "total": "36,000",
    "subtotal": "36,000",
@@ -2574,12 +2568,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9987,
+  "conf": 0.9973,
   "pred": {
    "total": "20,000",
    "subtotal": null,
@@ -2614,7 +2608,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9755,
+  "conf": 0.9652,
   "pred": {
    "total": "20.000",
    "subtotal": "20.000",
@@ -2649,7 +2643,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9952,
+  "conf": 0.9906,
   "pred": {
    "total": "66,500",
    "subtotal": "60,454",
@@ -2679,12 +2673,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9405,
+  "conf": 0.9151,
   "pred": {
    "total": "99.000",
    "subtotal": null,
@@ -2719,7 +2713,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9396,
+  "conf": 0.9166,
   "pred": {
    "total": "Rp 58000.00",
    "subtotal": "Rp 58000.00",
@@ -2751,11 +2745,10 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "low confidence on service_charge (0.19 < 0.90)",
    "arithmetic check failed: subtotal + tax + service - discount = total (expected 870.00, got 177,870.00)"
   ],
   "recon": "FAIL",
-  "conf": 0.1894,
+  "conf": 0.1772,
   "pred": {
    "total": "177.870",
    "subtotal": "000",
@@ -2785,12 +2778,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on subtotal (0.87 < 0.90)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8733,
+  "conf": 0.8365,
   "pred": {
    "total": "72.000",
    "subtotal": "72.000",
@@ -2820,12 +2813,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9988,
+  "conf": 0.9974,
   "pred": {
    "total": "25.000",
    "subtotal": null,
@@ -2860,7 +2853,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9956,
+  "conf": 0.9921,
   "pred": {
    "total": "276,000",
    "subtotal": "250,909",
@@ -2890,12 +2883,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9918,
+  "conf": 0.9859,
   "pred": {
    "total": "35.000",
    "subtotal": null,
@@ -2925,12 +2918,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on tax (0.89 < 0.90)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.887,
+  "conf": 0.8452,
   "pred": {
    "total": "17,000",
    "subtotal": "17,000",
@@ -2965,7 +2958,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9854,
+  "conf": 0.9782,
   "pred": {
    "total": "52,000",
    "subtotal": "52,000",
@@ -3000,7 +2993,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9857,
+  "conf": 0.9762,
   "pred": {
    "total": "15,000",
    "subtotal": "13,636",
@@ -3035,7 +3028,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9565,
+  "conf": 0.9362,
   "pred": {
    "total": "26,000",
    "subtotal": "26,000",
@@ -3065,12 +3058,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on tax (0.90 < 0.90)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8978,
+  "conf": 0.8584,
   "pred": {
    "total": "29,000",
    "subtotal": "29,000",
@@ -3105,7 +3098,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9881,
+  "conf": 0.9812,
   "pred": {
    "total": "170,000",
    "subtotal": "154,545",
@@ -3135,12 +3128,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9857,
+  "conf": 0.9761,
   "pred": {
    "total": "29.000",
    "subtotal": null,
@@ -3172,10 +3165,10 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "low confidence on total (0.78 < 0.90)"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.7811,
+  "conf": 0.7442,
   "pred": {
    "total": "70000.00",
    "subtotal": null,
@@ -3205,12 +3198,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on tax (0.90 < 0.90)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8984,
+  "conf": 0.8705,
   "pred": {
    "total": "44,000",
    "subtotal": "40,000",
@@ -3245,7 +3238,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9495,
+  "conf": 0.9276,
   "pred": {
    "total": "23,000",
    "subtotal": "20,909",
@@ -3280,7 +3273,7 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9836,
+  "conf": 0.9749,
   "pred": {
    "total": "172,000",
    "subtotal": "156,364",
@@ -3312,11 +3305,10 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "low confidence on total (0.41 < 0.90)",
    "arithmetic check failed: subtotal + tax + service - discount = total (expected 3,485.00, got 80,100.00)"
   ],
   "recon": "FAIL",
-  "conf": 0.4088,
+  "conf": 0.3661,
   "pred": {
    "total": "80.100",
    "subtotal": "0",
@@ -3346,12 +3338,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on tax (0.79 < 0.90)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.79,
+  "conf": 0.7423,
   "pred": {
    "total": "30,000",
    "subtotal": "27,272",
@@ -3381,13 +3373,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on subtotal (0.86 < 0.90)",
-   "low confidence on discount (0.81 < 0.90)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8089,
+  "conf": 0.7611,
   "pred": {
    "total": "12,750",
    "subtotal": "13,636",
@@ -3419,10 +3410,10 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "low confidence on total (0.71 < 0.90)"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.7053,
+  "conf": 0.6717,
   "pred": {
    "total": "25.000",
    "subtotal": null,
@@ -3454,10 +3445,10 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "low confidence on total (0.66 < 0.90)"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.6582,
+  "conf": 0.6261,
   "pred": {
    "total": "100.000",
    "subtotal": null,
@@ -3487,12 +3478,12 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on total (0.73 < 0.90)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.7276,
+  "conf": 0.703,
   "pred": {
    "total": "39.000",
    "subtotal": "39.000",

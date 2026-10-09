@@ -27,8 +27,8 @@ RES = ROOT / "results"
 
 def run(model: str, split: str, mode: str, engine: str = "rapidocr", policy: dict | None = None,
         tagger=None) -> dict:
-    from .predict import policy as default_policy
-    pol = policy or default_policy()
+    from .predict import policy_for
+    pol = policy or policy_for(model)
     name, rung, fn = tagger or taggers.load(model)
     recs = load_split(split)
     cache = load_cache(engine, split) if mode == "B" else None
@@ -47,7 +47,7 @@ def run(model: str, split: str, mode: str, engine: str = "rapidocr", policy: dic
         pred = assemble(tagged)
         gold = gold_fields(r["gt_parse"])
         comp = compare(pred, gold)
-        d = decide(pred["fields"], pred["line_items"], pol)
+        d = decide(pred["fields"], pred["line_items"], pol, pred.get("absent_confidence"))
         comps.append(comp)
         decisions.append(d["decision"])
         if mode == "A":  # token-level alignment exists only with gold words

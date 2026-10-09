@@ -10,9 +10,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -45,9 +45,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -106,12 +106,12 @@
  },
  {
   "id": "validation_3",
-  "posting_correct": false,
-  "fully_correct": false,
+  "posting_correct": true,
+  "fully_correct": true,
   "fields_ok": {
    "total": true,
    "subtotal": true,
-   "tax": false,
+   "tax": true,
    "service_charge": true,
    "discount": true
   },
@@ -150,9 +150,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -187,7 +187,8 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "total not found"
+   "total not found",
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
@@ -220,9 +221,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -257,7 +258,8 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "total not found"
+   "total not found",
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
@@ -327,7 +329,8 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "total not found"
+   "total not found",
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
@@ -360,9 +363,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -430,9 +433,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -570,9 +573,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -640,9 +643,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -675,9 +678,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -745,9 +748,9 @@
    "service_charge": false,
    "discount": false
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -815,9 +818,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -850,9 +853,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -885,9 +888,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -920,9 +923,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -990,9 +993,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -1023,11 +1026,12 @@
    "subtotal": false,
    "tax": true,
    "service_charge": true,
-   "discount": false
+   "discount": true
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "total not found"
+   "total not found",
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
@@ -1060,9 +1064,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -1095,9 +1099,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -1165,9 +1169,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -1340,9 +1344,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -1401,14 +1405,14 @@
  },
  {
   "id": "validation_40",
-  "posting_correct": false,
+  "posting_correct": true,
   "fully_correct": false,
   "fields_ok": {
    "total": true,
    "subtotal": true,
    "tax": true,
-   "service_charge": false,
-   "discount": false
+   "service_charge": true,
+   "discount": true
   },
   "decision": "AUTO_POST",
   "reasons": [
@@ -1443,11 +1447,12 @@
    "subtotal": true,
    "tax": true,
    "service_charge": true,
-   "discount": false
+   "discount": true
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "total not found"
+   "total not found",
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
@@ -1515,9 +1520,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -1620,9 +1625,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -1657,7 +1662,8 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "total not found"
+   "total not found",
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
@@ -1727,7 +1733,8 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "total not found"
+   "total not found",
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
@@ -1760,9 +1767,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -1865,9 +1872,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -1900,9 +1907,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -1935,9 +1942,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -2075,9 +2082,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -2110,9 +2117,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -2182,7 +2189,8 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "total not found"
+   "total not found",
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
@@ -2215,9 +2223,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -2250,9 +2258,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -2285,9 +2293,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -2322,7 +2330,8 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "total not found"
+   "total not found",
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
@@ -2392,7 +2401,8 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "total not found"
+   "total not found",
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
@@ -2427,7 +2437,8 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "total not found"
+   "total not found",
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
@@ -2565,9 +2576,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -2670,9 +2681,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -2707,7 +2718,8 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "total not found"
+   "total not found",
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
@@ -2740,9 +2752,9 @@
    "service_charge": false,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -2810,9 +2822,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -2880,9 +2892,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -2906,12 +2918,12 @@
  },
  {
   "id": "validation_83",
-  "posting_correct": false,
-  "fully_correct": false,
+  "posting_correct": true,
+  "fully_correct": true,
   "fields_ok": {
    "total": true,
    "subtotal": true,
-   "tax": false,
+   "tax": true,
    "service_charge": true,
    "discount": true
   },
@@ -3046,12 +3058,12 @@
  },
  {
   "id": "validation_87",
-  "posting_correct": false,
-  "fully_correct": false,
+  "posting_correct": true,
+  "fully_correct": true,
   "fields_ok": {
    "total": true,
    "subtotal": true,
-   "tax": false,
+   "tax": true,
    "service_charge": true,
    "discount": true
   },
@@ -3125,9 +3137,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -3160,9 +3172,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -3232,7 +3244,8 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "total not found"
+   "total not found",
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
@@ -3265,9 +3278,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -3302,7 +3315,8 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "total not found"
+   "total not found",
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
@@ -3405,9 +3419,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
@@ -3440,9 +3454,9 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "arithmetic could not be checked (no subtotal)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 1.0,
