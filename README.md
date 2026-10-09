@@ -107,7 +107,7 @@ Impact figures in the app are **simulated**, not measured.
 - The CRF is data-limited: its learning curve is still rising at 800 receipts and regularisation tuning did not raise held-out accuracy (`results/crf_tuning_v1.json`).
 - 17 receipt word sequences repeat across CORD splits (templated receipts); test results are also reported without them.
 - The arithmetic check only applies when a subtotal is printed (about two thirds of receipts); receipts without one are auto-posted only on confidence.
-- Live OCR takes 10-14 s per receipt on Railway's CPU (about 1 s on a laptop).
+- Live OCR takes 0.4-0.7 s per receipt on Railway after the thread fix (was 10-15 s; decision log D18).
 
 ## Disclosure of pre-existing resources
 

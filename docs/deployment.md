@@ -17,8 +17,9 @@ Hugging Face Docker Spaces were the first choice for LiLT, but creating one retu
 Docker Spaces on free CPU now require HF PRO. To serve LiLT live: build with
 `--build-arg WITH_LILT=1` on a host with >= 2 GB RAM (e.g. Railway Hobby).
 
-Measured live (9 Oct, 22:4x PKT): `/health` 200 in 0.5 s; `/extract` 200 in 10-18 s per receipt
-(OCR 8-12 s on Railway's CPU vs 1.8 s on the laptop); CORS header returned for the Vercel origin.
+Measured live (10 Oct, 02:35 PKT, after the OCR thread fix, D18): `/health` reports `ocr_threads: 2`;
+`/extract` OCR 0.4-0.7 s per receipt (was 9.9-14.8 s on the same 3 receipts before the fix); CORS header
+returned for the Vercel origin.
 
 ## Environment variables
 

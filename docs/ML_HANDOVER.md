@@ -111,7 +111,7 @@ Definitions: `ml/metrics.py`. An amount of 0 counts as absent (same ledger entry
   |---|---|---|
   | Peak RAM | 228 MB (250 MB on Railway) | ~1,040 MB |
   | Model time per receipt | ~3 ms (tagging) | ~0.6 s laptop CPU (incl. OCR) |
-  | OCR time per receipt | 1.8 s on the laptop, 8–12 s on Railway | same |
+  | OCR time per receipt | ~0.8 s on the laptop, 0.4–0.7 s on Railway (was 10–15 s before the thread fix, D18) | same |
 
 - Full log of runs: `results/experiments.csv`.
 
@@ -195,7 +195,7 @@ Change only learning rate, epochs, weight decay, freezing, and the data source. 
    `https://cognivex-aicon.vercel.app/demo/validation_0.jpg` (also `_1, _2, _3, _4, _5, _21, _23, _34`).
    Any receipt photo works (keep it under 8 MB). Don't use personal receipts with names or card numbers.
 3. On **Extract & Decide** click *Choose or capture receipt*, pick the file, then press *Extract & decide*.
-   Expect **about 10-14 s** (OCR on Railway's free CPU).
+   Expect **about 1-2 s** including upload (OCR 0.4-0.7 s on Railway).
 4. Read the result:
    - **Decision banner + reasons.**
    - **Receipt with coloured boxes.** Hover a box to see the word, the predicted label and the probability.
@@ -223,7 +223,13 @@ Change only learning rate, epochs, weight decay, freezing, and the data source. 
 
 ---
 
-## 8. Reducing live OCR time (currently 10–14 s per receipt on Railway)
+## 8. Reducing live OCR time: solved by a thread fix (10 Oct, D18)
+
+The slowness was not the CPU. ONNX Runtime started one busy-waiting thread per core the container could
+*see* (many), while Railway caps the container at 2 CPUs, so the threads fought each other. `ml/ocr.py`
+now sets the thread count from the container's CPU quota (`/health` shows `ocr_threads`). Measured live
+on the same 3 demo receipts: **9.9-14.8 s -> 0.4-0.7 s**, identical decisions. The options below are no
+longer needed for the demo; they are kept for reference.
 
 OCR is about 98% of the server time (the CRF itself takes about 3 ms). Measured on the laptop, 30 validation receipts:
 
@@ -233,7 +239,6 @@ OCR is about 98% of the server time (the CRF itself takes about 3 ms). Measured 
 | **Turn off the angle classifier** (`use_cls=False`) | 0.86 s (**−17%**) | 96.8% | **done 10 Oct** (D16); it also raised recall. On Railway the saving is lost in recognition time |
 | Long side 1280 px | −16% | 96.8% | |
 | Long side 1024 px | −27% | 96.8% | |
-| Faster server CPU / more vCPUs | ~5× (laptop vs Railway) | same | Railway is ~5× slower than the laptop; a paid tier helps most |
 
 How to ship a speed change safely:
 1. Edit `ml/ocr.py`: pass `use_cls=False` in `rapidocr_words`, and/or change `max_side` in `load_image`.

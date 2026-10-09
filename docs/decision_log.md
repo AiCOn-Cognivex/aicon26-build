@@ -179,6 +179,8 @@ threads compete. Thread count now follows the container CPU quota (`OCR_THREADS`
 15 validation receipts: default 0.76 s, 1 thread 1.10 s, 2 threads 0.78 s, identical OCR output in all cases.
 **Regression check:** rules and CRF, Mode A and B on validation, and end-to-end `predict()` on 6 images:
 identical metrics and outputs before and after the audit.
+**Live result (Railway, same 3 demo receipts, 02:2x vs 02:3x):** OCR 9.9-14.8 s -> **0.4-0.7 s**; the
+container's quota is 2 CPUs (`/health` shows `ocr_threads: 2`); decisions unchanged (AUTO, AUTO, REVIEW).
 
 ## Definitions (fixed before reporting; see `ml/metrics.py`)
 - Field exact match: both absent, or both present with equal parsed amounts (0 = absent, D11).
