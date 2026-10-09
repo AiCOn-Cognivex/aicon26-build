@@ -8,7 +8,8 @@ const ROWS: { key: string; label: string; help: string }[] = [
   { key: "key_field_exact_match", label: "Key-field exact match", help: "share of the 5 header fields (total, subtotal, tax, service, discount) exactly right, absent counts as right if gold is absent" },
   { key: "posting_correct_rate", label: "Posting-correct receipts", help: "all 5 header fields right" },
   { key: "fully_correct_rate", label: "Fully-correct receipts", help: "header fields and every line item right" },
-  { key: "line_item_f1", label: "Line-item F1", help: "name + qty + price must all match" },
+  { key: "line_item_f1", label: "Line-item F1 (strict)", help: "name + qty + price must all match" },
+  { key: "line_item_f1_lenient", label: "Line-item F1 (lenient name)", help: "price exact, name at least 80% similar, qty ignored" },
   { key: "stp_rate", label: "STP rate", help: "share auto-posted by the decision layer" },
   { key: "auto_post_correctness", label: "Correct among auto-posted", help: "posting-correct share of auto-posted receipts" },
   { key: "token_entity_f1", label: "Token entity F1 (seqeval)", help: "word-tagging quality, only defined with gold OCR" },
@@ -50,7 +51,10 @@ export default function ResultsPage() {
     getResults().then(({ data, source }) => { setData(data); setSource(source); });
   }, []);
   if (!data) return <p className="text-sm text-muted">Loading results…</p>;
-  const curve = data["threshold_curve"];
+  const best = ["lilt", "crf", "rules"].find((m) => data[`threshold_curve_${m}`]);
+  const curve = best ? data[`threshold_curve_${best}`] : null;
+  const ba = ["lilt", "crf"].map((m) => ({ m, e: evalFor(data, m, "validation", "B") })).find((x) => x.e);
+  const before = evalFor(data, "rules", "validation", "B");
   const test = data["test_metrics"];
   return (
     <div className="space-y-6">
@@ -62,6 +66,23 @@ export default function ResultsPage() {
           Source: {source === "live" ? "live API /results" : "bundled snapshot (API unreachable)"}.
         </p>
       </div>
+      {before && ba?.e && (
+        <section className="grid gap-3 sm:grid-cols-3" aria-label="Before and after">
+          {[
+            { k: "stp_rate", label: "Receipts auto-posted (STP)" },
+            { k: "auto_post_correctness", label: "Correct among auto-posted" },
+            { k: "posting_correct_rate", label: "Receipts with all amounts right" },
+          ].map(({ k, label }) => (
+            <div key={k} className="rounded-card border border-line bg-surface p-4">
+              <p className="text-xs text-muted">{label}</p>
+              <p className="mt-1 text-2xl font-semibold">
+                {pct(ba.e![k], 0)} <span className="text-sm font-normal text-muted">vs {pct(before[k], 0)} rules</span>
+              </p>
+              <p className="mt-1 text-xs text-muted">{ba.e!.model}, validation, real OCR, n={ba.e!.n_receipts}</p>
+            </div>
+          ))}
+        </section>
+      )}
       <section className="rounded-card border border-line bg-surface p-4">
         <h2 className="mb-3 text-sm font-semibold">Validation · Mode B (real OCR, end to end)</h2>
         <Table data={data} split="validation" mode="B" />
