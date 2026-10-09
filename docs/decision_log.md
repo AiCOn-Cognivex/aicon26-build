@@ -16,10 +16,11 @@ Numbers come from files in `results/` (validation split unless stated). Times ar
 5. **Decision.** AUTO-POST only if a total was found, the arithmetic reconciles, and every field is
    confident enough; otherwise HUMAN REVIEW with the reasons. The policy is tuned on validation data.
 
-**Why the model matters (the before/after):** with the same decision rules, the rules-only
-extractor auto-posts 34% of validation receipts, the trained CRF auto-posts 53%, both with no wrong
-auto-posts on validation (real OCR). Remove the model and 19 percentage points of receipts go back
-to manual entry. (`results/eval_{rules,crf}_validation_modeB.json`; 52% before the D15 tuning)
+**Why the model matters (the before/after):** on real OCR (validation, n=100), with each extractor's
+decision policy fitted on validation, the rules-only extractor auto-posts 36% of receipts (36/36 correct)
+and gets all five amounts right on 65%; the trained CRF auto-posts 81% (80/81 correct) and gets 91% right.
+Remove the model and about 45 percentage points of receipts go back to manual entry.
+(`results/eval_{rules,crf}_validation_modeB.json`; history of these numbers in D12, D15, D16.)
 
 ## Decisions
 
@@ -130,6 +131,38 @@ Mode A posting-correct 91% -> 95%, fully-correct 74% -> 78%, auto-posted 57% (56
 are amounts OCR never read and 9 are amounts the model missed; real-OCR accuracy is now limited by
 OCR and data, not by CRF settings. Next levers: LiLT (pretrained, so less data-hungry), and OCR.
 Old model kept as `ml/artifacts/crf_v1.pkl`.
+
+### D16 · 10 Oct 01:00 · OCR improvements
+Error analysis (CRF, validation, real OCR): 7 of 100 receipts had a needed amount that OCR never read
+(accuracy ceiling about 93%). Failure types: amounts split by a space ("74." + "000"), amounts never
+detected, digits misread. Settings were tuned on **200 TRAIN receipts** (gold-amount recall, i.e. how
+many gold header amounts appear as a readable token): baseline 92.7%; + re-joining split amounts 93.6%;
++ angle classifier off 94.9% (the classifier sometimes flips upright text 180 degrees); lower text-score,
+lower box threshold, larger unclip ratio, higher detection resolution: no gain beyond noise or slower;
+contrast + sharpen preprocessing: worse (89.2%). Adopted: merge rule + classifier off.
+**Validation confirmation:** 96.0% -> 99.1% (214 -> 221 of 223 amounts). OCR caches regenerated for all
+splits. Same CRF, new OCR: posting-correct 83% -> 90%. Retrained on the new train OCR: **91%**; rules
+baseline on the same OCR: 61% -> 65%. Re-fitting the policy (same pre-set rule: most coverage with >= 98%
+on >= 20 auto-posts) now selects confidence >= 0.70 + absence check, no longer requiring a subtotal:
+81% auto-posted, 80/81 correct (exact 95% CI 93.3%-100%). Safer point on the same curve: 0.80 -> 77%,
+77/77. Kept the pre-set rule rather than switch after seeing results. Live OCR on Railway is still
+10-14 s per receipt (text recognition dominates). Hassan must `git pull` before training LiLT (new OCR cache).
+
+### D17 · 10 Oct 01:45 · Augmentation A (amount scaling) tried and rejected
+Motivation: scaling every amount on a validation receipt by one factor (structure preserved) dropped
+CRF total F1 0.965 -> 0.925, i.e. partial memorisation of amount values. Augmentation: 1-2 copies of
+every training sequence with all amounts x2, x3, x10 or /10 (arithmetic and formats preserved;
+`ml/augment.py`). Gates fixed in advance: (1) CV held-out loss/F1 not worse, (2) robustness to held-out
+factors x4, x7, /100 improves, (3) validation real-OCR accuracy does not drop.
+(1) With the original penalty, held-out loss got worse (0.241 -> 0.254 / 0.265): near-duplicate copies
+weaken the effective regularisation. Scaling c1/c2 with the data size fixed it (2 copies, c1=1.5,
+c2=0.3: loss 0.244, F1 0.921/0.872 vs 0.918/0.874). (2) Token F1 under scaling improved (e.g. /100: 0.910
+-> 0.926) but posting-correct under scaling did not, and posting-correct on ordinary receipts fell
+96% -> 93% (Mode A, paired). (3) Validation real OCR: posting-correct 91% -> 90%, fully-correct
+21% -> 19%. **Rejected**; augmentation B (image augmentation + re-OCR) was gated on A and not run.
+Likely reason: x10 / /10 creates implausible receipts, and real amount magnitudes carry signal (item
+prices vs totals). Kept in the code (`--augment`, `--augment-scale`, default off) with results in
+`results/crf_tuning_v2_aug*.json` and `results/robustness_crf.json`.
 
 ## Definitions (fixed before reporting; see `ml/metrics.py`)
 - Field exact match: both absent, or both present with equal parsed amounts (0 = absent, D11).

@@ -1,6 +1,9 @@
 # ML handover for Hassan
 
-Status as of **Sat 10 Oct, 00:30 PKT** (CRF tuned, see section 4b). Submission deadline: **Sat 10 Oct evening**.
+Status as of **Sat 10 Oct, 02:30 PKT** (CRF tuned 4b, OCR fixed 4c, augmentation tried and rejected 4d).
+
+> **Hassan: `git pull` before training LiLT.** The OCR training cache (`data/cache/`) was regenerated with the improved OCR
+> at 02:00; a LiLT trained on the old cache would see different OCR words than the app now produces. Submission deadline: **Sat 10 Oct evening**.
 Every number below comes from a file in `results/` (validation split, n=100 receipts, unless stated).
 The test split has **not** been touched yet. It gets evaluated exactly once, at the end.
 
@@ -10,13 +13,13 @@ The test split has **not** been touched yet. It gets evaluated exactly once, at 
 
 - We read a receipt photo, extract the amounts (total, subtotal, tax, service charge, discount) and line
   items, and decide **AUTO-POST** (safe to put in the ledger without a person) or **HUMAN REVIEW**.
-- A trained **CRF** is live today. On real photos, with the same decision rules, it auto-posts **53%** of
-  validation receipts with **0 wrong auto-posts**. The rules-only baseline auto-posts **34%**. That
-  difference is our "the model matters" story.
+- A trained **CRF** is live today. On real photos (validation) it auto-posts **81%** of receipts with **80/81
+  correct**, and gets all five amounts right on **91%**. The rules-only baseline auto-posts **36%** (36/36) and
+  gets **65%** right. That difference is our "the model matters" story.
 - **Your job:** train **LiLT** (layout-aware transformer) on the GPU, try to beat the CRF on validation
   (real OCR), and hand over the best checkpoint. Commands: `docs/gpu_training.md`.
-- **Where the CRF loses accuracy:** 16 of 25 wrong amounts are model errors (OCR read the number but the
-  model missed it or picked the wrong one), and 9 are OCR errors. A stronger model has real room to help.
+- **Where the CRF loses accuracy now:** OCR can read 99.1% of the gold amounts (it was 96.0%), so most of
+  what is left is the model choosing or missing amounts. A stronger model (LiLT) has real room to help.
 
 ---
 
@@ -87,18 +90,19 @@ Definitions: `ml/metrics.py`. An amount of 0 counts as absent (same ledger entry
 
 | Metric (validation) | Rules A | CRF A | Rules B | **CRF B (live)** |
 |---|---|---|---|---|
-| Token entity F1 (seqeval) | 0.611 | **0.934** | — | — |
-| Key-field exact match (5 fields) | 0.914 | 0.972 | 0.878 | 0.952 |
-| Posting-correct receipts (all 5 amounts right) | 71% | 95% | 61% | **83%** |
-| Fully-correct receipts (+ every line item exact) | 32% | 78% | 14% | 20% |
-| Line-item F1 strict / lenient name | 0.53 / 0.74 | 0.82 / 0.90 | 0.24 / 0.67 | 0.32 / 0.73 |
-| **Auto-posted (STP)** | 42% | 60% | 34% | **53%** |
-| **Correct among auto-posted** | 100% | 100% (60/60) | 100% (34/34) | **100% (53/53)** |
+| Token entity F1 (seqeval) | 0.611 | **0.932** | — | — |
+| Key-field exact match (5 fields) | 0.914 | 0.972 | 0.898 | 0.976 |
+| Posting-correct receipts (all 5 amounts right) | 71% | 95% | 65% | **91%** |
+| Fully-correct receipts (+ every line item exact) | 32% | 78% | 16% | 21% |
+| Line-item F1 strict / lenient name | 0.53 / 0.74 | 0.81 / 0.89 | 0.26 / 0.69 | 0.35 / 0.76 |
+| **Auto-posted (STP)** | 42% | 85% | 36% | **81%** |
+| **Correct among auto-posted** | 100% (42/42) | 98.8% (84/85) | 100% (36/36) | **98.8% (80/81)** |
 
-- **Calibration (CRF):** temperature 1.1. Token ECE 0.0144 → 0.0049. Field-level ECE 0.043 raw, 0.053 after
-  temperature (the tagger cannot see OCR misreads; the decision does not rely on a confidence floor).
-- **Chosen CRF policy:** require the arithmetic to PASS; confidence threshold 0. Any higher threshold only removed
-  correct receipts on validation. Exact 95% CI for 53/53 is **93.3%–100%**, so 100 validation receipts cannot prove 98%.
+- **Calibration (CRF):** temperature 1.1; token ECE 0.015 -> 0.012. Field-level ECE 0.026 raw.
+- **Chosen CRF policy** (`ml/artifacts/policy_crf.json`): every extracted amount needs confidence >= 0.70, and no field
+  may look "possibly missed" (absence check); a failed arithmetic check still blocks. Exact 95% CI for 80/81 is
+  **93.3%-100%**, so 100 validation receipts cannot prove 98%. A safer point on the same curve: threshold 0.80 gives
+  77% auto-posted with 77/77 correct.
 - **LiLT so far:** only a 16-example smoke test (meaningless numbers). The CPU benchmark is 19 min/epoch, which is why it trains on the GPU.
 - **OCR (validation):** RapidOCR finds 94% of gold header amounts (97% on the first 30). Tesseract finds 28% (first 30).
 - **Speed and memory:**
@@ -124,9 +128,20 @@ Definitions: `ml/metrics.py`. An amount of 0 counts as absent (same ledger entry
   lower lr or epochs, raise `--wd`, or `--freeze-layers 6`. Both losses staying high means underfitting: raise lr or epochs.
   Early stopping already restores the best epoch.
 
+### 4c. OCR fixes (10 Oct, 01:00; decision log D16)
+Tuned on 200 **train** receipts, confirmed on validation: re-join amounts that OCR split with a space ("74." + "000"), and
+switch off RapidOCR's angle classifier (it sometimes flipped upright text). Readable gold amounts on validation went from
+96.0% to 99.1%. CRF retrained on the new OCR: real-OCR posting-correct 83% -> **91%**. Contrast/sharpen preprocessing,
+lower thresholds and higher detection resolution were tested and gave no gain.
+
+### 4d. Augmentation tried and rejected (decision log D17)
+Amount-scaling augmentation (`--augment` / `--augment-scale`, default off) made the CRF less dependent on exact
+amount values at token level, but lowered real-receipt accuracy (validation real OCR 91% -> 90%, clean OCR 95% -> 92%).
+Rejected by gates fixed in advance. You can still try `--augment-scale 1` for LiLT; judge it on validation Mode B only.
+
 ---
 
-## 5. Where the errors come from (CRF, validation, real OCR)
+## 5. Where the errors came from (CRF before the OCR fix, validation, real OCR)
 
 17 receipts are not posting-correct, with 25 wrong amounts in total:
 
@@ -176,11 +191,11 @@ Change only learning rate, epochs, weight decay, freezing, and the data source. 
 ## 7. How to test the model as a user (live site)
 
 1. Open **https://cognivex-aicon.vercel.app** and wait for the badge at the top right to say **"API online"**.
-2. Get a test image. The 8 demo receipts are public, so download one:
-   `https://cognivex-aicon.vercel.app/demo/validation_3.jpg` (also `_0, _2, _4, _5, _7, _8, _11`).
+2. Get a test image. The 9 demo receipts are public, so download one:
+   `https://cognivex-aicon.vercel.app/demo/validation_0.jpg` (also `_1, _2, _3, _4, _5, _21, _23, _34`).
    Any receipt photo works (keep it under 8 MB). Don't use personal receipts with names or card numbers.
 3. On **Extract & Decide** click *Choose or capture receipt*, pick the file, then press *Extract & decide*.
-   Expect **about 10-13 s** (OCR on Railway's free CPU).
+   Expect **about 10-14 s** (OCR on Railway's free CPU).
 4. Read the result:
    - **Decision banner + reasons.**
    - **Receipt with coloured boxes.** Hover a box to see the word, the predicted label and the probability.
@@ -188,35 +203,34 @@ Change only learning rate, epochs, weight decay, freezing, and the data source. 
    - **Reconciliation** (✓/✗ per rule).
    - **Mock journal entry.**
    - **Line items.**
-5. What the **live site** returns for these JPGs (tuned CRF, checked 10 Oct 00:35, HTTP 200 in 10-13 s each):
+5. What the **live site** returns for these JPGs (OCR-fixed CRF, checked 10 Oct 02:20, HTTP 200 in 11-15 s each):
 
    | Image | Decision | Why |
    |---|---|---|
+   | validation_0 | AUTO-POST | total 45,500 read with high confidence and no field looks missed (gold agrees) |
    | validation_3 | AUTO-POST | total 28,000 = subtotal 28,000 + tax 0, so the arithmetic reconciles (gold agrees) |
-   | validation_5 | HUMAN REVIEW | faded receipt: OCR read the tax 727 as "222" and the total 8,000 as "B:000"; the model took 222 as the total. No subtotal was found, so nothing can be checked, and it goes to review instead of posting a wrong total |
-   | validation_0 | HUMAN REVIEW | total 45,500 read correctly, but there's no subtotal, so the arithmetic can't be checked |
-   | validation_7 | HUMAN REVIEW | OCR read the total as "59,50" (gold 59,500); arithmetic fails, so the misread is caught |
+   | validation_5 | HUMAN REVIEW | faded receipt: the model's best guess for the total is "727" (really the tax; gold total 8,000), with confidence 0.43 < 0.70, so it goes to review instead of posting a wrong total |
+   | validation_21 | HUMAN REVIEW | all amounts read, but the service charge confidence is 0.68 < 0.70 |
 
    The demo JPGs are resized copies of the CORD PNGs, so the Batch Demo tab (computed from the PNG OCR) can show a
-   different reason for the same receipt. The decisions are the same. It's a nice illustration of OCR sensitivity, and of the
-   decision layer refusing to auto-post when it can't verify the numbers.
+   different reason for the same receipt (for validation_21 it says "total not found"). The decision is the same.
 6. **Batch Demo** shows pre-computed results (instant, offline-safe). **Results** shows the rules-vs-model tables.
 7. Without the UI (raw JSON):
    ```bash
    curl https://api-production-8136.up.railway.app/health
-   curl -F "file=@validation_3.jpg" https://api-production-8136.up.railway.app/extract
+   curl -F "file=@validation_0.jpg" https://api-production-8136.up.railway.app/extract
    ```
 
 ---
 
-## 8. Reducing live OCR time (currently 10–18 s per receipt on Railway)
+## 8. Reducing live OCR time (currently 10–14 s per receipt on Railway)
 
 OCR is about 98% of the server time (the CRF itself takes about 3 ms). Measured on the laptop, 30 validation receipts:
 
 | Change | OCR time | Gold-amount recall | Notes |
 |---|---|---|---|
 | Current (1600 px, det + angle-cls + rec) | 1.04 s | 96.8% | baseline |
-| **Turn off the angle classifier** (`use_cls=False`) | 0.86 s (**−17%**) | 96.8% | receipts are upright; cheapest win |
+| **Turn off the angle classifier** (`use_cls=False`) | 0.86 s (**−17%**) | 96.8% | **done 10 Oct** (D16); it also raised recall. On Railway the saving is lost in recognition time |
 | Long side 1280 px | −16% | 96.8% | |
 | Long side 1024 px | −27% | 96.8% | |
 | Faster server CPU / more vCPUs | ~5× (laptop vs Railway) | same | Railway is ~5× slower than the laptop; a paid tier helps most |
