@@ -93,9 +93,13 @@ rungs. Effect (validation Mode B posting-correct): CRF 79% -> 83%, rules 57% -> 
   interval is 93.2%-100%, so validation cannot prove 98%. The single test-set run is the check.
 
 ### D13 · Hosting
-Measured peak RAM serving 10 receipts: CRF + OCR 228 MB; LiLT + OCR 1,040 MB. Railway: Free 0.5 GB,
-Trial 1 GB (docs, 9 Oct). Decision (Mohid): backend on a free Hugging Face Docker Space; frontend on
-Vercel. Cached demo examples and a results snapshot ship with the frontend for offline demos.
+Measured peak RAM serving 10 receipts: CRF + OCR 228 MB; LiLT + OCR 1,040 MB (INT8 dynamic
+quantisation after loading did not lower the peak: 1,056 MB). Railway: Free 0.5 GB, Trial 1 GB
+(docs, 9 Oct). First decision: a free Hugging Face Docker Space. Creating it failed with HTTP 402:
+Docker Spaces on free CPU now need HF PRO. Final decision (Mohid): **backend on Railway serving the
+CRF** (live: 250 MB RAM, about 10 s per receipt, OCR dominates), frontend on Vercel. If LiLT wins
+on validation it is reported in Results and runs live in the local fallback. Cached demo examples
+and a results snapshot ship with the frontend for offline demos.
 
 ### D14 · Rung 2: LiLT on a GPU machine
 LiLT (`SCUT-DLVCLab/lilt-roberta-en-base`, MIT) reads each word with its box, so it learns layout

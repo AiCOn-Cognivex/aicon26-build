@@ -49,7 +49,7 @@ Receipt image ─► OCR (RapidOCR) ─► token tagger (Rules | CRF | LiLT) ─
 ## Live links
 
 - Frontend: https://cognivex-aicon.vercel.app
-- Backend API: _being deployed to a Hugging Face Docker Space_ (health check at `/health`)
+- Backend API: https://api-production-8136.up.railway.app (health check at `/health`; serves the CRF, about 10 s per receipt on the free cloud CPU)
 
 ## Running locally
 
@@ -112,7 +112,7 @@ In line with Rule 5 of the AICON'26 rulebook. **All code in this repository was 
 
 **Libraries and OCR engines:** PyTorch, Hugging Face Transformers, sklearn-crfsuite / python-crfsuite, scikit-learn, seqeval, RapidOCR + ONNX Runtime, Tesseract 5 (benchmark only), FastAPI, Uvicorn, Pillow, NumPy, Next.js, React, Tailwind CSS.
 
-**APIs and services:** Hugging Face Hub (dataset/model hosting, Docker Space for the API), Vercel (frontend hosting), GitHub. No LLM API is used anywhere in the pipeline.
+**APIs and services:** Hugging Face Hub (dataset and pretrained/fine-tuned model hosting), Railway (backend API hosting), Vercel (frontend hosting), GitHub. No LLM API is used anywhere in the pipeline.
 
 **AI coding assistants:** Claude Code, Antigravity, GitHub Copilot.
 

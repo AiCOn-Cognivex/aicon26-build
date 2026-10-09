@@ -98,6 +98,7 @@ export default function ExtractPage() {
           </button>
         </div>
         <div className="mt-3 text-xs text-muted" role="status" aria-live="polite">
+          {busy && server === "online" && <>Reading the receipt… OCR on the free cloud CPU takes about 10 s (about 2 s on a laptop).<br /></>}
           {server === "waking" && <>Waking up the server… {waitS}s (free hosting sleeps when idle, first request can take up to a minute)</>}
           {server === "online" && <>API ready at {API_URL}{latency !== null && <> · last request {latency} ms round-trip</>}</>}
           {server === "offline" && (
