@@ -193,7 +193,7 @@ Change only learning rate, epochs, weight decay, freezing, and the data source. 
    | Image | Decision | Why |
    |---|---|---|
    | validation_3 | AUTO-POST | total 28,000 = subtotal 28,000 + tax 0, so the arithmetic reconciles (gold agrees) |
-   | validation_5 | HUMAN REVIEW | OCR misread the total ("222"); no subtotal found, so it can't be checked and goes to review |
+   | validation_5 | HUMAN REVIEW | faded receipt: OCR read the tax 727 as "222" and the total 8,000 as "B:000"; the model took 222 as the total. No subtotal was found, so nothing can be checked, and it goes to review instead of posting a wrong total |
    | validation_0 | HUMAN REVIEW | total 45,500 read correctly, but there's no subtotal, so the arithmetic can't be checked |
    | validation_7 | HUMAN REVIEW | OCR read the total as "59,50" (gold 59,500); arithmetic fails, so the misread is caught |
 
