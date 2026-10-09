@@ -36,8 +36,10 @@ def _exif_upright(img: Image.Image) -> Image.Image:
 
 @lru_cache(maxsize=1)
 def _rapid():
+    # Angle classifier off: it sometimes flips upright text 180 degrees. Chosen on 200 TRAIN receipts
+    # (gold-amount recall 93.6% -> 94.9% with the merge rule), confirmed on validation (96.0% -> 99.1%).
     from rapidocr_onnxruntime import RapidOCR
-    return RapidOCR()
+    return RapidOCR(use_angle_cls=False)
 
 
 def rapidocr_words(img: Image.Image) -> list[dict]:
@@ -82,6 +84,26 @@ ENGINES = {"rapidocr": rapidocr_words, "tesseract": tesseract_words}
 
 # "1EGG", "2xNASI", "1S-Ovaltine": OCR glues the printed quantity onto the item name
 _QTY_PREFIX = re.compile(r"^(\d{1,2})([xX]?)([A-Za-z][A-Za-z\-].*)$")
+# "74." + "000" or "154" + "000": OCR puts a space inside an amount
+_SPLIT_HEAD = re.compile(r"^\d{1,3}[.,]$")
+_SPLIT_TAIL = re.compile(r"^\d{3}([.,]\d{3})*([.,]\d{1,2})?$")
+
+
+def _merge_split_amounts(words: list[dict]) -> list[dict]:
+    """Re-join an amount that OCR split at a thousands separator, only within one OCR line."""
+    out = []
+    for w in words:
+        if out:
+            p = out[-1]
+            same_line = abs(p["box"][1] - w["box"][1]) < 1 and abs(p["box"][3] - w["box"][3]) < 1
+            if same_line and ((_SPLIT_HEAD.match(p["text"]) and _SPLIT_TAIL.match(w["text"])) or
+                              (re.fullmatch(r"\d{1,3}", p["text"]) and w["text"] == "000")):
+                out[-1] = {**p, "text": p["text"] + w["text"],
+                           "box": [p["box"][0], p["box"][1], w["box"][2], w["box"][3]],
+                           "ocr_conf": min(p.get("ocr_conf", 1.0), w.get("ocr_conf", 1.0))}
+                continue
+        out.append(w)
+    return out
 
 
 def normalise_words(words: list[dict]) -> list[dict]:
@@ -97,7 +119,7 @@ def normalise_words(words: list[dict]) -> list[dict]:
             out.append({**w, "text": name, "box": [split, y0, x1, y1]})
         else:
             out.append(w)
-    return out
+    return _merge_split_amounts(out)
 
 
 def run_ocr(img: Image.Image, engine: str = "rapidocr") -> list[dict]:

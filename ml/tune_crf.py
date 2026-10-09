@@ -66,7 +66,7 @@ def _fit_eval(job):
     return out
 
 
-def build_features(version="v2"):
+def build_features(version="v2", augment=0):
     from .crf_model import featurise as _f
 
     def featurise(ws, W, H):
@@ -82,6 +82,14 @@ def build_features(version="v2"):
         X.append((rec["id"], featurise(ws, W, H)))
         y.append((rec["id"], [w["label"] for w in ws]))
         meta.append((rec["id"], "ocr"))
+    if augment:  # scaled copies are tagged "aug": used for fitting only, never scored as held-out
+        from .augment import augment_sequences
+        base = [(r["id"], gold_sequence(r), r["width"], r["height"]) for r in load_split("train")]
+        base += [(rec["id"], ws, W, H) for rec, ws, W, H in ocr_train_sequences("train")]
+        for rid, ws, W, H in augment_sequences(base, augment):
+            X.append((rid, featurise(ws, W, H)))
+            y.append((rid, [w["label"] for w in ws]))
+            meta.append((rid, "aug"))
     val = [(featurise(gold_sequence(r), r["width"], r["height"]), [w["label"] for w in gold_sequence(r)])
            for r in load_split("validation")]
     recs = [r["id"] for r in load_split("train")]
@@ -97,8 +105,9 @@ def main():
     ap.add_argument("--features", default="v2", choices=["v1", "v2"])
     ap.add_argument("--grid", default="", help='e.g. "0.5:0.5,0.1:0.1" (default: full C1 x C2 grid)')
     ap.add_argument("--no-curve", action="store_true")
+    ap.add_argument("--augment", type=int, default=0, help="amount-scaling copies (training folds only)")
     a = ap.parse_args()
-    build_features(a.features)
+    build_features(a.features, a.augment)
     settings = [tuple(map(float, g.split(":"))) for g in a.grid.split(",")] if a.grid else list(product(C1, C2))
     jobs = [(c1, c2, k, 1.0) for c1, c2 in settings for k in range(K)]
     t0 = time.time()
@@ -116,10 +125,11 @@ def main():
               f"loss gold {agg['heldout_gold_nll']:.3f} | gap {agg['gap_f1']:.3f}", flush=True)
     best = max(grid, key=lambda g: g["heldout_f1"])
     print(f"best by CV held-out F1: c1={best['c1']} c2={best['c2']} ({time.time() - t0:.0f}s)")
-    out_path = ROOT / "results" / f"crf_tuning_{a.features}{'_' + a.grid.replace(':', '-').replace(',', '_') if a.grid else ''}.json"
+    out_path = ROOT / "results" / (f"crf_tuning_{a.features}" + (f"_aug{a.augment}" if a.augment else "")
+                                   + (f"_{a.grid.replace(':', '-').replace(',', '_')}" if a.grid else "") + ".json")
     if a.no_curve:
         out_path.write_text(json.dumps({"method": f"{K}-fold CV on train, split by receipt; gold+OCR words",
-                                        "features": a.features, "grid": grid}, indent=1))
+                                        "features": a.features, "augment": a.augment, "grid": grid}, indent=1))
         Path(DATA).unlink(missing_ok=True)
         return
     # learning curve with the chosen setting, scored on validation gold words
