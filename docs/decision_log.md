@@ -202,6 +202,11 @@ advances, payroll, policy, demo reset).
 Incident: first Railway deploy crashed (SQLite file not writable in the image; then Git Bash rewrote
 `/tmp/cognivex.db` to a Windows path when setting the variable). Fixed with `SQLITE_PATH=/tmp/cognivex.db`
 set from PowerShell and in the Dockerfile; API down about 10 minutes (07:00-07:10).
+Second incident (10:31-10:45): after switching to Neon Postgres, the demo seed failed because the image
+difference hash could overflow to a 17-character negative hex string; SQLite accepted it, Postgres enforces
+VARCHAR(16). Fixed (Python ints, 64-bit mask), test added, event titles capped at their column length, and a
+seed failure can no longer stop the API from starting. Live on Postgres since 10:45: health, sign-in, dashboard,
+scan -> auto-approve, finance queue and role checks all pass.
 
 ## Definitions (fixed before reporting; see `ml/metrics.py`)
 - Field exact match: both absent, or both present with equal parsed amounts (0 = absent, D11).

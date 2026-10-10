@@ -3,7 +3,8 @@
 | Part | Host | URL |
 |---|---|---|
 | Frontend (Next.js) | Vercel, project `m0hid1/cognivex-aicon`, root `frontend/` | https://cognivex-aicon.vercel.app |
-| Backend (FastAPI + RapidOCR + CRF) | Railway, project `cognivex-api`, service `api` (Dockerfile) | https://api-production-8136.up.railway.app |
+| Backend (FastAPI + RapidOCR + CRF) | Railway, project `cognivex-api`, service `api` (Dockerfile), region US West (sfo) | https://api-production-8136.up.railway.app |
+| Database | Neon Postgres, project `cognivex-pay`, AWS US West 2 (Oregon), free plan, direct (unpooled) connection | `DATABASE_URL` in Railway |
 | Model artifacts | Hugging Face model repo (public) | see README |
 
 No ML or OCR runs on Vercel. Secrets are never committed: `.env` is gitignored, tokens live in the
