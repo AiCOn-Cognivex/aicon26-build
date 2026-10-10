@@ -6,6 +6,7 @@ page, which keywords are on its line, its neighbours) and learns which tag seque
 from __future__ import annotations
 
 import math
+import os
 import pickle
 import re
 from pathlib import Path
@@ -15,6 +16,27 @@ from .money import parse_money
 from .rules_baseline import KEYWORDS, SKIP_RE, is_money, QTY_RE
 
 _KW = [(c.split(".")[-1], rx) for c, rx in KEYWORDS]
+# Tier 1 (D25), inference only: label words of other receipt styles (Pakistan: "Net Bill", SST/GST/PST) and labels
+# OCR misspelled by one letter ("Totnl", "SubTatal") switch on the SAME keyword features the CRF learned on CORD.
+# Training code turns this off (ml/train_crf.py, ml/cv.py), as the production model was trained without it.
+EXTRA_KEYWORDS = os.getenv("EXTRA_KEYWORDS", "1") == "1"
+_KW_EXTRA = {
+    "subtotal_price": re.compile(r"gross\s*(amount|total)", re.I),
+    "tax_price": re.compile(r"\bsst\b|\bgst\b|\bpst\b|\bfed\b|sales\s*tax|\bs\.\s*s\.\s*t\b|\bg\.\s*s\.\s*t\b", re.I),
+    "service_price": re.compile(r"service\s*charges?|\bs\s*/\s*c\b", re.I),
+    "total_price": re.compile(r"net\s*bill|bill\s*amount|total\s*bill|net\s*payable|\bpayable\b|amount\s*due|"
+                              r"net\s*amount|net\s*total", re.I),
+}
+
+
+def _kw_names(text: str) -> set[str]:
+    """Header keyword classes on a line of text (base CORD keywords; plus the Tier 1 extension)."""
+    hits = {name for name, rx in _KW if rx.search(text)}
+    if EXTRA_KEYWORDS and text:
+        canon = " ".join(_canon(t) for t in text.split())
+        hits |= {name for name, rx in _KW if rx.search(canon)}
+        hits |= {name for name, rx in _KW_EXTRA.items() if rx.search(text) or rx.search(canon)}
+    return hits
 
 
 def _shape(t: str) -> str:
@@ -149,6 +171,7 @@ def featurise(words: list[dict], width: float, height: float, features: str = "v
     for i, w in enumerate(words):
         lines.setdefault(w["line_no"], []).append(i)
     line_text = {ln: " ".join(words[i]["text"] for i in idx) for ln, idx in lines.items()}
+    kw_line = {ln: _kw_names(t) for ln, t in line_text.items()}
     n_lines = max(1, len(lines))
     ctx = _amount_context(words)
     feats = []
@@ -169,8 +192,8 @@ def featurise(words: list[dict], width: float, height: float, features: str = "v
             "line_skip_kw": bool(SKIP_RE.search(lt)),
             "line_first": words[lines[w["line_no"]][0]]["text"].lower()[:12],
         }
-        for name, rx in _KW:
-            f[f"kw_{name}"] = bool(rx.search(lt))
+        for name, _ in _KW:
+            f[f"kw_{name}"] = name in kw_line[w["line_no"]]
         for off in (-2, -1, 1, 2):
             j = i + off
             if 0 <= j < len(words):
@@ -180,12 +203,10 @@ def featurise(words: list[dict], width: float, height: float, features: str = "v
             else:
                 f[f"{off}:pad"] = True
         # keywords on the previous line help for amounts printed under their label
-        prev = line_text.get(w["line_no"] - 1, "")
-        for name, rx in _KW:
-            f[f"prev_kw_{name}"] = bool(rx.search(prev))
-        nxt = line_text.get(w["line_no"] + 1, "")
-        for name, rx in _KW:
-            f[f"next_kw_{name}"] = bool(rx.search(nxt))
+        prev, nxt = kw_line.get(w["line_no"] - 1, set()), kw_line.get(w["line_no"] + 1, set())
+        for name, _ in _KW:
+            f[f"prev_kw_{name}"] = name in prev
+            f[f"next_kw_{name}"] = name in nxt
         f.update(ctx[i])
         feats.append(f)
     if features == "v3":

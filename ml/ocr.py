@@ -15,6 +15,8 @@ import numpy as np
 from PIL import Image
 
 ENGINE = "rapidocr"  # name used in OCR cache files (data/cache/ocr_rapidocr_<split>.jsonl)
+# Tier 1 (D25), inference only: split amounts that OCR glued across table columns ("55110.00" = 55 | 110.00)
+SPLIT_MERGED = os.getenv("OCR_SPLIT_MERGED", "1") == "1"
 
 
 def load_image(image_bytes: bytes, max_side: int = 1600) -> Image.Image:

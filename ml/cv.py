@@ -153,6 +153,8 @@ def run_fold(job):
     from .crf_model import CRFTagger, featurise
     deskew = cfg.get("deskew") or "infer"  # production (D22): plain grouping for training, deskew when tagging
     layout.DESKEW = deskew == "both"
+    from . import crf_model, ocr
+    crf_model.EXTRA_KEYWORDS = ocr.SPLIT_MERGED = False  # Tier 1 (D25): inference-time only
     recs = _records()
     cache, aug = _caches(cfg.get("aug", []))
     feats = cfg.get("features", "v2")
@@ -177,6 +179,8 @@ def run_fold(job):
                   algorithm=cfg.get("algorithm", "lbfgs"), features=feats).fit(X, y)
     fit_s = time.time() - t0
     layout.DESKEW = deskew in ("infer", "both")
+    crf_model.EXTRA_KEYWORDS = cfg.get("extra_kw", True)
+    ocr.SPLIT_MERGED = cfg.get("split_merged", True)
     out = []
     for rid, r in recs.items():
         if folds[rid] != k:
@@ -278,6 +282,8 @@ def main():
     ap.add_argument("--source", default="both", choices=["gold", "ocr", "both"])
     ap.add_argument("--aug", nargs="*", default=[], help="extra OCR caches of augmented train/val images")
     ap.add_argument("--deskew", default="infer", choices=["infer", "both", "off"])
+    ap.add_argument("--no-extra-kw", action="store_true")
+    ap.add_argument("--no-split", action="store_true")
     ap.add_argument("--note", default="")
     ap.add_argument("--compare", nargs=2, metavar=("A", "B"))
     a = ap.parse_args()
@@ -288,7 +294,8 @@ def main():
         print(json.dumps(res, indent=1))
         return
     cfg = {"features": a.features, "c1": a.c1, "c2": a.c2, "max_iter": a.max_iter, "algorithm": a.algorithm,
-           "source": a.source, "aug": a.aug, "deskew": a.deskew}
+           "source": a.source, "aug": a.aug, "deskew": a.deskew,
+           "extra_kw": not a.no_extra_kw, "split_merged": not a.no_split}
     t0 = time.time()
     from .progress import Progress
     prog, outs = Progress(K, f"cv {a.name} folds", every=0), []
