@@ -325,7 +325,7 @@ Team decisions (Hassan): final CRF trained on **train + validation** (900 receip
   final model has now seen. Proposed: regenerate demo examples from test receipts (`python -m ml.build_demo
   --split test`), point the scan page's samples at them, and rebuild `backend/seed_assets` the same way.
 
-### D24 · 10 Oct 13:30-14:00 · v2 live; demo receipts swapped to test receipts
+### D24 · 10 Oct 13:05-13:30 · v2 live; demo receipts swapped to test receipts
 `improve/v2` fast-forwarded into `main`; backend tests (11) and a `predict()` smoke test passed; `railway up`.
 Live check: `/health` shows the rerank decoder and receipt threshold 0.933; `/extract` on test_3.jpg -> AUTO_POST,
 receipt confidence 0.995, OCR 0.56 s; `/results` serves `test_metrics`. Because the final model trained on validation,
