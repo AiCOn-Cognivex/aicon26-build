@@ -4,9 +4,9 @@ Team Cognivex, AICON'26 "Build With AI". **Submission: Sat 10 Oct 2026 evening. 
 Mohid = full stack and deploy (usually the person in the session), Hassan = AI/ML (LiLT on a GPU PC), Abdullah = data and pitch.
 
 ## What this is
-**Cognivex Pay**: an employee finance web app (domain: finance, SDG 8). Employees see their next payday and take-home,
+**Repay** (renamed from Cognivex Pay, D30): an employee finance web app (domain: finance, SDG 8). Employees see their next payday and take-home,
 allowance wallets, provident fund, payslips and an interest-free salary advance (a request a finance manager
-approves, D29), ask the optional Ask Cognivex assistant (Gemini) about their own pay, and claim receipts by photo. Our
+approves, D29), ask the optional Ask Repay assistant (Gemini) about their own pay, and claim receipts by photo. Our
 receipt model (OCR + CRF tagger + calibrated decision) reads each receipt. A claim is auto-approved only if the model is
 confident AND every policy check passes; otherwise finance reviews it. Finance has a queue, payroll CSV export and an
 allowance policy editor. Not an ERP: no attendance, no payroll engine.
@@ -45,10 +45,10 @@ python -m ml.evaluate --model crf --split validation --mode B        # model met
 3. **No secrets in the repo.** `DATABASE_URL`, `JWT_SECRET`, `GEMINI_API_KEY` live only in Railway variables. Don't paste them in chat.
 4. **Model scope.** The model is trained and validated on CORD v2 restaurant receipts. Instant approval stays Meals-only
    until another receipt type is measured. Pakistani receipts are evaluation-only unless the team decides otherwise.
-5. **LLM features are optional and labelled.** Gemini powers two features, the receipt fallback reader and Ask Cognivex. Both are
+5. **LLM features are optional and labelled.** Gemini powers two features, the receipt fallback reader and Ask Repay. Both are
    off unless `GEMINI_API_KEY` is set, never auto-approve or change anything, and never feed a reported model number.
 6. **Commits:** short one-line messages, **no co-author / "Generated with" trailer**. Push to `main`.
-7. Log every significant decision or incident in `docs/decision_log.md` (next number D30).
+7. Log every significant decision or incident in `docs/decision_log.md` (next number D31).
 
 ## Gotchas learned the hard way
 - Postgres (Neon, live) enforces `VARCHAR(n)`; SQLite (local, tests) doesn't. Keep values within column sizes.
@@ -70,10 +70,10 @@ tooltips. Text never uses series colours. Check every page at desktop width and 
 
 ## Open work (as of 10 Oct, evening)
 - Done: ML v2 merged and live (D20-D25); demo receipts are CORD TEST receipts (D24); speed and bug audit (D28);
-  advance approvals by a finance manager and the Ask Cognivex assistant (D29). **Test set evaluated once**
+  advance approvals by a finance manager and the Ask Repay assistant (D29). **Test set evaluated once**
   (`results/test_metrics.json`): never re-run.
 - Switch on Gemini: set `GEMINI_API_KEY` in Railway (service `api`, Variables; never in chat or the repo). That turns on
-  both Ask Cognivex and the receipt fallback. Verify both live afterwards.
+  both Ask Repay and the receipt fallback. Verify both live afterwards.
 - `MODEL_CARD.md`, `docs/slides_outline.md`, `docs/demo_script.md` (5 min), `docs/judge_qa.md`.
 - Team decision on collecting 60-100 real Pakistani receipts as an evaluation set (dev/test halves, personal data blurred); no public labelled Pakistani receipt dataset was found. Outline in `docs/product_plan.md` section 8.
 - LiLT not trained (cannot be served on Railway: about 1.05 GB RAM); if added, report CV/validation numbers only.

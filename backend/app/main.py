@@ -4,7 +4,7 @@ Env vars (all optional, see .env.example):
   ALLOWED_ORIGINS   comma-separated CORS origins (default "*")
   DATABASE_URL      Postgres URL (unset: local SQLite file, demo data re-seeded when empty)
   JWT_SECRET        token signing key (unset: random per process)
-  GEMINI_API_KEY    optional: Ask Cognivex assistant + fallback receipt reader (Gemini; never auto-approves)
+  GEMINI_API_KEY    optional: Ask Repay assistant + fallback receipt reader (Gemini; never auto-approves)
   GEMINI_MODEL      default gemini-3.8-flash
   MODEL_KIND        rules | crf | lilt | auto (default auto = best artifact present)
   OCR_THREADS       ONNX Runtime threads for OCR (default: the container's CPU quota)
@@ -82,7 +82,7 @@ class ServerTiming:
         await self.app(scope, receive, send_timed)
 
 
-app = FastAPI(title="Cognivex employee finance API", version="2.0.0", lifespan=lifespan)
+app = FastAPI(title="Repay employee finance API", version="2.0.0", lifespan=lifespan)
 origins = [o.strip() for o in os.getenv("ALLOWED_ORIGINS", "*").split(",") if o.strip()]
 app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["*"], allow_headers=["*"])
 app.add_middleware(ServerTiming)

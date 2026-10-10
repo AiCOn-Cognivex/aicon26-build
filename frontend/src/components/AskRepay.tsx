@@ -35,8 +35,8 @@ function Answer({ text }: { text: string }) {
   );
 }
 
-/** Ask Cognivex: questions about your own pay, answered by Gemini from your records only (D29). */
-export function AskCognivex() {
+/** Ask Repay: questions about your own pay, answered by Gemini from your records only (D29). */
+export function AskRepay() {
   const [q, setQ] = useState("");
   const [turns, setTurns] = useState<Turn[]>([]);
   const [busy, setBusy] = useState(false);
@@ -69,7 +69,7 @@ export function AskCognivex() {
           <Sparkles size={20} />
         </span>
         <div className="flex-1">
-          <h2 className="text-[17px] font-bold tracking-tight">Ask Cognivex</h2>
+          <h2 className="text-[17px] font-bold tracking-tight">Ask Repay</h2>
           <p className="text-xs text-muted">Questions about your pay, allowances, claims and advance. Answers come only from your own records.</p>
         </div>
         <span className="rounded-full bg-accent-soft px-2.5 py-1 text-[11px] font-semibold text-accent">AI · Google Gemini</span>

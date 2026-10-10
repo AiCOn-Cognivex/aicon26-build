@@ -1,7 +1,9 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { APP_NAME } from "@/lib/format";
 import ServerBadge from "./ServerBadge";
+import { RepayMark } from "./shell";
 
 const TABS = [
   { href: "/model", label: "Results & method" },
@@ -14,10 +16,8 @@ export default function Nav() {
     <header className="border-b border-line bg-surface">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
         <Link href="/" className="flex items-center gap-2 font-semibold text-ink">
-          <span className="grid h-7 w-7 place-items-center rounded-lg bg-brand text-sm text-white" aria-hidden>
-            C
-          </span>
-          Cognivex Pay <span className="hidden font-normal text-muted sm:inline">· How the AI works</span>
+          <RepayMark size={28} />
+          {APP_NAME} <span className="hidden font-normal text-muted sm:inline">· How the AI works</span>
         </Link>
         <nav aria-label="Main" className="order-3 -mx-1 flex w-full gap-1 overflow-x-auto sm:order-none sm:w-auto">
           {TABS.map((t) => {

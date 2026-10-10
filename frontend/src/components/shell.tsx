@@ -26,15 +26,24 @@ import { Avatar, cx } from "./ui";
 
 type Item = { href: string; label: string; icon: React.ComponentType<{ size?: number }>; badge?: number };
 
+/** The Repay mark: a green ring that comes back around (repayment). The loading spinner is the same mark, spinning. */
+export function RepayMark({ size = 34, light = false, spin = false }: { size?: number; light?: boolean; spin?: boolean }) {
+  const ink = light ? "#ffffff" : "var(--color-brand)";
+  const origin = { transformOrigin: "32px 32px" };
+  return (
+    <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden className="shrink-0">
+      <circle cx="32" cy="32" r="26" fill="none" stroke={light ? "rgb(255 255 255 / 0.22)" : "var(--color-brand-soft)"} strokeWidth="7" />
+      <path d="M32 6 A26 26 0 1 1 6 32" fill="none" stroke={ink} strokeWidth="7" strokeLinecap="round" style={origin} className={spin ? "animate-[spin-slow_1.4s_linear_infinite]" : undefined} />
+      <path d="M32 18 A14 14 0 0 1 32 46" fill="none" stroke={ink} strokeOpacity="0.5" strokeWidth="7" strokeLinecap="round" style={origin} className={spin ? "animate-[spin-slow_2.2s_linear_infinite_reverse]" : undefined} />
+    </svg>
+  );
+}
+
 export function Logo({ light = false }: { light?: boolean }) {
   return (
     <span className="flex items-center gap-2.5">
-      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden>
-        <rect width="34" height="34" rx="11" fill={light ? "#ffffff" : "var(--color-brand)"} />
-        <path d="M9 22a8 8 0 0 1 16 0" fill="none" stroke={light ? "var(--color-brand)" : "#fff"} strokeWidth="3.2" strokeLinecap="round" />
-        <path d="M13.5 22a3.5 3.5 0 0 1 7 0" fill="none" stroke={light ? "var(--color-brand)" : "#fff"} strokeOpacity="0.55" strokeWidth="3.2" strokeLinecap="round" />
-      </svg>
-      <span className={cx("text-[17px] font-bold tracking-tight", light ? "text-white" : "text-ink")}>{APP_NAME}</span>
+      <RepayMark light={light} />
+      <span className={cx("text-[19px] font-bold tracking-tight", light ? "text-white" : "text-ink")}>{APP_NAME}</span>
     </span>
   );
 }
@@ -43,14 +52,7 @@ export function PageLoader({ label = "Loading your money…" }: { label?: string
   return (
     <div className="grid min-h-[60vh] place-items-center">
       <div className="flex flex-col items-center gap-4">
-        <div className="relative h-16 w-16">
-          <svg className="absolute inset-0 animate-[spin-slow_1.4s_linear_infinite]" viewBox="0 0 64 64" aria-hidden>
-            <path d="M32 6a26 26 0 0 1 26 26" fill="none" stroke="var(--color-brand)" strokeWidth="6" strokeLinecap="round" />
-          </svg>
-          <svg className="absolute inset-0 animate-[spin-slow_2.2s_linear_infinite_reverse]" viewBox="0 0 64 64" aria-hidden>
-            <path d="M32 16a16 16 0 0 1 16 16" fill="none" stroke="var(--color-accent)" strokeOpacity="0.7" strokeWidth="6" strokeLinecap="round" />
-          </svg>
-        </div>
+        <RepayMark size={64} spin />
         <p className="text-sm text-muted">{label}</p>
       </div>
     </div>

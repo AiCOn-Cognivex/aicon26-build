@@ -1,6 +1,6 @@
 # Product plan: employee finance app (proposal, Sat 10 Oct)
 
-> **Later changes (D28-D29):** salary advances are requests that a finance manager or higher approves; Ask Cognivex
+> **Later changes (D28-D29):** salary advances are requests that a finance manager or higher approves; Ask Repay
 > (optional Gemini assistant for the employee's own pay questions) was added; finance pages live under `/finance/*`
 > (this plan says `/admin`); claim pages are `/app/claims/view?id=` and `/finance/review/view?id=`.
 

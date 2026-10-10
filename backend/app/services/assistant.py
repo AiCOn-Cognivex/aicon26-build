@@ -1,4 +1,4 @@
-"""Ask Cognivex: an employee asks about their own pay; Gemini answers from that employee's records only (D29).
+"""Ask Repay: an employee asks about their own pay; Gemini answers from that employee's records only (D29).
 
 Optional and labelled (CLAUDE.md rule 5): runs only when GEMINI_API_KEY is set, is read-only (it cannot submit,
 approve or change anything) and never sees other employees' data. It does not touch the receipt model or any
@@ -19,7 +19,7 @@ log = logging.getLogger("uvicorn.error")
 MAX_QUESTIONS, WINDOW_S = 20, 600  # per employee, protects the API quota during public testing
 _RECENT: dict[int, deque] = {}
 
-SYSTEM = """You are Ask Cognivex, the pay assistant inside Cognivex Pay, an employee finance app.
+SYSTEM = """You are Ask Repay, the pay assistant inside Repay, an employee finance app.
 You are talking to {name} at {company}. Today is {today}.
 Answer ONLY from the JSON data you are given about this employee. Rules:
 - Money is in Pakistani rupees (write "Rs 12,500") unless the data names another currency.

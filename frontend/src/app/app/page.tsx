@@ -7,7 +7,7 @@ import { AreaChart, ArcGauge, PayChart, Ring, SERIES } from "@/components/charts
 import { PageHeader } from "@/components/shell";
 import { Card, CardHead, DemoTag, ErrorNote, LinkButton, Skeleton, cx } from "@/components/ui";
 import { ActivityList, ClaimMini, MoneyCalendar, NotifBell, SeeAll, WalletCard } from "@/components/widgets";
-import { AskCognivex } from "@/components/AskCognivex";
+import { AskRepay } from "@/components/AskRepay";
 import type { Dashboard } from "@/lib/appTypes";
 import { useAuth } from "@/lib/auth";
 import { d, greeting, money, monthLabel } from "@/lib/format";
@@ -99,7 +99,7 @@ function Body({ data, assistant }: { data: Dashboard; assistant: boolean }) {
         </LinkButton>
       </Card>
 
-      {assistant && <AskCognivex />}
+      {assistant && <AskRepay />}
 
       <section className="xl:col-span-12">
         <div className="mb-3 flex items-end justify-between px-1">

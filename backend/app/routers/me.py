@@ -157,7 +157,7 @@ class AskIn(BaseModel):
 
 @router.post("/me/ask")
 def ask(body: AskIn, user: User = Depends(current_user), db: Session = Depends(get_db)):
-    """Ask Cognivex (optional, Gemini): answers questions about the employee's own pay from their own records only."""
+    """Ask Repay (optional, Gemini): answers questions about the employee's own pay from their own records only."""
     if not gemini_available():
         raise HTTPException(503, "The assistant is not switched on")
     if not A.allow(user.id):

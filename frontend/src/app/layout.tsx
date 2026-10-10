@@ -6,7 +6,7 @@ import { AuthProvider } from "@/lib/auth";
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Cognivex Pay · Your pay, allowances and claims",
+  title: "Repay · Your pay, allowances and claims",
   description:
     "Employee finance app: next payday, allowance balances, provident fund, interest-free salary advance, and receipt claims approved by a calibrated AI model. AICON'26, Team Cognivex.",
 };

@@ -430,6 +430,13 @@ GEMINI_API_KEY is set (503, card hidden). Default model pinned to `gemini-3.8-fl
 gemini-2.5-flash) for both the assistant and the existing receipt fallback. Neither touches the receipt model or
 any reported model number.
 
+### D30 · 10 Oct 22:45 · Product renamed to Repay; logo = the loading mark
+The product was named after the team ("Cognivex Pay"); it is now **Repay** (the team stays Team Cognivex). The logo is
+the sign-in loading spinner made static: a green three-quarter ring on a light-green track with a lighter inner arc
+(money coming back around); the spinner is the same mark with the arcs turning (`RepayMark` in
+`frontend/src/components/shell.tsx`; browser and phone icons in `frontend/src/app/`). The assistant is now "Ask Repay".
+URLs, repository and service names are unchanged (renaming them would break the live links).
+
 ## Definitions (fixed before reporting; see `ml/metrics.py`)
 - Field exact match: both absent, or both present with equal parsed amounts (0 = absent, D11).
 - Correct line item: same normalised name, quantity and price. Lenient: price exact, name >= 80% similar.

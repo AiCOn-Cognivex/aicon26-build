@@ -38,7 +38,7 @@ memory 235-272 MB idle, 676 MB peak during OCR, limit 1 GB; demo reset 5 s.
 | `DATABASE_URL` | `postgresql://...neon.tech/...?sslmode=require` | Postgres (Neon free tier). Unset: SQLite at `SQLITE_PATH`, re-seeded on every restart |
 | `SQLITE_PATH` | `/tmp/cognivex.db` | SQLite fallback file (must be writable; set from PowerShell, Git Bash rewrites `/tmp` paths) |
 | `JWT_SECRET` | long random string | signs session tokens; set via `railway variable set JWT_SECRET --stdin` |
-| `GEMINI_API_KEY` | (secret) | optional: switches on Ask Cognivex and the fallback receipt reader (never auto-approves) |
+| `GEMINI_API_KEY` | (secret) | optional: switches on Ask Repay and the fallback receipt reader (never auto-approves) |
 | `GEMINI_MODEL` | `gemini-3.8-flash` | default; pin a stable model id, not a `-latest` alias |
 | `SEED_DEMO` | `1` | seed the fictional demo company on an empty database; enables `/admin/demo/reset` |
 

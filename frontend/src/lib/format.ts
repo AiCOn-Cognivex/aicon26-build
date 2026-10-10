@@ -1,4 +1,4 @@
-export const APP_NAME = "Cognivex Pay";
+export const APP_NAME = "Repay";
 
 const nf0 = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
 
