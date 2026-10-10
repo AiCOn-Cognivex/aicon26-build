@@ -23,7 +23,7 @@ _REPAIRABLE = re.compile(r"^[0-9OoDQlI|.,]*\d[0-9OoDQlI|.,]*[.,]?-?$")
 
 # Tier 1 (D25): a colon read for the decimal point in an amount ("10320:00", never a clock time like "10:39"),
 # and a final 0 read as c/C ("150.0c").
-_COLON_DEC = re.compile(r"\d{4,}:\d{2}|\d{1,3}(?:[.,]\d{3})+:\d{2}")
+_COLON_DEC = re.compile(r"\d{3,}:\d{2}|\d{1,3}(?:[.,]\d{3})+:\d{2}")
 _TRAIL_C = re.compile(r"\d[\d.,]*[.,]\d?[cC]")
 
 

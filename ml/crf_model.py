@@ -24,7 +24,7 @@ _KW_EXTRA = {
     "subtotal_price": re.compile(r"gross\s*(amount|total)", re.I),
     "tax_price": re.compile(r"\bsst\b|\bgst\b|\bpst\b|\bfed\b|sales\s*tax|\bs\.\s*s\.\s*t\b|\bg\.\s*s\.\s*t\b", re.I),
     "service_price": re.compile(r"service\s*charges?|\bs\s*/\s*c\b", re.I),
-    "total_price": re.compile(r"net\s*bill|bill\s*amount|total\s*bill|net\s*payable|\bpayable\b|amount\s*due|"
+    "total_price": re.compile(r"net\s*bil+\b|bill\s*amount|total\s*bill|net\s*payable|\bpayable\b|amount\s*due|"
                               r"net\s*amount|net\s*total", re.I),
 }
 

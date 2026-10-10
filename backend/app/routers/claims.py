@@ -29,6 +29,9 @@ def _load(db: Session, cid: int, user: User) -> Claim:
     return c
 
 
+PREFILL_MIN_CONF = 0.5  # below this field confidence the model's total is not pre-filled
+
+
 @router.post("/scan")
 async def scan(file: UploadFile = File(...), user: User = Depends(current_user), db: Session = Depends(get_db)):
     data = await file.read()
@@ -47,11 +50,13 @@ async def scan(file: UploadFile = File(...), user: User = Depends(current_user),
     lines = R.lines_from_words(words)
     text = "\n".join(lines)
     total = res["fields"].get("total")
+    # D25: an unsure total is shown as the model's reading but not typed into the form (the employee enters it)
+    prefill = total if total and (total.get("confidence") or 0) >= PREFILL_MIN_CONF else None
     wallet_code, kw = R.suggest_wallet(text, bool(res["line_items"]))
     when = R.find_date(lines, t)
     merchant = R.guess_merchant(lines)
-    sugg = {"amount": total["value"] if total else None, "amount_source": "model" if total else None,
-            "amount_confidence": total["confidence"] if total else None,
+    sugg = {"amount": prefill["value"] if prefill else None, "amount_source": "model" if prefill else None,
+            "amount_confidence": prefill["confidence"] if prefill else None,
             "date": when, "date_source": "rules" if when else None,
             "merchant": merchant, "merchant_source": "rules" if merchant else None,
             "wallet": wallet_code, "wallet_source": "rules" if wallet_code else None, "wallet_keywords": kw,

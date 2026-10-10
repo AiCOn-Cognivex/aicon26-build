@@ -73,6 +73,8 @@ def lines_from_words(words: list[dict]) -> list[str]:
 _MONTHS = {m: i for i, m in enumerate(["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
 _D_NUM = re.compile(r"\b(\d{1,2})[/.\-](\d{1,2})[/.\-](\d{2,4})\b")
 _D_ISO = re.compile(r"\b(20\d{2})[/.\-](\d{1,2})[/.\-](\d{1,2})\b")
+# D25: OCR glues the time onto the year: "13/7/202510:04pm"
+_D_GLUED = re.compile(r"\b(\d{1,2})[/.\-](\d{1,2})[/.\-](20\d{2})(?=\d{1,2}[:.]\d{2})")
 _D_TXT = re.compile(r"\b(\d{1,2})[\s\-]*([A-Za-z]{3})[a-z]*[\s\-,]*(\d{2,4})\b")
 
 
@@ -90,8 +92,9 @@ def find_date(lines: list[str], today: date) -> str | None:
             v = ok(int(m[1]), int(m[2]), int(m[3]))
             if v:
                 return v.isoformat()
-        for m in _D_NUM.finditer(line):
-            v = ok(int(m[3]), int(m[2]), int(m[1]))
+        for m in [*_D_NUM.finditer(line), *_D_GLUED.finditer(line)]:
+            # day-first (Pakistan, Indonesia); month-first only if day-first is impossible ("11/20/2019")
+            v = ok(int(m[3]), int(m[2]), int(m[1])) or ok(int(m[3]), int(m[1]), int(m[2]))
             if v:
                 return v.isoformat()
         for m in _D_TXT.finditer(line):
