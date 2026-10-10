@@ -11,7 +11,8 @@ from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from ..db import get_db, utcnow
+from .. import config
+from ..db import Base, engine, get_db, utcnow
 from ..models import Advance, Claim, Company, Event, User, Wallet
 from ..security import require_finance
 from ..services import payroll as P
@@ -263,6 +264,21 @@ def update_wallet(wid: int, body: WalletIn, fin: User = Depends(require_finance)
     log_event(db, company_id=fin.company_id, user_id=fin.id, actor_id=fin.id, kind="policy_changed",
               title=f"{w.name} policy updated", ref_type="wallet", ref_id=w.id, detail={"before": before})
     db.commit()
+    return {"ok": True}
+
+
+@router.post("/demo/reset")
+def reset_demo(fin: User = Depends(require_finance), db: Session = Depends(get_db)):
+    """Demo only: wipe everything and re-seed the fictional company (e.g. before a presentation)."""
+    if not config.SEED_DEMO:
+        raise HTTPException(403, "Demo reset is disabled")
+    from ..seed import seed_demo
+    db.close()
+    Base.metadata.drop_all(engine)
+    Base.metadata.create_all(engine)
+    from ..db import SessionLocal
+    with SessionLocal() as s:
+        seed_demo(s)
     return {"ok": True}
 
 

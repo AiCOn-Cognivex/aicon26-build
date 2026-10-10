@@ -182,6 +182,27 @@ identical metrics and outputs before and after the audit.
 **Live result (Railway, same 3 demo receipts, 02:2x vs 02:3x):** OCR 9.9-14.8 s -> **0.4-0.7 s**; the
 container's quota is 2 CPUs (`/health` shows `ocr_threads: 2`); decisions unchanged (AUTO, AUTO, REVIEW).
 
+### D19 · 10 Oct 03:00-07:30 · Pivot to an employee finance app; architecture
+Team decision (Mohid): judges look for a full-stack product with SDG impact and meaningful AI, not a model
+demo. Product: employee finance app (payday, allowance wallets, claims, salary advance, provident fund,
+payslips) with our receipt model inside the reimbursement flow; finance console for review, payroll export,
+policy. Attendance left out (HR module, no link to the model). Plan: `docs/product_plan.md`.
+Choices: FastAPI + SQLAlchemy on the existing Railway service; Postgres on Neon (free, always on) with a
+SQLite fallback; OAuth2 password flow with bcrypt hashes and HS256 JWT, two roles, login throttling;
+receipt images stored in the database. **Auto-approval = model AUTO_POST AND amount not edited AND wallet
+allows instant approval AND within balance and per-claim cap AND no duplicate AND receipt not older than the
+wallet limit.** Instant approval is on for Meals only, because the model is validated on restaurant/cafe
+receipts (CORD); fuel, medical and others always go to a person. Duplicates: exact image hash, 64-bit
+difference hash (near-identical photo), same tax-invoice QR payload (FBR/PRA QR on Pakistani receipts,
+decoded with OpenCV), same amount + date. Optional Gemini fallback reads receipts the model is unsure about
+or that are not restaurant receipts; its readings are labelled and always go to a person. Seeded demo
+claims with images use CORD validation receipts that are NOT among the public demo samples, and their
+outcome is decided by the same engine. Tests: `backend/tests` (auth, roles, claim flow, duplicates,
+advances, payroll, policy, demo reset).
+Incident: first Railway deploy crashed (SQLite file not writable in the image; then Git Bash rewrote
+`/tmp/cognivex.db` to a Windows path when setting the variable). Fixed with `SQLITE_PATH=/tmp/cognivex.db`
+set from PowerShell and in the Dockerfile; API down about 10 minutes (07:00-07:10).
+
 ## Definitions (fixed before reporting; see `ml/metrics.py`)
 - Field exact match: both absent, or both present with equal parsed amounts (0 = absent, D11).
 - Correct line item: same normalised name, quantity and price. Lenient: price exact, name >= 80% similar.

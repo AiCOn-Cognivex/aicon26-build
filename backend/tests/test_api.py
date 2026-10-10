@@ -106,3 +106,10 @@ def test_policy_update_and_audit(client, sara):
     assert client.put(f"/admin/wallets/{meals['id']}", headers=sara, json=body).status_code == 200
     ov = client.get("/admin/overview", headers=sara).json()
     assert ov["events"][0]["kind"] == "policy_changed"
+
+
+def test_demo_reset(client, sara):
+    assert client.post("/admin/demo/reset", headers=sara).status_code == 200
+    fresh = login(client, "sara@northwind.example")
+    q = client.get("/admin/queue", headers=fresh).json()["claims"]
+    assert len(q) == 3  # back to the seeded state

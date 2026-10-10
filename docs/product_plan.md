@@ -1,6 +1,6 @@
 # Product plan: employee finance app (proposal, Sat 10 Oct)
 
-Status: **proposal for team decision**. Nothing below is built yet. The receipt model (CRF, live on
+Status: **built and deployed (10 Oct, 07:30)**, P0 and most P1 features. Not built: E7 push alerts (in-app tips only), LLM policy assistant, fuel-price check, anomaly scoring beyond the two rules in `backend/app/services/approval.py`. The receipt model (CRF, live on
 Railway) is reused unchanged as the engine of the reimbursement feature.
 
 ## 1. The problem and the pitch in one paragraph

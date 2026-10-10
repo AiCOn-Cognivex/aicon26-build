@@ -1,10 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Banknote, BrainCircuit, ChevronRight, ClipboardCheck, Clock, Zap } from "lucide-react";
 import { ArcGauge, HBars } from "@/components/charts";
+import { api, setToken } from "@/lib/client";
 import { PageHeader } from "@/components/shell";
-import { Avatar, Card, CardHead, DemoTag, ErrorNote, LinkButton, Skeleton } from "@/components/ui";
+import { Avatar, Button, Card, CardHead, DemoTag, ErrorNote, LinkButton, Skeleton } from "@/components/ui";
 import { ActivityList, SeeAll } from "@/components/widgets";
 import type { ClaimRow, EventRow } from "@/lib/appTypes";
 import { useAuth } from "@/lib/auth";
@@ -37,9 +40,12 @@ export default function FinanceOverview() {
         title={`${greeting()}, ${user?.name.split(" ")[0] ?? ""}`}
         sub={<span className="inline-flex flex-wrap items-center gap-2">Finance overview · {user?.company.name} <DemoTag /></span>}
         actions={
-          <LinkButton href="/finance/review">
-            <ClipboardCheck size={17} /> Review queue
-          </LinkButton>
+          <>
+            <ResetDemo />
+            <LinkButton href="/finance/review">
+              <ClipboardCheck size={17} /> Review queue
+            </LinkButton>
+          </>
         }
       />
       {error && <ErrorNote error={error} onRetry={reload} />}
@@ -128,5 +134,38 @@ export default function FinanceOverview() {
         </div>
       )}
     </>
+  );
+}
+
+function ResetDemo() {
+  const router = useRouter();
+  const [stage, setStage] = useState<"idle" | "confirm" | "busy">("idle");
+  if (stage === "idle")
+    return (
+      <Button variant="ghost" size="sm" onClick={() => setStage("confirm")}>
+        Reset demo data
+      </Button>
+    );
+  return (
+    <span className="flex items-center gap-2 rounded-full bg-warn-soft py-1 pl-4 pr-1 text-xs font-semibold text-warn">
+      Wipe all changes?
+      <Button
+        size="sm"
+        variant="dark"
+        disabled={stage === "busy"}
+        onClick={async () => {
+          setStage("busy");
+          await api("/admin/demo/reset", { method: "POST", timeoutMs: 120000 }).catch(() => {});
+          setToken(null);
+          router.replace("/");
+          window.location.reload();
+        }}
+      >
+        {stage === "busy" ? "Resetting…" : "Yes, reset"}
+      </Button>
+      <Button size="sm" variant="soft" onClick={() => setStage("idle")}>
+        No
+      </Button>
+    </span>
   );
 }

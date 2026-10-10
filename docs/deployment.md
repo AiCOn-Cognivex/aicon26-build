@@ -30,6 +30,12 @@ returned for the Vercel origin.
 | `MODEL_KIND` | `crf` | `rules`, `crf`, `lilt`, or `auto` (best artifact present) |
 | `MODEL_REPO` | `<hf-user>/cord-receipt-models` | public model repo pulled at image build |
 | `OCR_THREADS` | `1` | optional; default = container CPU quota (shown in `/health`) |
+| `DATABASE_URL` | `postgresql://...neon.tech/...?sslmode=require` | Postgres (Neon free tier). Unset: SQLite at `SQLITE_PATH`, re-seeded on every restart |
+| `SQLITE_PATH` | `/tmp/cognivex.db` | SQLite fallback file (must be writable; set from PowerShell, Git Bash rewrites `/tmp` paths) |
+| `JWT_SECRET` | long random string | signs session tokens; set via `railway variable set JWT_SECRET --stdin` |
+| `GEMINI_API_KEY` | (secret) | optional fallback reader for receipt types our model was not trained on; never auto-approves |
+| `GEMINI_MODEL` | `gemini-2.5-flash` | model name available to the key |
+| `SEED_DEMO` | `1` | seed the fictional demo company on an empty database; enables `/admin/demo/reset` |
 
 **Frontend (Vercel project env, Production)**
 | Name | Value |

@@ -30,6 +30,7 @@ RUN python setup_models.py
 # Load RapidOCR once at build time (fails the build early if OCR deps are broken)
 RUN python -c "from rapidocr_onnxruntime import RapidOCR; RapidOCR()"
 
-ENV PORT=8000
+# SQLite fallback (no DATABASE_URL): a writable path; data resets on every restart
+ENV PORT=8000 SQLITE_PATH=/tmp/cognivex.db
 EXPOSE 8000
 CMD ["sh", "-c", "uvicorn backend.app.main:app --host 0.0.0.0 --port ${PORT}"]
