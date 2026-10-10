@@ -11,7 +11,8 @@ confident AND every policy check passes; otherwise finance reviews it. Finance h
 allowance policy editor. Not an ERP: no attendance, no payroll engine.
 
 - Live: https://cognivex-aicon.vercel.app (frontend) · https://api-production-8136.up.railway.app (API, `/health`)
-- Test logins (fictional demo company): `ayesha@northwind.example` (employee), `sara@northwind.example` (finance), password `Demo@2026`
+- Test logins (fictional demo company): `ayesha@northwind.example` (employee), `sara@northwind.example` (finance officer),
+  `omar@northwind.example` (finance manager: the only one who can approve salary advances, D29), password `Demo@2026`
 - Read first: `README.md`, `docs/product_plan.md`, `docs/decision_log.md` (D1-D20+, why every choice was made), `docs/ML_HANDOVER.md`
 
 ## Repo map
@@ -45,7 +46,7 @@ python -m ml.evaluate --model crf --split validation --mode B        # model met
    until another receipt type is measured. Pakistani receipts are evaluation-only unless the team decides otherwise.
 5. **LLM features are optional and labelled.** Gemini is a fallback reader only and never auto-approves; it is off live.
 6. **Commits:** short one-line messages, **no co-author / "Generated with" trailer**. Push to `main`.
-7. Log every significant decision or incident in `docs/decision_log.md` (next number D29).
+7. Log every significant decision or incident in `docs/decision_log.md` (next number D30).
 
 ## Gotchas learned the hard way
 - Postgres (Neon, live) enforces `VARCHAR(n)`; SQLite (local, tests) doesn't. Keep values within column sizes.

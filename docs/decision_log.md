@@ -415,6 +415,21 @@ model reads it. On that input test_4 is read exactly right (174,600 / 194,000 / 
 scan-page samples are read right on the scan path; test_1 is the one that goes to finance (0.70). Pitch: use test_1
 for the review example. Biggest remaining speed lever is not code: API and database in Singapore (see CLAUDE.md).
 
+### D29 · 10 Oct 18:15-19:30 · Advances need a finance manager; Ask Cognivex (optional Gemini)
+Team request: salary advances are request-based and only a finance manager or higher may decide them.
+"Finance manager or higher" = finance role at grade G3 or above (`security.can_approve_advances`; Omar today; no
+schema change, so no migration on the live database). Employee requests stay capped at 50% of net pay earned;
+the request waits; `/finance/advances` lists requests for all finance users, but only approvers get Approve /
+Decline (decline needs a reason; nobody decides their own; repayment set to the next payday at approval). Omar is
+added to the sign-in page's test accounts. The live database was not reset (people were testing); one pending
+request was created through the app as Hamza so the flow can be shown.
+Ask Cognivex: an employee asks about their own pay; Gemini answers from that employee's records only (dashboard
+numbers, last 3 payslips with changes, recent claims, company rules). Read-only, 20 questions per 10 min per
+person, labelled "AI · Google Gemini" with a note that the payslip is the official record. Off unless
+GEMINI_API_KEY is set (503, card hidden). Default model pinned to `gemini-3.8-flash` (GA, Sep 2026; was
+gemini-2.5-flash) for both the assistant and the existing receipt fallback. Neither touches the receipt model or
+any reported model number.
+
 ## Definitions (fixed before reporting; see `ml/metrics.py`)
 - Field exact match: both absent, or both present with equal parsed amounts (0 = absent, D11).
 - Correct line item: same normalised name, quantity and price. Lenient: price exact, name >= 80% similar.
