@@ -45,7 +45,7 @@ python -m ml.evaluate --model crf --split validation --mode B        # model met
    until another receipt type is measured. Pakistani receipts are evaluation-only unless the team decides otherwise.
 5. **LLM features are optional and labelled.** Gemini is a fallback reader only and never auto-approves; it is off live.
 6. **Commits:** short one-line messages, **no co-author / "Generated with" trailer**. Push to `main`.
-7. Log every significant decision or incident in `docs/decision_log.md` (next number D26).
+7. Log every significant decision or incident in `docs/decision_log.md` (next number D27).
 
 ## Gotchas learned the hard way
 - Postgres (Neon, live) enforces `VARCHAR(n)`; SQLite (local, tests) doesn't. Keep values within column sizes.
@@ -55,6 +55,7 @@ python -m ml.evaluate --model crf --split validation --mode B        # model met
 - Neon free tier sleeps after 5 min idle (first request +0.5-1 s). Railway runs in US West (sfo); Neon is in AWS us-west-2.
 - OCR threads follow the container CPU quota (`ml/ocr.py`); this took live OCR from 10-15 s to under 1 s.
 - `.gitignore` uses `/lib/` (root only) so `frontend/src/lib/` is tracked.
+- `.railwayignore` keeps `railway up` small (no `data/`, `frontend/`, `results/cv/`); keep `data/label_map.json` (Dockerfile copies it).
 
 ## Design system
 Tokens in `frontend/src/app/globals.css` (`@theme`): brand emerald `#0f7a55`, accent indigo `#5b6cf0` (a validated

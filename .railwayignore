@@ -1,0 +1,8 @@
+# Not needed by the API image (see Dockerfile); keeps `railway up` uploads small (D26)
+data/*
+!data/label_map.json
+results/cv/
+results/details/
+frontend/
+docs/
+*.log

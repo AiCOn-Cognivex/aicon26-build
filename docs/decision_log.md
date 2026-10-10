@@ -362,6 +362,14 @@ pipeline before D25 and cannot be re-measured. Known strict-metric miss on a dem
 with the right total, subtotal and tax but misses a discount line OCR garbled ("-60.000" read "-h0.00o"); the scan
 page's review example is now test_4 (wrong reading, confidence 0.28). Next (Tier 2): a labelled Pakistani set.
 
+### D26 · 10 Oct 15:37-15:46 · Tier 1 deployed; smaller Railway uploads
+First attempt failed during upload (Railway "operation timed out", Vercel "fetch failed"); the live site kept the
+previous version. `railway up` uploaded the whole repo (11.7 MB, half of it `data/` the API never reads). Added
+`.railwayignore` (keeps `data/label_map.json`, which the Dockerfile copies). Retry: Railway 2 min 28 s (upload and
+builder queue 1 min 35 s, build 17 s with the dependency layer cached, export 23 s, push and start 26 s); Vercel
+49 s (build 33 s). Live check: threshold 0.926; test_3 AUTO_POST, test_4 HUMAN_REVIEW; the Mandi House photo now
+reads total 11,661.60, subtotal 10,320, tax 1,341.60 (review, 0.83); Pizza Online total 4,180.00 (review).
+
 ## Definitions (fixed before reporting; see `ml/metrics.py`)
 - Field exact match: both absent, or both present with equal parsed amounts (0 = absent, D11).
 - Correct line item: same normalised name, quantity and price. Lenient: price exact, name >= 80% similar.
