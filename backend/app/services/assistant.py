@@ -1,6 +1,6 @@
 """Ask Repay: an employee asks about their own pay; Gemini answers from that employee's records only (D29).
 
-Optional and labelled (CLAUDE.md rule 5): runs only when GEMINI_API_KEY is set, is read-only (it cannot submit,
+Optional and labelled: runs only when GEMINI_API_KEY is set, is read-only (it cannot submit,
 approve or change anything) and never sees other employees' data. It does not touch the receipt model or any
 reported model number.
 """

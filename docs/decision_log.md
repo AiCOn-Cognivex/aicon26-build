@@ -413,7 +413,8 @@ Found while smoke-testing (not caused by this change): the scan page re-encodes 
 model reads it. On that input test_4 is read exactly right (174,600 / 194,000 / discount 19,400) and auto-posts
 (0.958); on the raw file (/extract, as checked in D26) it reads the discount as tax and goes to review (0.28). All 6
 scan-page samples are read right on the scan path; test_1 is the one that goes to finance (0.70). Pitch: use test_1
-for the review example. Biggest remaining speed lever is not code: API and database in Singapore (see CLAUDE.md).
+for the review example. Biggest remaining speed lever is not code: API and database in Singapore (Railway region + a
+Neon project in ap-southeast-1; about 400 ms -> 150 ms per request from Pakistan, estimated).
 
 ### D29 · 10 Oct 18:15-19:30 · Advances need a finance manager; Ask Cognivex (optional Gemini)
 Team request: salary advances are request-based and only a finance manager or higher may decide them.

@@ -234,3 +234,6 @@ frontend/.next/
 backend/local.db
 data/cache/cv/
 data/cache/aug/
+
+# internal notes for the AI coding assistant (kept locally, not published)
+/CLAUDE.md
