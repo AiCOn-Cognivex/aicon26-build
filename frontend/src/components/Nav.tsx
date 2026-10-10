@@ -4,10 +4,8 @@ import { usePathname } from "next/navigation";
 import ServerBadge from "./ServerBadge";
 
 const TABS = [
-  { href: "/", label: "Extract & Decide" },
-  { href: "/batch", label: "Batch Demo" },
-  { href: "/results", label: "Results" },
-  { href: "/impact", label: "Impact Simulator" },
+  { href: "/model", label: "Results & method" },
+  { href: "/model/try", label: "Try the model" },
 ];
 
 export default function Nav() {
@@ -16,14 +14,14 @@ export default function Nav() {
     <header className="border-b border-line bg-surface">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
         <Link href="/" className="flex items-center gap-2 font-semibold text-ink">
-          <span className="grid h-7 w-7 place-items-center rounded-md bg-brand text-sm text-white" aria-hidden>
+          <span className="grid h-7 w-7 place-items-center rounded-lg bg-brand text-sm text-white" aria-hidden>
             C
           </span>
-          Cognivex <span className="hidden font-normal text-muted sm:inline">Receipt Auto-Post</span>
+          Cognivex Pay <span className="hidden font-normal text-muted sm:inline">· How the AI works</span>
         </Link>
         <nav aria-label="Main" className="order-3 -mx-1 flex w-full gap-1 overflow-x-auto sm:order-none sm:w-auto">
           {TABS.map((t) => {
-            const active = t.href === "/" ? path === "/" : path.startsWith(t.href);
+            const active = path === t.href;
             return (
               <Link
                 key={t.href}
@@ -38,8 +36,11 @@ export default function Nav() {
             );
           })}
         </nav>
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-3">
           <ServerBadge />
+          <Link href="/app" className="rounded-full bg-brand px-4 py-1.5 text-sm font-semibold text-white hover:bg-brand-strong">
+            Open the app
+          </Link>
         </div>
       </div>
     </header>

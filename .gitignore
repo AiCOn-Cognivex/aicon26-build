@@ -231,3 +231,4 @@ ml/artifacts/*
 .env
 frontend/node_modules/
 frontend/.next/
+backend/local.db

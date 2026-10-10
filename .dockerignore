@@ -7,3 +7,5 @@ data/cache
 results/details
 *.log
 **/__pycache__
+backend/local.db
+backend/tests

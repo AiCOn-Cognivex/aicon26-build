@@ -1,21 +1,23 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import Nav from "@/components/Nav";
+import { AuthProvider } from "@/lib/auth";
+
+const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Cognivex · Receipt Auto-Post",
-  description: "Receipt extraction with a calibrated AUTO-POST vs HUMAN REVIEW decision (AICON'26, Team Cognivex).",
+  title: "Cognivex Pay · Your pay, allowances and claims",
+  description:
+    "Employee finance app: next payday, allowance balances, provident fund, interest-free salary advance, and receipt claims approved by a calibrated AI model. AICON'26, Team Cognivex.",
 };
+
+export const viewport: Viewport = { themeColor: "#0f7a55", width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={jakarta.variable}>
       <body className="min-h-screen antialiased">
-        <Nav />
-        <main className="mx-auto max-w-6xl px-4 py-6">{children}</main>
-        <footer className="mx-auto max-w-6xl px-4 pb-8 text-xs text-muted">
-          Team Cognivex · AICON&apos;26 Build With AI · Trained on CORD v2 (CC-BY-4.0). Numbers come from the repo&apos;s results/ files.
-        </footer>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
