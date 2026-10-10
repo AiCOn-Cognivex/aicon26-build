@@ -1,6 +1,8 @@
 # ML handover for Hassan
 
 Status as of **Sat 10 Oct, 02:30 PKT** (CRF tuned 4b, OCR fixed 4c, augmentation tried and rejected 4d).
+**Update 10 Oct, 11:00:** the product is now an employee finance app (README, `docs/product_plan.md`, decision log D19).
+The ML pipeline, the `predict()` contract and every number in this document are unchanged; sections 2 and 7 describe the new app.
 
 > **Hassan: `git pull` before training LiLT.** The OCR training cache (`data/cache/`) was regenerated with the improved OCR
 > at 02:00; a LiLT trained on the old cache would see different OCR words than the app now produces. Submission deadline: **Sat 10 Oct evening**.
@@ -26,26 +28,29 @@ The test split has **not** been touched yet. It gets evaluated exactly once, at 
 ## 2. The system in 60 seconds (frontend + backend)
 
 ```
-Browser (Vercel, Next.js)  --POST image-->  FastAPI on Railway  -->  ml/predict.py: predict(image_bytes)
-https://cognivex-aicon.vercel.app            https://api-production-8136.up.railway.app
+Browser (Vercel, Next.js)  -->  FastAPI on Railway  -->  ml/predict.py: predict(image_bytes)
+https://cognivex-aicon.vercel.app   https://api-production-8136.up.railway.app      + Neon Postgres (app data)
 ```
 
-- **Frontend** (`frontend/`): 4 tabs.
-  - *Extract & Decide*: upload a photo and see the boxes, fields, confidence, arithmetic check, decision and a mock ledger entry.
-  - *Batch Demo*: 8 pre-computed validation receipts that work even if the API is down.
-  - *Results*: reads the metric JSON files from the API and shows a rules-vs-model comparison.
-  - *Impact Simulator*: clearly labelled SIMULATED.
+- **Frontend** (`frontend/`): an employee finance app.
+  - `/` sign-in (test accounts: Ayesha = employee, Sara = finance; password `Demo@2026`).
+  - `/app`: dashboard (payday, allowance wallets, provident fund, pay history), claims, salary advance, payslips.
+  - `/app/claims/new`: **where the model is used.** Photo -> `POST /claims/scan` -> fields with confidence and boxes on the
+    image -> employee confirms -> `POST /claims/{id}/submit` -> auto-approved, or sent to finance with reasons.
+  - `/finance`: review queue (approve / reject / correct the amount), payroll export, allowance policy.
+  - `/model` (results tables) and `/model/try` (upload a receipt, no account): the public model pages.
   - It never computes ML itself; it only displays what the API returns.
-- **Backend** (`backend/app/main.py`) has four endpoints:
-  - `GET /health`: model name and decision policy.
-  - `POST /extract`: image in, JSON out.
-  - `GET /results`: all `results/*.json` files.
-  - `GET /demo-examples`
+- **Backend** (`backend/app/`): `routers/` (auth, me, claims, advances, admin), `services/approval.py` (auto-approval
+  rules), `services/receipts.py` (image fingerprints, QR, date/merchant rules, optional Gemini), plus the model endpoints
+  `GET /health`, `POST /extract`, `GET /results`.
+- **Auto-approval** = the model says AUTO_POST **and** the employee kept the amount **and** the wallet allows instant
+  approval (Meals only) **and** within balance and per-claim cap **and** no duplicate **and** the receipt is recent.
+  So a better model directly means more claims approved instantly, with the same safety rules.
 - **The contract between ML and the app** is `ml/predict.py`. As long as `predict()` returns the same JSON
   keys, you can swap models without touching the frontend or backend.
 - **Which model is served:** env var `MODEL_KIND` (`rules` | `crf` | `lilt` | `auto`).
   - Railway runs `crf`. The LiLT server needs about 1.05 GB RAM, which is more than Railway's limit.
-  - If LiLT wins, it runs live from a laptop (local fallback), and its numbers appear in the Results tab.
+  - If LiLT wins, it runs live from a laptop (local fallback), and its numbers appear on the `/model` page.
 
 ---
 
@@ -190,36 +195,34 @@ Change only learning rate, epochs, weight decay, freezing, and the data source. 
 
 ## 7. How to test the model as a user (live site)
 
-1. Open **https://cognivex-aicon.vercel.app** and wait for the badge at the top right to say **"API online"**.
-2. Get a test image. The 9 demo receipts are public, so download one:
-   `https://cognivex-aicon.vercel.app/demo/validation_0.jpg` (also `_1, _2, _3, _4, _5, _21, _23, _34`).
-   Any receipt photo works (keep it under 8 MB). Don't use personal receipts with names or card numbers.
-3. On **Extract & Decide** click *Choose or capture receipt*, pick the file, then press *Extract & decide*.
-   Expect **about 1-2 s** including upload (OCR 0.4-0.7 s on Railway).
-4. Read the result:
-   - **Decision banner + reasons.**
-   - **Receipt with coloured boxes.** Hover a box to see the word, the predicted label and the probability.
-   - **Key fields** with confidence bars.
-   - **Reconciliation** (✓/✗ per rule).
-   - **Mock journal entry.**
-   - **Line items.**
-5. What the **live site** returns for these JPGs (OCR-fixed CRF, checked 10 Oct 02:20, HTTP 200 in 11-15 s each):
+**Option A: the real app flow.** Open **https://cognivex-aicon.vercel.app**, click the **Ayesha Khan** test account, then
+**Scan a receipt**. Pick one of the sample receipts (or upload a photo under 8 MB; no personal receipts with names or card
+numbers). You see a scanning loader, then the receipt with coloured boxes on what the model read, a confidence per field,
+the arithmetic check and the instant-approval checks. Submit: confident Meals claims are approved instantly, the rest go to
+finance (sign in as **Sara Malik** to review them). A sample receipt can only be claimed once (duplicate detection);
+Sara's **Reset demo data** button restores the original state.
 
-   | Image | Decision | Why |
-   |---|---|---|
-   | validation_0 | AUTO-POST | total 45,500 read with high confidence and no field looks missed (gold agrees) |
-   | validation_3 | AUTO-POST | total 28,000 = subtotal 28,000 + tax 0, so the arithmetic reconciles (gold agrees) |
-   | validation_5 | HUMAN REVIEW | faded receipt: the model's best guess for the total is "727" (really the tax; gold total 8,000), with confidence 0.43 < 0.70, so it goes to review instead of posting a wrong total |
-   | validation_21 | HUMAN REVIEW | all amounts read, but the service charge confidence is 0.68 < 0.70 |
+**Option B: the model on its own (no account).** Open **https://cognivex-aicon.vercel.app/model/try**, upload a receipt and
+press *Extract & decide*. The 9 demo receipts are public: `https://cognivex-aicon.vercel.app/demo/validation_0.jpg`
+(also `_1, _2, _3, _4, _5, _21, _23, _34`). Expect about 1-2 s including upload (OCR 0.4-0.7 s on Railway).
 
-   The demo JPGs are resized copies of the CORD PNGs, so the Batch Demo tab (computed from the PNG OCR) can show a
-   different reason for the same receipt (for validation_21 it says "total not found"). The decision is the same.
-6. **Batch Demo** shows pre-computed results (instant, offline-safe). **Results** shows the rules-vs-model tables.
-7. Without the UI (raw JSON):
-   ```bash
-   curl https://api-production-8136.up.railway.app/health
-   curl -F "file=@validation_0.jpg" https://api-production-8136.up.railway.app/extract
-   ```
+What the live model returns for some of these JPGs (OCR-fixed CRF, checked 10 Oct):
+
+| Image | Decision | Why |
+|---|---|---|
+| validation_0 | AUTO-POST | total 45,500 read with high confidence and no field looks missed (gold agrees) |
+| validation_3 | AUTO-POST | total 28,000 = subtotal 28,000 + tax 0, so the arithmetic reconciles (gold agrees) |
+| validation_5 | HUMAN REVIEW | faded receipt: the model's best guess for the total is "727" (really the tax; gold total 8,000), with confidence 0.43 < 0.70, so it goes to review instead of posting a wrong total |
+| validation_21 | HUMAN REVIEW | all amounts read, but the service charge confidence is 0.68 < 0.70 |
+
+The demo JPGs are resized copies of the CORD PNGs, so OCR on them can differ slightly from the cached PNG OCR used in
+`results/` (same decisions on these four). The `/model` page shows the rules-vs-model tables.
+
+Without the UI (raw JSON):
+```bash
+curl https://api-production-8136.up.railway.app/health
+curl -F "file=@validation_0.jpg" https://api-production-8136.up.railway.app/extract
+```
 
 ---
 

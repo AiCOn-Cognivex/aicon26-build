@@ -50,8 +50,12 @@ returned for the Vercel origin.
 # backend (from the repo root; `railway login` once)
 railway init --name cognivex-api
 railway add --service api --variables "ALLOWED_ORIGINS=https://cognivex-aicon.vercel.app,http://localhost:3000" --variables "MODEL_KIND=crf"
-railway up --service api --ci          # uploads git-tracked files, builds the Dockerfile
+railway up --service api --ci          # uploads git-tracked files, builds the Dockerfile (NOT triggered by git push)
 railway domain --service api           # public URL
+# secrets: paste in the Railway dashboard (Variables) or pipe via stdin, never in the repo
+python -c "import secrets;print(secrets.token_urlsafe(48),end='')" | railway variable set JWT_SECRET --stdin --service api --skip-deploys
+# DATABASE_URL: Neon -> Connect -> pooling OFF -> copy -> Railway dashboard -> Variables
+# Windows: set values that start with "/" from PowerShell; Git Bash rewrites /tmp/... into C:/... paths
 # frontend
 cd frontend
 vercel env add NEXT_PUBLIC_API_URL production     # paste the Railway URL
@@ -60,10 +64,11 @@ vercel --prod --yes
 
 ## Cold starts
 Railway keeps the service running (no sleep by default); a redeploy or crash restart takes about
-30 s. The frontend handles it: on page load it polls `/health` every 3 s for up to
-120 s and shows "Waking up the server... Ns". If the API never answers, the Batch Demo and Results
-tabs still work from the snapshot bundled in `frontend/public/demo/`.
-**Before the presentation:** open the site 5 minutes early and run one receipt so OCR models are loaded (first request is the slowest).
+30 s. Neon's free tier pauses the database after 5 minutes idle, so the first request afterwards
+takes about 0.5-1 s longer. The sign-in page shows "Waking the server up" while the API is starting.
+If the API is unreachable, the `/model` results page still works from the snapshot bundled in
+`frontend/public/demo/`; the app itself needs the API.
+**Before the presentation:** sign in as Sara and press **Reset demo data** (sample receipts can only be claimed once), then open the site 5 minutes early and scan one receipt so the database and OCR are warm.
 
 ## Local fallback for the live demo (two commands)
 From the repo root, in two terminals (the venv must exist: `py -3.13 -m venv .venv` and
