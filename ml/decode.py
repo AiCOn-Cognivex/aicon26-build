@@ -98,3 +98,4 @@ def rerank(tagged: list[dict], lam: float = 2.0, k: int = 3, min_p: float = 0.02
     absent = {f: round(best[names.index(f)][0], 4) for f in names if fields[f] is None}
     return {**base, "fields": fields, "absent_confidence": absent,
             "assignment_posterior": round(1.0 / z, 4)}
+
