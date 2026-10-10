@@ -40,12 +40,12 @@ def sha256(data: bytes) -> str:
 def dhash(img: Image.Image) -> str:
     """64-bit difference hash: near-identical photos (re-saved, resized, recompressed) differ in few bits."""
     g = img.convert("L").resize((9, 8), Image.LANCZOS)
-    px = np.asarray(g, dtype=np.int16).ravel()
+    px = [int(v) for v in np.asarray(g, dtype=np.int16).ravel()]  # Python ints: no fixed-width overflow
     bits = 0
     for r in range(8):
         for c in range(8):
             bits = (bits << 1) | (px[r * 9 + c] > px[r * 9 + c + 1])
-    return f"{bits:016x}"
+    return f"{bits & 0xFFFFFFFFFFFFFFFF:016x}"
 
 
 def hamming(a: str, b: str) -> int:

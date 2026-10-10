@@ -113,3 +113,13 @@ def test_demo_reset(client, sara):
     fresh = login(client, "sara@northwind.example")
     q = client.get("/admin/queue", headers=fresh).json()["claims"]
     assert len(q) == 3  # back to the seeded state
+
+
+def test_fingerprint_fits_column():
+    from PIL import Image
+    from backend.app.services.receipts import dhash
+    for name in ("validation_0", "validation_3", "validation_21", "validation_5"):
+        h = dhash(Image.open(ROOT / "frontend" / "public" / "demo" / f"{name}.jpg"))
+        assert len(h) == 16 and all(c in "0123456789abcdef" for c in h), h
+    for f in (ROOT / "backend" / "seed_assets").glob("*.jpg"):
+        assert len(dhash(Image.open(f))) == 16

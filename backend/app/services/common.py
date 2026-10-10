@@ -27,7 +27,7 @@ def iso(ts: datetime | None) -> str | None:
 def log_event(db: Session, *, company_id: int, user_id: int, kind: str, title: str, actor_id: int | None = None,
               amount: float | None = None, ref_type: str | None = None, ref_id: int | None = None,
               detail: dict | None = None, ts: datetime | None = None) -> Event:
-    e = Event(company_id=company_id, user_id=user_id, actor_id=actor_id, kind=kind, title=title, amount=amount,
+    e = Event(company_id=company_id, user_id=user_id, actor_id=actor_id, kind=kind, title=title[:200], amount=amount,
               ref_type=ref_type, ref_id=ref_id, detail=detail or {}, ts=ts or utcnow())
     db.add(e)
     return e

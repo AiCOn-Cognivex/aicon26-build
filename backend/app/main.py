@@ -47,9 +47,12 @@ async def lifespan(_app: FastAPI):
     Base.metadata.create_all(engine)
     if config.SEED_DEMO:
         from .seed import seed_demo
-        with SessionLocal() as db:
-            if seed_demo(db):
-                log.info("seeded demo company")
+        try:
+            with SessionLocal() as db:
+                if seed_demo(db):
+                    log.info("seeded demo company")
+        except Exception:  # never take the API down because of demo data
+            log.exception("demo seed failed")
     try:
         ml_predict.warmup()
         log.info("model ready: %s", ml_predict.tagger()[0])
