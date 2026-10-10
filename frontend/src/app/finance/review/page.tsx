@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/shell";
 import { Avatar, Card, Empty, ErrorNote, Skeleton, WalletBadge } from "@/components/ui";
 import type { ClaimRow } from "@/lib/appTypes";
 import { d, money } from "@/lib/format";
+import { reviewHref } from "@/lib/routes";
 import { useApi } from "@/lib/useApi";
 
 export default function ReviewQueue() {
@@ -28,7 +29,7 @@ export default function ReviewQueue() {
             const dup = c.flags.some((f) => f.severity === "high");
             return (
               <li key={c.id}>
-                <Link href={`/finance/review/${c.id}`} className="flex items-center gap-3.5 rounded-2xl px-2 py-3.5 transition hover:bg-surface-2/70">
+                <Link href={reviewHref(c.id)} className="flex items-center gap-3.5 rounded-2xl px-2 py-3.5 transition hover:bg-surface-2/70">
                   <Avatar name={c.employee?.name ?? "?"} size={44} />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-[14px] font-semibold">

@@ -7,6 +7,7 @@ import { PageHeader } from "@/components/shell";
 import { Button, Card, Empty, ErrorNote, LinkButton, Segmented, Skeleton, StatusPill, WalletBadge } from "@/components/ui";
 import type { ClaimRow } from "@/lib/appTypes";
 import { d, money } from "@/lib/format";
+import { claimHref } from "@/lib/routes";
 import { useApi } from "@/lib/useApi";
 
 type Tab = "all" | "in_review" | "approved" | "paid" | "rejected";
@@ -84,7 +85,7 @@ export default function ClaimsPage() {
               <ul className="divide-y divide-line/70">
                 {rows.map((c) => (
                   <li key={c.id}>
-                    <Link href={`/app/claims/${c.id}`} className="flex items-center gap-3.5 rounded-2xl px-2 py-3 transition hover:bg-surface-2/70">
+                    <Link href={claimHref(c.id)} className="flex items-center gap-3.5 rounded-2xl px-2 py-3 transition hover:bg-surface-2/70">
                       <WalletBadge code={c.wallet?.code} size={42} />
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-[14px] font-semibold">{c.merchant || c.wallet?.name}</p>

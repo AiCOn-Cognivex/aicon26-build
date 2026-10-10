@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { api, getToken, setToken } from "./client";
+import { ApiError, api, getCachedUser, getToken, setCachedUser, setToken } from "./client";
 
 export type Me = {
   id: number;
@@ -33,9 +33,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setReady(true);
       return;
     }
+    // Returning visit: render with the user saved at sign-in (no wait), then confirm with the server.
+    const saved = getCachedUser<Me>();
+    if (saved) {
+      setUser(saved);
+      setReady(true);
+    }
     api<Me>("/auth/me", { timeoutMs: 60000 })
-      .then(setUser)
-      .catch(() => setToken(null))
+      .then((u) => {
+        setUser(u);
+        setCachedUser(u);
+      })
+      .catch((e) => {
+        // an expired token signs out (request() handles 401); a network blip keeps a saved session
+        if (!saved || (e instanceof ApiError && e.status === 401)) {
+          setToken(null);
+          setUser(null);
+        }
+      })
       .finally(() => setReady(true));
   }, []);
 
@@ -49,6 +64,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const form = new URLSearchParams({ username: email, password });
     const r = await api<{ access_token: string; user: Me }>("/auth/token", { form, auth: false, timeoutMs: 60000 });
     setToken(r.access_token);
+    setCachedUser(r.user);
     setUser(r.user);
     return r.user;
   }, []);

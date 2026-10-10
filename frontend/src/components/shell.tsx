@@ -232,7 +232,7 @@ export function AppShell({ children, finance = false }: { children: React.ReactN
   const pathname = usePathname();
   useEffect(() => {
     if (!ready) return;
-    if (!user) router.replace(`/?next=${encodeURIComponent(pathname)}`);
+    if (!user) router.replace(`/?next=${encodeURIComponent(pathname + window.location.search)}`);
     else if (finance && user.role !== "finance") router.replace("/app");
   }, [ready, user, finance, router, pathname]);
   if (!ready || !user || (finance && user.role !== "finance")) return <PageLoader label="Checking your session…" />;

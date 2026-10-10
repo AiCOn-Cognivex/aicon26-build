@@ -8,6 +8,9 @@ export const money = (v: number | null | undefined, cur = "PKR") =>
 export const compact = (v: number) =>
   Math.abs(v) >= 1e6 ? `${(v / 1e6).toFixed(1)}M` : Math.abs(v) >= 1e3 ? `${Math.round(v / 1e3)}k` : `${Math.round(v)}`;
 
+/** A typed amount: "4,180", "Rs 4 180.50" -> 4180 / 4180.5 (parseFloat alone stops at the comma: "4,180" -> 4). */
+export const parseAmount = (s: string) => parseFloat(s.replace(/[^d.]/g, "")) || 0;
+
 export const pctf = (v: number | null | undefined, d = 0) => (v === null || v === undefined ? "—" : `${(v * 100).toFixed(d)}%`);
 
 export function d(iso: string | null | undefined, opts: Intl.DateTimeFormatOptions = { day: "numeric", month: "short" }) {

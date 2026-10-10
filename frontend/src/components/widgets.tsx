@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import type { CalItem, ClaimRow, EventRow, WalletBal } from "@/lib/appTypes";
 import { ago, d, money } from "@/lib/format";
+import { claimHref } from "@/lib/routes";
 import { ArcGauge } from "./charts";
 import { StatusPill, WalletBadge, cx } from "./ui";
 
@@ -54,7 +55,7 @@ export function ActivityList({ events, showEmployee = false }: { events: EventRo
   return (
     <ul className="divide-y divide-line/70">
       {events.map((e) => {
-        const href = e.ref_type === "claim" && e.ref_id ? `/app/claims/${e.ref_id}` : undefined;
+        const href = e.ref_type === "claim" && e.ref_id ? claimHref(e.ref_id) : undefined;
         const body = (
           <div className="flex items-center gap-3 py-3">
             <EventIcon kind={e.kind} />
@@ -141,7 +142,7 @@ export function WalletCard({ w }: { w: WalletBal }) {
 
 export function ClaimMini({ c }: { c: ClaimRow }) {
   return (
-    <Link href={`/app/claims/${c.id}`} className="flex items-center gap-3 rounded-2xl p-2 transition hover:bg-surface-2">
+    <Link href={claimHref(c.id)} className="flex items-center gap-3 rounded-2xl p-2 transition hover:bg-surface-2">
       <WalletBadge code={c.wallet?.code} size={36} />
       <div className="min-w-0 flex-1">
         <p className="truncate text-[13px] font-semibold">{c.merchant || c.wallet?.name}</p>

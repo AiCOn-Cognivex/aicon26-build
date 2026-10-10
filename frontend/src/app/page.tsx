@@ -7,7 +7,7 @@ import { ArrowRight, CalendarClock, Eye, EyeOff, HandCoins, LoaderCircle, ScanLi
 import { Logo, PageLoader } from "@/components/shell";
 import { Avatar, Button, cx } from "@/components/ui";
 import { useAuth, type Me } from "@/lib/auth";
-import { api } from "@/lib/client";
+import { api, prefetch } from "@/lib/client";
 
 type Demo = { password: string; accounts: { email: string; name: string; role: string; title: string }[] };
 
@@ -23,7 +23,13 @@ function SignIn() {
   const [demo, setDemo] = useState<Demo | null>(null);
   const [waking, setWaking] = useState(false);
 
-  const go = (u: Me) => router.replace(next && next.startsWith("/") ? next : u.role === "finance" ? "/finance" : "/app");
+  const go = (u: Me) => {
+    const dest = next && next.startsWith("/") ? next : u.role === "finance" ? "/finance" : "/app";
+    // load the landing page's data while the page itself loads (one round trip saved)
+    if (dest === "/app") prefetch("/me/dashboard");
+    if (dest === "/finance") ["/admin/overview", "/admin/queue"].forEach(prefetch);
+    router.replace(dest);
+  };
 
   useEffect(() => {
     if (ready && user) go(user);

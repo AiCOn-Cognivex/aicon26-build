@@ -12,6 +12,7 @@ import { ActivityList, SeeAll } from "@/components/widgets";
 import type { ClaimRow, EventRow } from "@/lib/appTypes";
 import { useAuth } from "@/lib/auth";
 import { dLong, greeting, money, pctf } from "@/lib/format";
+import { reviewHref } from "@/lib/routes";
 import { useApi } from "@/lib/useApi";
 
 type Overview = {
@@ -103,7 +104,7 @@ export default function FinanceOverview() {
               {queue.data?.claims.length === 0 && <p className="py-8 text-center text-sm text-muted">Nothing waiting. Nice.</p>}
               {queue.data?.claims.slice(0, 5).map((c) => (
                 <li key={c.id}>
-                  <Link href={`/finance/review/${c.id}`} className="flex items-center gap-3 rounded-2xl px-2 py-3 transition hover:bg-surface-2/70">
+                  <Link href={reviewHref(c.id)} className="flex items-center gap-3 rounded-2xl px-2 py-3 transition hover:bg-surface-2/70">
                     <Avatar name={c.employee?.name ?? "?"} size={40} />
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-[13.5px] font-semibold">

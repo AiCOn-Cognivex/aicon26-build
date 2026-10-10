@@ -10,7 +10,8 @@ import { Button, Card, LinkButton, SourceTag, WalletBadge, cx } from "@/componen
 import type { ClaimFull, WalletBal } from "@/lib/appTypes";
 import { useAuth } from "@/lib/auth";
 import { api } from "@/lib/client";
-import { dLong, money } from "@/lib/format";
+import { dLong, money, parseAmount } from "@/lib/format";
+import { claimHref } from "@/lib/routes";
 
 // CORD TEST receipts: the final model was trained on train + validation (decision log D23)
 const SAMPLES = ["test_3", "test_5", "test_6", "test_8", "test_1", "test_4"];
@@ -36,7 +37,10 @@ function NewClaim() {
   async function start(file: File, isSample = false) {
     setError("");
     setSample(isSample);
-    setPreview(URL.createObjectURL(file));
+    setPreview((old) => {
+      if (old) URL.revokeObjectURL(old);
+      return URL.createObjectURL(file);
+    });
     setStage("scanning");
     const fd = new FormData();
     fd.append("file", file);
@@ -91,8 +95,13 @@ function Picker({ onFile, error }: { onFile: (f: File, sample?: boolean) => void
   const [loadingSample, setLoadingSample] = useState<string | null>(null);
   async function sample(name: string) {
     setLoadingSample(name);
-    const r = await fetch(`/demo/${name}.jpg`);
-    onFile(new File([await r.blob()], `${name}.jpg`, { type: "image/jpeg" }), true);
+    try {
+      const r = await fetch(`/demo/${name}.jpg`);
+      if (!r.ok) throw new Error();
+      onFile(new File([await r.blob()], `${name}.jpg`, { type: "image/jpeg" }), true);
+    } catch {
+      setLoadingSample(null);
+    }
   }
   return (
     <div className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
@@ -190,7 +199,7 @@ function Review({ scan, preview, sample, wanted, onDone, onDiscard }: { scan: Sc
   const [error, setError] = useState("");
 
   const rates = { PKR: 1, ...(user?.company.fx_rates ?? {}) } as Record<string, number>;
-  const amt = parseFloat(amount) || 0;
+  const amt = parseAmount(amount);
   const pkr = amt * (rates[currency] ?? 1);
   const w = scan.wallets.find((x) => x.code === wallet);
   const ex = scan.extraction;
@@ -357,7 +366,7 @@ function Done({ c, onAgain }: { c: ClaimFull; onAgain: () => void }) {
   const router = useRouter();
   const auto = c.status === "auto_approved";
   useEffect(() => {
-    router.prefetch(`/app/claims/${c.id}`);
+    router.prefetch(claimHref(c.id));
   }, [router, c.id]);
   return (
     <Card className="mx-auto max-w-xl overflow-hidden p-0 text-center animate-fade-up">
@@ -391,7 +400,7 @@ function Done({ c, onAgain }: { c: ClaimFull; onAgain: () => void }) {
         <Button variant="soft" onClick={onAgain}>
           <ScanLine size={17} /> Scan another
         </Button>
-        <Link href={`/app/claims/${c.id}`} className="inline-flex h-11 items-center gap-2 rounded-full bg-ink px-5 text-sm font-semibold text-white hover:bg-ink-2">
+        <Link href={claimHref(c.id)} className="inline-flex h-11 items-center gap-2 rounded-full bg-ink px-5 text-sm font-semibold text-white hover:bg-ink-2">
           View claim
         </Link>
       </div>
