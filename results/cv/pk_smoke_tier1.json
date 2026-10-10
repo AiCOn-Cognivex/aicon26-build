@@ -1,0 +1,106 @@
+{
+ "note": "3 Pakistani restaurant receipt photos scanned on the live app (10 Oct); live OCR words re-tagged offline. Reference amounts read by eye from the photos (no gold labels). Anecdotal smoke test, NOT a metric; two Tier 1 rules (Net Bil, 3-digit colon decimal) were written after seeing these receipts' OCR (D25).",
+ "receipts": [
+  {
+   "receipt": "SkyDine",
+   "reference": {
+    "total": 4573.0,
+    "subtotal": 4573.0
+   },
+   "live_before": {
+    "total": "4,573.00",
+    "subtotal": "4.573.00",
+    "tax": null,
+    "service_charge": null,
+    "discount": null
+   },
+   "tier1_off": {
+    "fields": {
+     "total": 4573.0,
+     "subtotal": 4573.0
+    },
+    "decision": "HUMAN_REVIEW",
+    "receipt_confidence": 0.8631,
+    "total_right": true,
+    "all_amounts_right": true
+   },
+   "tier1_on": {
+    "fields": {
+     "total": 4573.0,
+     "subtotal": 4573.0
+    },
+    "decision": "HUMAN_REVIEW",
+    "receipt_confidence": 0.8628,
+    "total_right": true,
+    "all_amounts_right": true
+   }
+  },
+  {
+   "receipt": "Mandi House",
+   "reference": {
+    "total": 11661.6,
+    "subtotal": 10320.0,
+    "tax": 1341.6
+   },
+   "live_before": {
+    "total": null,
+    "subtotal": "10320:00",
+    "tax": null,
+    "service_charge": null,
+    "discount": null
+   },
+   "tier1_off": {
+    "fields": {
+     "subtotal": 10320.0
+    },
+    "decision": "HUMAN_REVIEW",
+    "receipt_confidence": 0.0377,
+    "total_right": false,
+    "all_amounts_right": false
+   },
+   "tier1_on": {
+    "fields": {
+     "total": 11661.6,
+     "subtotal": 10320.0,
+     "tax": 1341.6
+    },
+    "decision": "HUMAN_REVIEW",
+    "receipt_confidence": 0.9143,
+    "total_right": true,
+    "all_amounts_right": true
+   }
+  },
+  {
+   "receipt": "Pizza Online",
+   "reference": {
+    "total": 4180.0,
+    "tax": 576.55
+   },
+   "live_before": {
+    "total": "1405.17405.17",
+    "subtotal": null,
+    "tax": null,
+    "service_charge": null,
+    "discount": null
+   },
+   "tier1_off": {
+    "fields": {
+     "total": 4180.0
+    },
+    "decision": "HUMAN_REVIEW",
+    "receipt_confidence": 0.7226,
+    "total_right": true,
+    "all_amounts_right": false
+   },
+   "tier1_on": {
+    "fields": {
+     "total": 4180.0
+    },
+    "decision": "HUMAN_REVIEW",
+    "receipt_confidence": 0.8364,
+    "total_right": true,
+    "all_amounts_right": false
+   }
+  }
+ ]
+}

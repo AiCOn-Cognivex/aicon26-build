@@ -13,7 +13,7 @@ import { api } from "@/lib/client";
 import { dLong, money } from "@/lib/format";
 
 // CORD TEST receipts: the final model was trained on train + validation (decision log D23)
-const SAMPLES = ["test_3", "test_5", "test_6", "test_8", "test_1", "test_0"];
+const SAMPLES = ["test_3", "test_5", "test_6", "test_8", "test_1", "test_4"];
 type Scan = ClaimFull & { wallets: WalletBal[] };
 
 export default function Page() {

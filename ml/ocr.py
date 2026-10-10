@@ -122,8 +122,77 @@ def _merge_split_amounts(words: list[dict]) -> list[dict]:
     return out
 
 
+# Tier 1 (D25), inference only: OCR drops the gap between table columns and glues numbers together.
+_COL_GAP = re.compile(r"(\d[\d.,]*)[:|](\d[\d.,]*\.\d{2})")          # "110:330.00", "0.00|2.395.00"
+_QTY_AMT = re.compile(r"(\d{1,2}\.\d)(\d{1,3}(?:[.,]\d{3})+\.\d{2})")  # "1.02.395.00" = qty 1.0 | 2.395.00
+_TWO_AMT = re.compile(r"(\d+\.\d{2})([1-9]\d*\.\d{2})")              # "103.45103.45" = price | total
+_PLAIN_AMT = re.compile(r"\d{4,}\.\d{2}")                             # "950950.00" = rate 950 | amount 950.00
+_ROW_QTY = re.compile(r"\d{1,2}(\.0{1,2})?")
+
+
+def _row_qty(w: dict, words: list[dict]) -> float | None:
+    """Quantity printed at the left of the same row (vertical overlap), e.g. "2.00" before "CHAPATI"."""
+    y0, y1 = w["box"][1], w["box"][3]
+    best = None
+    for u in words:
+        if u is w or u["box"][2] > w["box"][0] or not _ROW_QTY.fullmatch(u["text"]):
+            continue
+        ov = min(y1, u["box"][3]) - max(y0, u["box"][1])
+        if ov >= 0.5 * min(y1 - y0, u["box"][3] - u["box"][1]) and (best is None or u["box"][0] < best["box"][0]):
+            best = u
+    return float(best["text"]) if best and float(best["text"]) > 0 else None
+
+
+def _column_parts(w: dict, words: list[dict]) -> list[str] | None:
+    from .money import parse_money
+    t = w["text"]
+    m = _COL_GAP.fullmatch(t)
+    # "8:000.00" is a thousands comma read as a colon, not a column gap: the right part never starts with 0
+    if m and (m[2][0] != "0" or re.fullmatch(r"0\.\d{2}", m[2])):
+        return [m[1], m[2]]
+    m = _QTY_AMT.fullmatch(t)
+    if m:
+        return [m[1], m[2]]
+    if parse_money(t) is not None and len(re.findall(r"[.,]", t)) >= 2:
+        return None  # already a well-formed amount, e.g. "53.636.00"
+    m = _TWO_AMT.fullmatch(t)
+    if m:
+        a, b = m[1], m[2]
+        lead = a[:len(a) - len(b)]
+        if a.endswith(b) and 1 <= len(lead) <= 2 and lead.isdigit():
+            return [lead, b, b]  # "1405.17405.17" = qty 1 | price 405.17 | total 405.17
+        return [a, b]
+    if _PLAIN_AMT.fullmatch(t):
+        whole = t.split(".")[0]
+        qs = [q for q in (_row_qty(w, words), 1.0) if q]
+        for k in range(2, len(whole) - 1):
+            left, right = t[:k], t[k:]
+            if right[0] != "0" and any(abs(float(left) * q - float(right)) < 0.005 for q in qs):
+                return [left, right]  # rate x qty = amount
+    return None
+
+
+def _split_columns(words: list[dict]) -> list[dict]:
+    out = []
+    for w in words:
+        parts = _column_parts(w, words)
+        if not parts:
+            out.append(w)
+            continue
+        x0, y0, x1, y1 = w["box"]
+        n = sum(len(p) for p in parts)
+        cx = x0
+        for p in parts:
+            dx = (x1 - x0) * len(p) / n
+            out.append({**w, "text": p, "box": [cx, y0, cx + dx, y1]})
+            cx += dx
+    return out
+
+
 def normalise_words(words: list[dict]) -> list[dict]:
     """Engine-agnostic clean-up applied to every real-OCR output (same for all models)."""
+    if SPLIT_MERGED:
+        words = _split_columns(words)
     out = []
     for w in words:
         m = _QTY_PREFIX.match(w["text"])

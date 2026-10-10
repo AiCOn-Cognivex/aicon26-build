@@ -9,8 +9,8 @@
  "lam": 1.5,
  "min_posterior": 0.0,
  "receipt_model": "receipt_conf_crf.json",
- "receipt_threshold": 0.9331,
+ "receipt_threshold": 0.9263,
  "model": "crf",
  "temperature": 1.1,
- "note": "rerank decoding + receipt confidence >= threshold for 98.0% precision on OOF (results/cv/confidence_deskew_infer.json); a total and no arithmetic FAIL are always required"
+ "note": "rerank decoding + receipt confidence >= threshold for 98.0% precision on OOF (results/cv/confidence_tier1.json); a total and no arithmetic FAIL are always required"
 }

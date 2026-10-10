@@ -795,5 +795,121 @@
     "fully_correct_rate": 0.72
    }
   }
+ },
+ {
+  "name": "tier1",
+  "config": {
+   "features": "v2",
+   "c1": 0.5,
+   "c2": 0.1,
+   "max_iter": 200,
+   "algorithm": "lbfgs",
+   "source": "both",
+   "aug": [],
+   "deskew": "infer",
+   "extra_kw": true,
+   "split_merged": true
+  },
+  "note": "Tier 1 all at inference: keywords, parser, column split (production training)",
+  "time": "2026-10-10T15:02:17",
+  "wall_s": 144,
+  "fit_s": [
+   124,
+   126,
+   131,
+   131,
+   138
+  ],
+  "token_f1_modeA": 0.9262503069493329,
+  "modeB": {
+   "n": 900,
+   "oof": {
+    "n_receipts": 900,
+    "total_acc": 0.9022222222222223,
+    "total_exact_when_present": 0.9053591790193842,
+    "total_n_present": 877,
+    "subtotal_acc": 0.9255555555555556,
+    "subtotal_exact_when_present": 0.9061976549413735,
+    "subtotal_n_present": 597,
+    "tax_acc": 0.95,
+    "tax_exact_when_present": 0.9023136246786633,
+    "tax_n_present": 389,
+    "service_charge_acc": 0.9833333333333333,
+    "service_charge_exact_when_present": 0.8807339449541285,
+    "service_charge_n_present": 109,
+    "discount_acc": 0.9722222222222222,
+    "discount_exact_when_present": 0.4838709677419355,
+    "discount_n_present": 31,
+    "line_item_f1_lenient": 0.724303956458028,
+    "key_field_exact_match": 0.9466666666666667,
+    "line_item_precision": 0.39804241435562804,
+    "line_item_recall": 0.41978494623655915,
+    "line_item_f1": 0.40862465982834417,
+    "posting_correct_rate": 0.8055555555555556,
+    "fully_correct_rate": 0.2733333333333333
+   },
+   "posting_correct_rate_fold_mean": 0.8055555555555556,
+   "posting_correct_rate_fold_std": 0.01712337223046937,
+   "fully_correct_rate_fold_mean": 0.2733333333333333,
+   "fully_correct_rate_fold_std": 0.03225094505266664,
+   "line_item_f1_fold_mean": 0.4071803079315061,
+   "line_item_f1_fold_std": 0.030844850255456017,
+   "line_item_f1_lenient_fold_mean": 0.7245775119144462,
+   "line_item_f1_lenient_fold_std": 0.03971472907963717,
+   "key_field_exact_match_fold_mean": 0.9466666666666667,
+   "key_field_exact_match_fold_std": 0.00603487805066681,
+   "validation_subset": {
+    "n_receipts": 100,
+    "line_item_f1_lenient": 0.7549668874172185,
+    "line_item_f1": 0.4944812362030905,
+    "posting_correct_rate": 0.91,
+    "fully_correct_rate": 0.33
+   }
+  },
+  "modeA": {
+   "n": 900,
+   "oof": {
+    "n_receipts": 900,
+    "total_acc": 0.9633333333333334,
+    "total_exact_when_present": 0.9703534777651083,
+    "total_n_present": 877,
+    "subtotal_acc": 0.9622222222222222,
+    "subtotal_exact_when_present": 0.9581239530988275,
+    "subtotal_n_present": 597,
+    "tax_acc": 0.9777777777777777,
+    "tax_exact_when_present": 0.961439588688946,
+    "tax_n_present": 389,
+    "service_charge_acc": 0.99,
+    "service_charge_exact_when_present": 0.926605504587156,
+    "service_charge_n_present": 109,
+    "discount_acc": 0.98,
+    "discount_exact_when_present": 0.6129032258064516,
+    "discount_n_present": 31,
+    "line_item_f1_lenient": 0.8656410256410255,
+    "key_field_exact_match": 0.9746666666666667,
+    "line_item_precision": 0.6980392156862745,
+    "line_item_recall": 0.7655913978494624,
+    "line_item_f1": 0.7302564102564102,
+    "posting_correct_rate": 0.9044444444444445,
+    "fully_correct_rate": 0.6411111111111111
+   },
+   "posting_correct_rate_fold_mean": 0.9044444444444445,
+   "posting_correct_rate_fold_std": 0.020934937423796412,
+   "fully_correct_rate_fold_mean": 0.6411111111111111,
+   "fully_correct_rate_fold_std": 0.03900775484787102,
+   "line_item_f1_fold_mean": 0.7307583899001523,
+   "line_item_f1_fold_std": 0.06224519564610935,
+   "line_item_f1_lenient_fold_mean": 0.8662552992203822,
+   "line_item_f1_lenient_fold_std": 0.024271932319625853,
+   "key_field_exact_match_fold_mean": 0.9746666666666667,
+   "key_field_exact_match_fold_std": 0.006731169435938214,
+   "validation_subset": {
+    "n_receipts": 100,
+    "line_item_f1_lenient": 0.8869565217391305,
+    "line_item_f1": 0.7826086956521738,
+    "posting_correct_rate": 0.97,
+    "fully_correct_rate": 0.72
+   }
+  }
  }
 ]

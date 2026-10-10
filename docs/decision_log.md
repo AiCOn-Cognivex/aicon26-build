@@ -333,6 +333,35 @@ the app's sample receipts, seeded claims and `/model` examples now use CORD **te
 (`python -m ml.build_demo --split test`, `python backend/make_seed_assets.py`; seeded claims keep 4 auto-approved and
 3 in review). The test set was already evaluated (D23), so showing it changes no number.
 
+### D25 · 10 Oct 13:45-14:40 · Tier 1: real Pakistani receipts, inference-time fixes (after the test run)
+Trigger: 3 real Pakistani restaurant photos scanned on the live app (Mandi House, SkyDine, Pizza Online) went to
+review (safe) but only 1 had all amounts right. Diagnosis on the live OCR text: Pakistani label words unknown to a
+CORD-trained model ("Net Bill", SST/GST), OCR-misspelled labels ("Totol", "SubTatal"), OCR gluing table columns
+("950950.00", "1405.17405.17", "110:330.00"), a colon read for the decimal point ("10320:00" parsed as 1,032,000),
+and dates glued to the time ("13/7/202510:04pm"). No retraining (production CRF unchanged); every change applies
+at inference, and CV trains folds exactly as production and tags with the new rules:
+1. **Keywords** (`ml/crf_model.py`): Net Bill/Bil, payable, amount due, SST/GST/PST/FED, sales tax, gross amount,
+   plus labels one edit away from a keyword, switch on the existing keyword features.
+2. **Parser** (`ml/money.py`): colon as decimal point when the whole part has 3+ digits (never a clock time),
+   trailing c/C read for 0, doubled separators ("24,.000"), and malformed amounts rejected ("1405.17405.17").
+   No gold value changes on train/validation.
+3. **No pre-fill** (`backend/app/routers/claims.py`): a total under 50% field confidence is shown, not typed in.
+4. **Dates** (`backend/app/services/receipts.py`): time glued to the year; month-first only when day-first is
+   impossible ("11/20/2019"). "12/07/2025" stays day-first by design.
+5. **Column split** (`ml/ocr.py`): `|` or `:` column gaps, two decimal amounts glued, a qty glued on the front,
+   rate + amount glued when rate x qty = amount; never splits a well-formed amount. Touches 0 of 900 CORD receipts.
+**CORD CV (OOF, 900):** posting-correct 83.9% -> **84.4%** (+0.56, CI +0.11 to +1.09; 5 fixed, 0 broken),
+fully-correct +0.22 (2 / 0). With flags off, features are identical to the previous code (600 sequences checked).
+Receipt-confidence model refitted on these OOF predictions: nested **64.9% auto-posted, 573/584 correct (98.1%,
+exact CI 96.7-99.1%)**, ECE 0.019, threshold 0.926 (was 0.933).
+**Pakistani smoke test** (`results/cv/pk_smoke_tier1.json`; 3 receipts, amounts read by eye, an anecdote, not a
+metric; the "Net Bil" and 3-digit-colon rules were written after seeing these receipts): totals right 1/3 live ->
+3/3, all amounts right 1/3 -> 2/3 (Pizza's tax line lost its label in OCR), all still sent to review.
+**Not covered by the test set:** these changes came after the one test run (D23); the test numbers describe the
+pipeline before D25 and cannot be re-measured. Known strict-metric miss on a demo receipt: test_0 now auto-posts
+with the right total, subtotal and tax but misses a discount line OCR garbled ("-60.000" read "-h0.00o"); the scan
+page's review example is now test_4 (wrong reading, confidence 0.28). Next (Tier 2): a labelled Pakistani set.
+
 ## Definitions (fixed before reporting; see `ml/metrics.py`)
 - Field exact match: both absent, or both present with equal parsed amounts (0 = absent, D11).
 - Correct line item: same normalised name, quantity and price. Lenient: price exact, name >= 80% similar.

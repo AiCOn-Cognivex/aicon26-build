@@ -108,6 +108,10 @@ and near-duplicate (templated) receipts kept in the same fold, is how every chan
 real OCR: posting-correct 78.0% before this round -> **83.9%** after it; with the decision model and threshold chosen
 on 4 folds and applied to the 5th, the policy auto-posts **64.6% with 567/581 correct (97.6%, exact CI 96.0%-98.7%)**.
 The previous policy, scored the same way, auto-posted 70.9% with 94.4% correct (602/638).
+**After the test run (D25)**, inference-time fixes for real Pakistani receipts (label words like "Net Bill" and SST/GST,
+OCR-misspelled labels, table columns glued by OCR, colon decimals, dates) raised out-of-fold posting-correct to
+**84.4%** (+0.56 points, 5 receipts fixed, 0 broken) and the nested policy estimate to **64.9% auto-posted, 573/584
+correct (98.1%, exact CI 96.7%-99.1%)**. The test numbers above describe the pipeline before these fixes.
 
 **Validation (n=100)**, CRF trained on train only, for comparison with earlier versions of this README
 (`results/eval_<model>_validation_mode<A|B>.json`; previously CRF B: 91% posting-correct, 81% auto-posted, 80/81):
@@ -128,7 +132,7 @@ numbers were optimistic (templates shared with train), and the test result agree
 **Decision policy** (`ml/artifacts/policy_crf.json`): the five amounts are chosen jointly, preferring readings whose
 arithmetic reconciles (`ml/decode.py`); a small logistic model turns field confidence, how clearly one reading beats
 the others, the arithmetic status, OCR confidence and decoder agreement into P(all five amounts right), calibrated
-out-of-fold (receipt ECE 0.026). AUTO-POST needs a total, no arithmetic failure and P >= 0.933 (the threshold for 98%
+out-of-fold (receipt ECE 0.019). AUTO-POST needs a total, no arithmetic failure and P >= 0.926 (the threshold for 98%
 precision out-of-fold). Rules: auto-post only if the arithmetic reconciles. Curve: `results/threshold_curve_crf.json`.
 
 **Robustness** (`results/cv/robustness_images_crf_deskew.json`): every validation image degraded at 8 fixed levels.
@@ -146,7 +150,9 @@ The demo company's payslips, claims and finance KPIs in the app are fictional se
 
 ## Limitations
 
-- Trained on CORD v2 (Indonesian receipts). Performance on Pakistani receipts may differ substantially.
+- Trained on CORD v2 (Indonesian receipts). On Pakistani receipts accuracy is not measured: a 3-photo smoke test
+  (`results/cv/pk_smoke_tier1.json`, amounts read by eye) found all amounts on 2 of 3 after D25, none auto-approved.
+  Two-digit amounts (e.g. CHF 54.50, $8.17) are weak: the model learned rupiah-sized numbers.
 - On receipts from unseen shops/templates the model is weaker: 76.6% posting-correct on such test receipts vs 81% overall. Auto-post correctness is about 97% (test 56/58, CV 97.6%); the 98% goal is not established.
 - Remaining confident errors: tax-included receipts (the arithmetic cannot check the tax), discounts printed outside the subtotal/total identity, OCR digit misreads, and some gold-label errors in CORD.
 - Real-OCR spelling errors make strict line-item matching weak (test F1 0.33); posted header amounts are much more reliable. A missing item quantity is shown as 1 (flagged as imputed).
