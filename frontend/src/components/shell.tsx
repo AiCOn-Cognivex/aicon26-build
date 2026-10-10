@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import {
   Banknote,
   ClipboardCheck,
@@ -26,15 +26,24 @@ import { Avatar, cx } from "./ui";
 
 type Item = { href: string; label: string; icon: React.ComponentType<{ size?: number }>; badge?: number };
 
-/** The Repay mark: a green ring that comes back around (repayment). The loading spinner is the same mark, spinning. */
+// The mark has its own fresher mint-jade green, so it stands apart from the app's deep emerald (D30)
+const MARK = { from: "#34d399", to: "#059669", inner: "#6ee7b7", track: "#d1fae5" };
+
+/** The Repay mark: a ring that comes back around (repayment). The loading spinner is the same mark, spinning. */
 export function RepayMark({ size = 34, light = false, spin = false }: { size?: number; light?: boolean; spin?: boolean }) {
-  const ink = light ? "#ffffff" : "var(--color-brand)";
+  const grad = `repay-${useId().replace(/:/g, "")}`;
   const origin = { transformOrigin: "32px 32px" };
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden className="shrink-0">
-      <circle cx="32" cy="32" r="26" fill="none" stroke={light ? "rgb(255 255 255 / 0.22)" : "var(--color-brand-soft)"} strokeWidth="7" />
-      <path d="M32 6 A26 26 0 1 1 6 32" fill="none" stroke={ink} strokeWidth="7" strokeLinecap="round" style={origin} className={spin ? "animate-[spin-slow_1.4s_linear_infinite]" : undefined} />
-      <path d="M32 18 A14 14 0 0 1 32 46" fill="none" stroke={ink} strokeOpacity="0.5" strokeWidth="7" strokeLinecap="round" style={origin} className={spin ? "animate-[spin-slow_2.2s_linear_infinite_reverse]" : undefined} />
+      <defs>
+        <linearGradient id={grad} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor={light ? "#ffffff" : MARK.from} />
+          <stop offset="1" stopColor={light ? "#d1fae5" : MARK.to} />
+        </linearGradient>
+      </defs>
+      <circle cx="32" cy="32" r="26" fill="none" stroke={light ? "rgb(255 255 255 / 0.22)" : MARK.track} strokeWidth="7" />
+      <path d="M32 6 A26 26 0 1 1 6 32" fill="none" stroke={`url(#${grad})`} strokeWidth="7" strokeLinecap="round" style={origin} className={spin ? "animate-[spin-slow_1.4s_linear_infinite]" : undefined} />
+      <path d="M32 18 A14 14 0 0 1 32 46" fill="none" stroke={MARK.inner} strokeWidth="7" strokeLinecap="round" style={origin} className={spin ? "animate-[spin-slow_2.2s_linear_infinite_reverse]" : undefined} />
     </svg>
   );
 }

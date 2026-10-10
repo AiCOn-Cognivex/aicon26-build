@@ -432,7 +432,8 @@ any reported model number.
 
 ### D30 · 10 Oct 22:45 · Product renamed to Repay; logo = the loading mark
 The product was named after the team ("Cognivex Pay"); it is now **Repay** (the team stays Team Cognivex). The logo is
-the sign-in loading spinner made static: a green three-quarter ring on a light-green track with a lighter inner arc
+the sign-in loading spinner made static: a three-quarter ring (mint-to-jade gradient #34d399 -> #059669, its own green so it
+stands apart from the app's emerald #0f7a55) on a pale-mint track with a mint inner arc
 (money coming back around); the spinner is the same mark with the arcs turning (`RepayMark` in
 `frontend/src/components/shell.tsx`; browser and phone icons in `frontend/src/app/`). The assistant is now "Ask Repay".
 URLs, repository and service names are unchanged (renaming them would break the live links).
