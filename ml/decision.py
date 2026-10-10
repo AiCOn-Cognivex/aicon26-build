@@ -14,6 +14,11 @@ DEFAULT_POLICY = {
     "require_reconciliation": False,  # if True, NOT_CHECKABLE also goes to review
     "use_ocr_conf": False,      # field confidence = min(tagger prob, OCR confidence of its words)
     "check_absent": False,      # review if a field we did not extract might be on the receipt
+    "decoder": "assemble",      # "rerank" = arithmetic-constrained choice of amounts (ml/decode.py, D21)
+    "lam": 1.5,                 # weight of the arithmetic in the rerank score (chosen by nested CV, D21)
+    "min_posterior": 0.0,       # review if the chosen amount-to-role assignment's posterior is lower
+    "receipt_model": None,      # receipt-level confidence model in ml/artifacts (ml/confidence.py, D21)
+    "receipt_threshold": 0.0,   # review if P(all amounts right) is lower
 }
 
 
@@ -56,7 +61,8 @@ def field_confidence(f: dict, policy: dict) -> float:
     return c
 
 
-def decide(fields: dict, items: list[dict], policy: dict = DEFAULT_POLICY, absent: dict | None = None) -> dict:
+def decide(fields: dict, items: list[dict], policy: dict = DEFAULT_POLICY, absent: dict | None = None,
+           posterior: float | None = None, receipt_conf: float | None = None) -> dict:
     rec = reconcile(fields, items, policy)
     reasons = []
     if fields.get("total") is None:
@@ -69,6 +75,14 @@ def decide(fields: dict, items: list[dict], policy: dict = DEFAULT_POLICY, absen
         for k, c in absent.items():
             if k != "total" and c < policy["threshold"]:
                 reasons.append(f"{k} may be on the receipt but was not extracted (absence confidence {c:.2f})")
+    if policy.get("min_posterior") and posterior is not None and posterior < policy["min_posterior"]:
+        reasons.append(f"amounts could be read in another way (assignment confidence {posterior:.2f} < "
+                       f"{policy['min_posterior']:.2f})")
+    if policy.get("receipt_threshold") and receipt_conf is not None and receipt_conf < policy["receipt_threshold"]:
+        weakest = min(((k, f["confidence"]) for k, f in fields.items() if f is not None), key=lambda x: x[1],
+                      default=None)
+        reasons.append(f"overall confidence {receipt_conf:.2f} < {policy['receipt_threshold']:.2f}"
+                       + (f" (weakest: {weakest[0]} {weakest[1]:.2f})" if weakest else ""))
     if rec["status"] == "FAIL":
         for c in rec["checks"]:
             if not c["ok"]:

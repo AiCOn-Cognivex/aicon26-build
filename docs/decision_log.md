@@ -208,26 +208,26 @@ VARCHAR(16). Fixed (Python ints, 64-bit mask), test added, event titles capped a
 seed failure can no longer stop the API from starting. Live on Postgres since 10:45: health, sign-in, dashboard,
 scan -> auto-approve, finance queue and role checks all pass.
 
-### D20 · 10 Oct 11:15-12:30 · Improvement round v2 (Hassan): honest CV harness and failure taxonomy
+### D20 · 10 Oct 11:10-11:30 · Improvement round v2 (Hassan): honest CV harness and failure taxonomy
 Work on branch `improve/v2`; `main` tagged `pre-improve-baseline`. The validation numbers reproduce exactly
 (CRF Mode B 91%, STP 81% with 80/81; Mode A 95%; rules Mode B 65%). The test split is still untouched
 (no `results/test_metrics.json`; its OCR cache exists but no test metric was ever computed).
 **New protocol** (`ml/cv.py`): group-aware 5-fold cross-validation over train + validation (900 receipts).
 Groups = identical word sequences + near-duplicate templates (Jaccard >= 0.5 on distinctive words, i.e. words
 on <= 3% of receipts): 676 groups, 332 receipts share a group, largest 12; 5 folds of 180
-(`results/cv_groups.json`). Each fold trains like production (gold + projected real-OCR words) and predicts its
+(`results/cv/cv_groups.json`). Each fold trains like production (gold + projected real-OCR words) and predicts its
 held-out receipts; out-of-fold (OOF) predictions are cached so decoding and policies are tuned without
 retraining. A change is adopted only if a paired cluster bootstrap (resampling groups) puts the 95% CI of
-the gain above 0. Every run is logged to `results/tuning_cv.json`.
+the gain above 0. Every run is logged to `results/cv/tuning_cv.json`.
 **Baseline (production settings), OOF:** Mode B posting-correct **78.0%** (fold mean 78.0 +- 2.4), Mode A
 88.2%, token F1 0.919; the 100 validation receipts inside CV score 88% (vs 91% for the model trained on all of
 train). The deployed policy (confidence >= 0.70 + absence check) on OOF auto-posts 70.9% with **94.4%** correct
-(602/638), vs 80/81 on validation (`results/policy_cv_base_assemble.json`). Re-selecting the policy honestly
+(602/638), vs 80/81 on validation (`results/cv/policy_cv_base_assemble.json`). Re-selecting the policy honestly
 (chosen on 4 folds, applied to the 5th) reaches 96.8% (393/406) at 45% coverage when aiming for 98%.
 **Reading:** the official validation split is optimistic for receipts from unseen shops/templates
 (templated receipts score 84% OOF vs 74% for singletons). Validation numbers in the README remain labelled
 as validation; the single test run is the independent check.
-**Failure taxonomy** (`ml/taxonomy.py`, `results/failure_taxonomy.json`; OOF Mode B, 198 of 900 receipts
+**Failure taxonomy** (`ml/taxonomy.py`, `results/cv/failure_taxonomy.json`; OOF Mode B, 198 of 900 receipts
 wrong, 294 wrong fields): role confusion between header amounts 93 (e.g. subtotal tagged as total when they are
 equal), gold amount tagged as a non-header label 67 (subtotal as an item price on one-item receipts, total as
 the cash amount when paid exactly), OCR digit misread 31, missed field 26, amount never detected by OCR 23,
@@ -236,6 +236,49 @@ errors, 19% OCR. By field: total 100, subtotal 79, tax 45, discount 26, service 
 quantity on 308 receipts (mostly a printed "1"/"2" that OCR drops or glues to the name), name spelling
 (>= 0.8 similar) 333. Validation alone has only 9 failures (role confusion 4, non-header 3, OCR misread 2).
 Next: attack role confusion with arithmetic-constrained decoding (cheap, no retraining).
+
+### D21 · 10 Oct 11:30-12:00 · P1: constrained decoding, quantity default, parser repair, receipt confidence
+All numbers are OOF over 900 receipts, real OCR, unless stated; gains are vs the D20 baseline with a paired
+cluster bootstrap (`results/cv/`).
+**Adopted**
+- **Arithmetic-constrained decoding** (`ml/decode.py`): per field, the top-3 money tokens by the CRF's
+  marginal probability plus "absent"; all joint assignments are scored by the sum of log-probabilities +
+  lam x (arithmetic PASS +1 / not checkable 0 / FAIL -1, same rule as the decision layer). Nested selection
+  (lam chosen on 4 folds, scored on the 5th) picked **lam = 1.5 in all 5 folds**: posting-correct
+  78.0% -> 83.7% (+5.7 points, 95% CI +3.9 to +7.5; 59 receipts fixed, 8 broken). Plain per-field argmax
+  (lam = 0) is worse than the CRF's Viterbi (-2.8), so the arithmetic term is what helps.
+- **Money parser repair** of OCR letter/digit confusion inside amounts ("RP3O.OOO" -> 30000; only tokens
+  made of digits, separators and O/o/D/Q/l/I/|). No gold value changes on train/validation. +2 receipts.
+  Decoding stack total: **83.9%** (+5.9, CI +4.1 to +7.8; 61 fixed, 8 broken).
+- **Missing item quantity defaults to 1** (flagged `qty_imputed`): OCR often drops a lone printed "1".
+  Strict line-item F1 0.243 -> 0.407, fully-correct 16.4% -> 26.9% (+9.4 alone, CI +6.5 to +12.5).
+  Honest cost: with CORD's gold words (Mode A, validation) fully-correct falls 78% -> 74%, because gold
+  words keep every printed quantity and some items really have none. Kept, because real OCR is the app.
+- **Receipt-level confidence** (`ml/confidence.py`, served by `ml/receipt_conf.py`): a logistic model on
+  OOF predictions gives P(all five amounts right) from min field confidence, assignment posterior,
+  arithmetic status, absence and OCR confidence, decoder agreement, field count. Calibrated (receipt ECE
+  0.021, Brier 0.074). Policy = total found AND no arithmetic FAIL AND P >= threshold. Nested estimate
+  (model and threshold chosen on 4 folds, applied to the 5th), target 98%: **58.9% auto-posted, 519/530
+  correct (97.9%, exact CI 96.3-99.0%)**. Same protocol for the threshold policies: production policy
+  (0.70 + absence) 70.9% at **94.4%** (602/638); best re-selected threshold policy with the new decoder
+  53.3% at 97.5%. A 99% target is not reachable on unseen receipts with any policy tried (best: 37.7% at
+  97.6%); remaining confident errors are mostly tax-included receipts (the arithmetic cannot see the tax),
+  discounts printed outside the identity, and a few gold-label errors (e.g. train_191 tax "30.273 200").
+- Validation (official split, production CRF trained on train, new policy): posting-correct 90% (was 91%,
+  one receipt), auto-posted 75% with 75/75 correct (was 81%, 80/81), fully-correct 31% (was 21%), strict
+  line-item F1 0.522 (was 0.345). Caveat: the receipt model was fitted on OOF predictions that include the
+  validation receipts, so these validation STP numbers are not independent; the nested CV and the test run are.
+**Rejected (logged in `results/cv/tuning_cv.json`)**
+- CRF features v3 (OCR-robust keywords, nearest word left on the same physical row, amount position from
+  the bottom, keyword lines sharing the value): +0.6 with Viterbi (CI -1.1 to +2.1), +0.3 with the new
+  decoder (CI -1.0 to +1.6). Mode A 88.2% -> 90.0% but not the app's mode. Production keeps v2 (simpler).
+- 500 L-BFGS iterations instead of 200: identical OOF (1 receipt better, 1 worse), 2.7x slower: the CRF has
+  converged at 200.
+- Deskewing word centres before line grouping: label and amount on the same visual line 75.2% -> 76.8% of
+  gold header amounts; too small to justify retraining every rung now.
+- Tax-included rate check (tax = total/11): only 9 of 800 train receipts are tax-included with a printed tax.
+- Receipt-confidence model without the hard rules: 46.8% at 97.4% (it auto-posted a receipt with no total).
+Tuning outputs moved to `results/cv/` so the app's `/results` payload is unchanged.
 
 ## Definitions (fixed before reporting; see `ml/metrics.py`)
 - Field exact match: both absent, or both present with equal parsed amounts (0 = absent, D11).

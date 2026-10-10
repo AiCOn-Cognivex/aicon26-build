@@ -11,7 +11,7 @@
    Clopper-Pearson interval. This estimates what the selection procedure delivers on unseen receipts.
 4. Final policy: the same rule on all 900 OOF receipts (what would be deployed).
 Also reports field-confidence ECE and a 10-bin reliability table (OOF, Mode B).
-Writes results/policy_cv_<cv>_<decoder>.json.
+Writes results/cv/policy_cv_<cv>_<decoder>.json.
 """
 from __future__ import annotations
 
@@ -67,10 +67,8 @@ def decisions(rows, pol) -> list[bool]:
     out = []
     for r in rows:
         p = r["pred"]
-        d = decide(p["fields"], p["line_items"], pol, p.get("absent_confidence"))["decision"] == "AUTO_POST"
-        if d and pol.get("min_posterior", 0) > 0:
-            d = p.get("assignment_posterior", 1.0) >= pol["min_posterior"]
-        out.append(d)
+        out.append(decide(p["fields"], p["line_items"], pol, p.get("absent_confidence"),
+                          p.get("assignment_posterior"))["decision"] == "AUTO_POST")
     return out
 
 

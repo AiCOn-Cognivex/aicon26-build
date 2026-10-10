@@ -69,6 +69,9 @@ def assemble(tagged: list[dict]) -> dict:
     for it in items:
         it["price_value"] = to_float(parse_money(it["price"]))
         it["qty_value"] = _qty(it["qty"])
+        # No quantity read: default to 1, the most common printed value (OCR often drops a lone "1"). D21.
+        if it["qty_value"] is None and it["price_value"] is not None and it["name"]:
+            it["qty"], it["qty_value"], it["qty_imputed"] = "1", 1.0, True
     # How sure are we that a field we did NOT extract is really absent?
     # 1 - (highest probability any word had of belonging to that field). Needs per-word distributions.
     absent = {}

@@ -1,10 +1,16 @@
 {
- "threshold": 0.7,
+ "threshold": 0.0,
  "tol_abs": 50.0,
  "tol_rel": 0.01,
  "require_reconciliation": false,
  "use_ocr_conf": false,
- "check_absent": true,
+ "check_absent": false,
+ "decoder": "rerank",
+ "lam": 1.5,
+ "min_posterior": 0.0,
+ "receipt_model": "receipt_conf_crf.json",
+ "receipt_threshold": 0.9265,
  "model": "crf",
- "temperature": 1.1
+ "temperature": 1.1,
+ "note": "rerank decoding + receipt confidence >= threshold for 98.0% precision on OOF (results/confidence_base.json); a total and no arithmetic FAIL are always required"
 }

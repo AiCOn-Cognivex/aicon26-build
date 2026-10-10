@@ -2,7 +2,7 @@
 
   python -m ml.taxonomy                 # production CRF on validation + OOF predictions of `ml.cv --name base`
   python -m ml.taxonomy --cv base       # OOF only
-Writes results/failure_taxonomy.json. Buckets per wrong header field (gold vs prediction, 0 = absent):
+Writes results/cv/failure_taxonomy.json. Buckets per wrong header field (gold vs prediction, 0 = absent):
   OCR layer (the gold amount is not a token the tagger could pick):
     ocr_split_amount    2-3 adjacent tokens on one line join into the gold amount ("74." "00")
     ocr_digit_misread   a token is one digit edit away from the gold amount, or letter/digit confusion
@@ -29,7 +29,7 @@ from .metrics import compare, _nonzero
 from .money import parse_money
 from .schema import HEADER_FIELDS
 
-RES = ROOT / "results"
+RES = ROOT / "results" / "cv"
 _CAT = {v: k for k, v in HEADER_FIELDS.items()}
 _CONFUSE = str.maketrans({"O": "0", "o": "0", "D": "0", "Q": "0", "l": "1", "I": "1", "i": "1", "|": "1",
                           "S": "5", "s": "5", "B": "8", "Z": "2", "z": "2", "G": "6", "b": "6", "g": "9", "q": "9"})

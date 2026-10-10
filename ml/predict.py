@@ -23,7 +23,7 @@ from pathlib import Path
 
 from . import taggers
 from .decision import DEFAULT_POLICY, decide
-from .fields import assemble
+from .decode import decode
 from .ocr import ENGINE, load_image, run_ocr
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -61,8 +61,9 @@ def predict_words(words: list[dict], width: int, height: int) -> dict:
     name, rung, fn, _ = tagger()
     t0 = time.perf_counter()
     tagged = fn(words, width, height)
-    out = assemble(tagged)
-    d = decide(out["fields"], out["line_items"], policy(), out.get("absent_confidence"))
+    out = decode(tagged, policy())
+    d = decide(out["fields"], out["line_items"], policy(), out.get("absent_confidence"), out.get("assignment_posterior"),
+               out.get("receipt_confidence"))
     return {
         "ocr": {"words": [{"text": w["text"], "box": [round(v, 1) for v in w["box"]],
                            "label": w.get("label", "O"), "prob": round(float(w.get("prob", 1.0)), 4)}
@@ -70,6 +71,7 @@ def predict_words(words: list[dict], width: int, height: int) -> dict:
                 "image_size": [width, height]},
         "fields": out["fields"], "line_items": out["line_items"],
         "reconciliation": d["reconciliation"], "decision": d["decision"], "reasons": d["reasons"],
+        "receipt_confidence": out.get("receipt_confidence"),
         "model": {"name": name, "rung": rung},
         "timings_ms": {"model": round(1000 * (time.perf_counter() - t0), 1)},
     }

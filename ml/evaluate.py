@@ -16,7 +16,8 @@ import time
 
 from .dataset import ROOT, gold_sequence, load_split
 from .decision import decide, receipt_confidence
-from .fields import assemble, gold_fields
+from .decode import decode
+from .fields import gold_fields
 from .metrics import aggregate, compare, stp_metrics
 from .ocr import ENGINE, normalise_words
 from .ocr_cache import load_cache
@@ -44,10 +45,11 @@ def run(model: str, split: str, mode: str, policy: dict | None = None,
         t0 = time.perf_counter()
         tagged = fn(words, W, H)
         lat.append(time.perf_counter() - t0)
-        pred = assemble(tagged)
+        pred = decode(tagged, pol)
         gold = gold_fields(r["gt_parse"])
         comp = compare(pred, gold)
-        d = decide(pred["fields"], pred["line_items"], pol, pred.get("absent_confidence"))
+        d = decide(pred["fields"], pred["line_items"], pol, pred.get("absent_confidence"),
+                   pred.get("assignment_posterior"), pred.get("receipt_confidence"))
         comps.append(comp)
         decisions.append(d["decision"])
         if mode == "A":  # token-level alignment exists only with gold words
@@ -59,6 +61,7 @@ def run(model: str, split: str, mode: str, policy: dict | None = None,
         details.append({"id": r["id"], "posting_correct": comp["posting_correct"], "fully_correct": comp["fully_correct"],
                         "fields_ok": comp["fields"], "decision": d["decision"], "reasons": d["reasons"],
                         "recon": d["reconciliation"]["status"], "conf": receipt_confidence(pred["fields"]),
+                        "receipt_confidence": pred.get("receipt_confidence"),
                         "pred": {k: (v["text"] if v else None) for k, v in pred["fields"].items()},
                         "gold": {k: (v["text"] if v else None) for k, v in gold["fields"].items()},
                         "items_tp": comp["items_tp"], "items_pred": comp["items_pred"], "items_gold": comp["items_gold"]})

@@ -1,6 +1,6 @@
 """Group-aware 5-fold cross-validation over train + validation (900 receipts): the tuning harness.
 
-  python -m ml.cv --name base                     # production CRF settings -> results/cv_base.json
+  python -m ml.cv --name base                     # production CRF settings -> results/cv/cv_base.json
   python -m ml.cv --name f3 --features v3 --c1 0.5 --c2 0.1
   python -m ml.cv --compare base f3               # paired cluster bootstrap on posting-correct (Mode B)
 
@@ -12,7 +12,7 @@ never loaded here.
 Each fold trains on gold words + real-OCR words with projected labels (as production, D9) of its training
 receipts and predicts the held-out receipts in Mode A (gold words) and Mode B (cached real OCR).
 OOF predictions (labels + marginals) are cached in data/cache/cv/<name>.pkl so decoding and decision
-policies can be tuned without retraining. Every run is appended to results/tuning_cv.json.
+policies can be tuned without retraining. Every run is appended to results/cv/tuning_cv.json.
 """
 from __future__ import annotations
 
@@ -36,7 +36,7 @@ from .ocr_cache import load_cache
 K = 5
 SPLITS = ("train", "validation")
 CV_DIR = ROOT / "data" / "cache" / "cv"
-RES = ROOT / "results"
+RES = ROOT / "results" / "cv"  # tuning outputs; kept out of the /results payload
 GROUPS_FILE = RES / "cv_groups.json"
 
 
@@ -112,10 +112,15 @@ def load_folds() -> tuple[dict[str, int], dict[str, int]]:
 # ---------------------------------------------------------------- data
 def ocr_sequence(rec: dict, c: dict) -> list[dict]:
     """Real-OCR words of one receipt with labels projected from gold (training data only)."""
+    from .augment_images import rotate_box
     from .project_labels import project
     sx, sy = c["width"] / rec["width"], c["height"] / rec["height"]
-    scaled = dict(rec, words=[dict(g, box=[g["box"][0] * sx, g["box"][1] * sy, g["box"][2] * sx, g["box"][3] * sy])
-                              for g in rec["words"]])
+    rot = c.get("rot", 0.0)  # augmented copies may be rotated: rotate the gold boxes with the image
+
+    def tb(b):
+        b = rotate_box(b, rot, rec["width"], rec["height"]) if rot else b
+        return [b[0] * sx, b[1] * sy, b[2] * sx, b[3] * sy]
+    scaled = dict(rec, words=[dict(g, box=tb(g["box"])) for g in rec["words"]])
     return project(scaled, c["words"])
 
 

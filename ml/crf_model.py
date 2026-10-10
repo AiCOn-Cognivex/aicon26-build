@@ -53,6 +53,96 @@ def _amount_context(words: list[dict]) -> list[dict]:
     return out
 
 
+# v3: OCR-robust keywords. "T0TAL", "SUBT0TAL", "TOTAI" are read as the keyword they are one edit away from.
+_CANON = ["total", "subtotal", "tax", "service", "discount", "cash", "change", "kembali", "kembalian", "tunai",
+          "jumlah", "grand", "pajak", "card", "debit", "charge", "items", "qty", "item"]
+_LETTERS = str.maketrans({"0": "o", "1": "l", "5": "s", "8": "b", "|": "l", "$": "s"})
+_KW3 = _KW + [("cash", re.compile(r"cash|tunai|bayar|paid|tendered", re.I)),
+              ("change", re.compile(r"change|kembali", re.I)),
+              ("card", re.compile(r"card|debit|credit|kartu|bca|edc", re.I)),
+              ("count", re.compile(r"qty|items?|jumlah item", re.I))]
+
+
+def _lev1(a: str, b: str) -> bool:
+    """Levenshtein distance <= 1."""
+    if abs(len(a) - len(b)) > 1:
+        return False
+    i = j = d = 0
+    while i < len(a) and j < len(b):
+        if a[i] == b[j]:
+            i += 1
+            j += 1
+            continue
+        d += 1
+        if d > 1:
+            return False
+        if len(a) > len(b):
+            i += 1
+        elif len(b) > len(a):
+            j += 1
+        else:
+            i += 1
+            j += 1
+    return d + (len(a) - i) + (len(b) - j) <= 1
+
+
+def _canon(t: str) -> str:
+    w0 = t.lower().strip(".,:;=*()[]")
+    for w in (w0, w0.translate(_LETTERS) if any(c.isalpha() for c in w0) else w0):
+        if len(w) >= 4:
+            for k in _CANON:
+                if w == k or (len(k) >= 4 and _lev1(w, k)):
+                    return k
+    return w0
+
+
+def _kw_class(text: str) -> str:
+    for name, rx in _KW3:
+        if rx.search(text):
+            return name
+    return "none"
+
+
+def _v3(words: list[dict], width: float, height: float) -> list[dict]:
+    """Extra v3 features: canonical keywords on the line, nearest word to the left on the same physical row
+    (vertical overlap, robust to skew), amount position from the bottom, keyword lines sharing the value."""
+    canon = [_canon(w["text"]) for w in words]
+    lines: dict[int, list[int]] = {}
+    for i, w in enumerate(words):
+        lines.setdefault(w["line_no"], []).append(i)
+    ltext = {ln: " ".join(canon[i] for i in idx) for ln, idx in lines.items()}
+    lkw = {ln: _kw_class(t) for ln, t in ltext.items()}
+    vals = [parse_money(w["text"]) if is_money(w["text"]) else None for w in words]
+    money = [i for i, v in enumerate(vals) if v is not None and v != 0]
+    by_val: dict = {}
+    for i in money:
+        by_val.setdefault(abs(vals[i]), []).append(i)
+    out = []
+    for i, w in enumerate(words):
+        x0, y0, x1, y1 = w["box"]
+        h = max(1.0, y1 - y0)
+        left, lx = None, -1e9
+        for j, u in enumerate(words):
+            if j == i or u["box"][2] > x0 + 0.25 * h or not any(c.isalpha() for c in u["text"]):
+                continue
+            ov = min(y1, u["box"][3]) - max(y0, u["box"][1])
+            if ov >= 0.5 * min(h, max(1.0, u["box"][3] - u["box"][1])) and u["box"][2] > lx:
+                left, lx = j, u["box"][2]
+        f = {"c_kw_line": lkw[w["line_no"]], "c_kw_prev": lkw.get(w["line_no"] - 1, "none"),
+             "c_kw_next": lkw.get(w["line_no"] + 1, "none"), "c_word": canon[i][:12],
+             "row_left": "none" if left is None else canon[left][:12],
+             "row_left_kw": "none" if left is None else _kw_class(canon[left]),
+             "h_rel": str(round(min(3.0, h / max(1.0, height) * 50), 1))}
+        if i in money:
+            k = len(money) - money.index(i) - 1
+            f["amt_from_bottom"] = str(min(k, 5))
+            for j in by_val[abs(vals[i])]:
+                if j != i:
+                    f[f"same_val_on_{lkw[words[j]['line_no']]}"] = True
+        out.append(f)
+    return out
+
+
 def featurise(words: list[dict], width: float, height: float, features: str = "v2") -> list[dict]:
     """words must already be in reading order with line_no / pos_in_line / line_len."""
     lines: dict[int, list[int]] = {}
@@ -98,11 +188,14 @@ def featurise(words: list[dict], width: float, height: float, features: str = "v
             f[f"next_kw_{name}"] = bool(rx.search(nxt))
         f.update(ctx[i])
         feats.append(f)
+    if features == "v3":
+        for f, g in zip(feats, _v3(words, width, height)):
+            f.update(g)
     return feats
 
 
 FEATURES = "v2"  # production feature-set version stored in the pickle; v1 (no amount context) is in git history
-FEATURE_SETS = ("v2",)
+FEATURE_SETS = ("v2", "v3")
 
 
 class CRFTagger:

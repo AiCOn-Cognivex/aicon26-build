@@ -14,11 +14,26 @@ _KEEP = re.compile(r"[^0-9.,\-()]")
 _HAS_DIGIT = re.compile(r"\d")
 
 
+# OCR reads 0 as O/o/D/Q and 1 as l/I/| inside amounts ("RP3O.OOO"). Repaired only when, after an optional
+# currency prefix, the token consists of digits, separators and these letters, with at least one digit (D21).
+_OCR_DIGIT = str.maketrans({"O": "0", "o": "0", "D": "0", "Q": "0", "l": "1", "I": "1", "|": "1"})
+_CURRENCY = re.compile(r"^(rp\.?|idr)\s*", re.I)
+_REPAIRABLE = re.compile(r"^[0-9OoDQlI|.,]*\d[0-9OoDQlI|.,]*[.,]?-?$")
+
+
+def ocr_repair(text: str) -> str:
+    s = _CURRENCY.sub("", text.strip())
+    if s != text.strip() or any(c in s for c in "OoDQlI|"):
+        if _REPAIRABLE.match(s) and sum(c.isdigit() for c in s) >= 1 and len(s) >= 2:
+            return s.translate(_OCR_DIGIT)
+    return text
+
+
 def parse_money(text: str | None) -> Decimal | None:
     """Return the amount as a Decimal, or None if the string holds no parseable amount."""
     if text is None:
         return None
-    s = str(text).strip()
+    s = ocr_repair(str(text).strip())
     s = re.sub(r"[.,]\s*-+$", "", s)  # "25.000,-" is Indonesian for "25.000,00", not negative
     if not _HAS_DIGIT.search(s):
         return None
