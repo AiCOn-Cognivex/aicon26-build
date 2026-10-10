@@ -9,7 +9,7 @@
 
 **Finance** gets a review queue with the receipt, the model's reading and the reasons, approve/reject/correct (corrections are kept as training labels), a payroll export (CSV) of reimbursements and advance deductions, an allowance policy editor, and a company-wide audit trail.
 
-The model (before/after): a rules-only extractor vs a learned model plus a decision layer tuned on validation data. On real OCR (validation, n=100), the trained model auto-posts **81%** of receipts (80/81 correct) vs **36%** for rules (36/36 correct), and gets all five amounts right on **91%** of receipts vs **65%**. Every model number comes from a file in `results/`; the app's "How the AI works" page shows them. **Scope:** the model is trained and validated on restaurant and café receipts (CORD v2, Indonesia), so instant approval is enabled for the Meals wallet only; other receipt types always go to a person. The demo company, employees, payslips and claims are fictional seeded data, labelled "Demo data" in the UI.
+The model (before/after): a rules-only extractor vs a learned model plus a calibrated decision layer. On the **held-out test set** (n=100, real OCR, evaluated once after everything was frozen), the trained model gets all five amounts right on **81%** of receipts vs **55%** for rules, and auto-posts **58%** of receipts (56/58 correct) vs **30%** (29/30). Every model number comes from a file in `results/`; the app's "How the AI works" page shows them. **Scope:** the model is trained and validated on restaurant and café receipts (CORD v2, Indonesia), so instant approval is enabled for the Meals wallet only; other receipt types always go to a person. The demo company, employees, payslips and claims are fictional seeded data, labelled "Demo data" in the UI.
 
 **Test logins** (fictional demo company): `ayesha@northwind.example` (employee) and `sara@northwind.example` (finance), password `Demo@2026`, or the one-click buttons on the sign-in page.
 
@@ -31,12 +31,15 @@ Receipt image ─► OCR (RapidOCR) ─► token tagger (Rules | CRF | LiLT) ─
 | Step | Code |
 | --- | --- |
 | OCR + normalisation | `ml/ocr.py` |
+| Reading order, deskew of tilted photos | `ml/layout.py` |
 | Rung 0 rules baseline | `ml/rules_baseline.py` |
 | Rung 1 CRF | `ml/crf_model.py`, `ml/train_crf.py` |
 | Rung 2 LiLT transformer | `ml/lilt_model.py`, `ml/train_lilt.py` (GPU: `docs/gpu_training.md`) |
 | Fields, money parser | `ml/fields.py`, `ml/money.py` |
-| Reconciliation + decision | `ml/decision.py`, policy fitted by `ml/calibrate.py` |
+| Arithmetic-constrained choice of amounts | `ml/decode.py` |
+| Reconciliation + decision | `ml/decision.py`; receipt confidence `ml/receipt_conf.py`, fitted by `ml/confidence.py` |
 | Evaluation definitions | `ml/metrics.py`, runner `ml/evaluate.py` |
+| Group-aware cross-validation, failure taxonomy, stress test | `ml/cv.py`, `ml/policy_cv.py`, `ml/taxonomy.py`, `ml/stress.py` |
 | Inference contract `predict(image_bytes)` | `ml/predict.py` |
 
 ## Repository structure
@@ -72,46 +75,85 @@ models with `python setup_models.py --repo <model repo>`, or train them:
 python data\prepare_cord.py        # downloads CORD v2 images (only needed for OCR / demos)
 python data\profile_cord.py        # results/data_profile.md, data/label_map.json
 python -m ml.ocr_cache --split train   # (and validation, test) real-OCR cache, already committed
-python -m ml.train_crf            # production settings
-python -m ml.calibrate --model crf
+python -m ml.cv --name base       # group-aware 5-fold CV over train+validation (out-of-fold predictions)
+python -m ml.confidence --cv base --write-policy 0.98   # receipt-confidence model + decision policy
+python -m ml.train_crf --with-validation                # final CRF (train + validation)
 python -m ml.evaluate --model crf --split validation --mode B
 ```
 
-## Results (validation, n=100)
+## Results
 
-Mode A = CORD's own (gold) OCR words, to isolate the extractor. Mode B = real OCR on the image, end to end.
-Definitions in `ml/metrics.py`. Source files: `results/eval_<model>_validation_mode<A|B>.json`.
+Mode A = CORD's own (gold) OCR words, to isolate the extractor. Mode B = real OCR on the image, end to end (what the app does).
+Definitions in `ml/metrics.py`. An amount of 0 counts as absent.
+
+**Test set (n=100), evaluated exactly once** after the model, OCR, deskew and decision policy were frozen
+(`results/test_metrics.json`; final CRF trained on train + validation):
 
 | Metric | Rules A | CRF A | Rules B | CRF B |
 | --- | --- | --- | --- | --- |
-| Posting-correct receipts (all 5 amounts right) | 71% | 95% | 65% | 91% |
-| Fully-correct receipts (+ every line item) | 32% | 78% | 16% | 21% |
-| Line-item F1, strict / lenient name | 0.53 / 0.74 | 0.81 / 0.89 | 0.26 / 0.69 | 0.35 / 0.76 |
-| Token entity F1 (seqeval) | 0.61 | 0.93 | — | — |
-| Auto-posted (STP) | 42% | 85% | 36% | 81% |
-| Correct among auto-posted | 100% (42/42) | 98.8% (84/85) | 100% (36/36) | 98.8% (80/81) |
+| Posting-correct receipts (all 5 amounts right) | 66% | 94% | 55% | 81% |
+| Fully-correct receipts (+ every line item) | 25% | 67% | 9% | 17% |
+| Line-item F1, strict / lenient name | 0.55 / 0.78 | 0.73 / 0.85 | 0.29 / 0.65 | 0.33 / 0.65 |
+| Token entity F1 (seqeval) | 0.63 | 0.94 | — | — |
+| Auto-posted (STP) | 39% | 86% | 30% | 58% |
+| Correct among auto-posted | 100.0% (39/39) | 98.8% (85/86) | 96.7% (29/30) | 96.6% (56/58) |
 
-The test set is evaluated exactly once, after the final model, preprocessing and threshold are frozen
-(`results/test_metrics.json`). The LiLT rung is trained on a GPU machine and added when available.
+CRF, real OCR: exact 95% interval for 56/58 correct auto-posts is 88.1%-99.6%. Without the 7 test receipts whose text
+also appears in train/validation: 79.6% posting-correct, 51/53 auto-posts correct. On the 64 test receipts from
+**unseen templates** (no train/validation receipt shares >= 50% of their distinctive words): 76.6% posting-correct,
+30/31 auto-posts correct.
 
-Decision policies (fitted by `ml/calibrate.py` on validation): rules = auto-post only if the arithmetic reconciles;
-CRF = every extracted amount with confidence >= 0.70 and no likely-missed field (arithmetic still blocks on FAIL).
-The safer CRF alternative on the same curve, threshold 0.80, auto-posts 77% with 77/77 correct (`results/threshold_curve_crf.json`).
+**Cross-validation** (`results/cv/`): group-aware 5-fold CV over the 900 train + validation receipts, with duplicate
+and near-duplicate (templated) receipts kept in the same fold, is how every change since D20 was chosen. Out-of-fold,
+real OCR: posting-correct 78.0% before this round -> **83.9%** after it; with the decision model and threshold chosen
+on 4 folds and applied to the 5th, the policy auto-posts **64.6% with 567/581 correct (97.6%, exact CI 96.0%-98.7%)**.
+The previous policy, scored the same way, auto-posted 70.9% with 94.4% correct (602/638).
+
+**Validation (n=100)**, CRF trained on train only, for comparison with earlier versions of this README
+(`results/eval_<model>_validation_mode<A|B>.json`; previously CRF B: 91% posting-correct, 81% auto-posted, 80/81):
+
+| Metric | Rules A | CRF A | Rules B | CRF B |
+| --- | --- | --- | --- | --- |
+| Posting-correct receipts (all 5 amounts right) | 76% | 97% | 65% | 90% |
+| Fully-correct receipts (+ every line item) | 33% | 76% | 24% | 32% |
+| Line-item F1, strict / lenient name | 0.57 / 0.80 | 0.79 / 0.89 | 0.43 / 0.74 | 0.52 / 0.76 |
+| Token entity F1 (seqeval) | 0.64 | 0.94 | — | — |
+| Auto-posted (STP) | 44% | 90% | 35% | 76% |
+| Correct among auto-posted | 100.0% (44/44) | 98.9% (89/90) | 100.0% (35/35) | 98.7% (75/76) |
+
+The receipt-confidence model was fitted on out-of-fold predictions that include the validation receipts, so the
+validation auto-post numbers are not independent; the test set and the nested CV are. CV showed the earlier validation
+numbers were optimistic (templates shared with train), and the test result agrees with CV. The LiLT rung is not trained yet.
+
+**Decision policy** (`ml/artifacts/policy_crf.json`): the five amounts are chosen jointly, preferring readings whose
+arithmetic reconciles (`ml/decode.py`); a small logistic model turns field confidence, how clearly one reading beats
+the others, the arithmetic status, OCR confidence and decoder agreement into P(all five amounts right), calibrated
+out-of-fold (receipt ECE 0.026). AUTO-POST needs a total, no arithmetic failure and P >= 0.933 (the threshold for 98%
+precision out-of-fold). Rules: auto-post only if the arithmetic reconciles. Curve: `results/threshold_curve_crf.json`.
+
+**Robustness** (`results/cv/robustness_images_crf_deskew.json`): every validation image degraded at 8 fixed levels.
+Posting-correct: clean 90%, blur 85% / 65%, JPEG quality 10 66%, heavy noise 52%, 0.35x resolution 80%, shadow 93%,
+rotated 3 / 6 degrees 78% / 54% (64% / 45% before deskew). Auto-post correctness ranges from 100% (clean, shadow)
+to 92% under heavy noise (35/38) and 89% for photos rotated 6 degrees (34/38): degraded photos need more human review.
 
 What moved the numbers (details in `docs/decision_log.md`): fixing label words leaking into amounts (D8), training on
-real-OCR words (D9), CRF features v2 (D15), and **OCR fixes** (D16: re-join amounts split by a space, angle classifier
-off; gold amounts readable by OCR 96.0% -> 99.1% on validation, CRF posting-correct 83% -> 91%).
-Tried and rejected: stronger regularisation alone (D15) and amount-scaling augmentation (D17).
+real-OCR words (D9), CRF features v2 (D15), OCR fixes (D16), and in the v2 round: choosing amounts jointly with the
+arithmetic (+5.7 points out-of-fold, D21), defaulting a missing item quantity to 1 (fully-correct +9 points, D21),
+the receipt-confidence decision (D21) and deskewing tilted photos (D22). Tried and rejected: stronger regularisation
+(D15), amount-scaling augmentation (D17), CRF features v3, more training iterations, image-degradation augmentation,
+arithmetic digit repair (D21-D22). Failure analysis: `results/cv/failure_taxonomy.json`.
 The demo company's payslips, claims and finance KPIs in the app are fictional seeded data, labelled "Demo data"; they are not measured impact.
 
 ## Limitations
 
 - Trained on CORD v2 (Indonesian receipts). Performance on Pakistani receipts may differ substantially.
-- 80/81 correct auto-posts on validation gives an exact 95% interval of 93.3%-100%: 100 validation receipts cannot establish the 98% target, and the policy was chosen on those same receipts. The test set is the independent check.
-- Real-OCR spelling errors make strict line-item matching weak (F1 0.35); posted header amounts are much more reliable.
-- The CRF is data-limited: its learning curve is still rising at 800 receipts and regularisation tuning did not raise held-out accuracy (`results/crf_tuning_v1.json`).
-- 17 receipt word sequences repeat across CORD splits (templated receipts); test results are also reported without them.
-- The arithmetic check only applies when a subtotal is printed (about two thirds of receipts); receipts without one are auto-posted only on confidence.
+- On receipts from unseen shops/templates the model is weaker: 76.6% posting-correct on such test receipts vs 81% overall. Auto-post correctness is about 97% (test 56/58, CV 97.6%); the 98% goal is not established.
+- Remaining confident errors: tax-included receipts (the arithmetic cannot check the tax), discounts printed outside the subtotal/total identity, OCR digit misreads, and some gold-label errors in CORD.
+- Real-OCR spelling errors make strict line-item matching weak (test F1 0.33); posted header amounts are much more reliable. A missing item quantity is shown as 1 (flagged as imputed).
+- The CRF is data-limited: its learning curve is still rising at 800 receipts (`results/crf_tuning_v1.json`).
+- 17 receipt word sequences repeat across CORD splits (templated receipts); test results are also reported without them and on unseen templates only.
+- The arithmetic check only applies when a subtotal is printed (about two thirds of receipts).
+- The sample receipts in the app and the seeded demo claims are CORD validation receipts, which the final model was trained on.
 - Live OCR takes 0.4-0.7 s per receipt on Railway after the thread fix (was 10-15 s; decision log D18).
 - The model reads amounts only. CORD has no date or merchant labels, so those come from simple rules (or the employee) and are labelled as such.
 - Instant approval is limited to the Meals wallet (restaurant/cafe receipts, what the model was validated on). Fuel, medical and other receipt types always go to a person until the model is measured on them.

@@ -30,12 +30,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--n-auto", type=int, default=5)
     ap.add_argument("--n-review", type=int, default=4)
+    ap.add_argument("--split", default="validation", help="test is recommended after D23: the final model trained on validation")
     a = ap.parse_args()
-    cache = load_cache("validation")
+    cache = load_cache(a.split)
     picked, n_auto, n_rev, seen_reasons = [], 0, 0, set()
     (RES / "demo_images").mkdir(parents=True, exist_ok=True)
     FRONT.mkdir(parents=True, exist_ok=True)
-    for rec in load_split("validation"):
+    for rec in load_split(a.split):
         c = cache[rec["id"]]
         res = P.predict_words(normalise_words(c["words"]), c["width"], c["height"])
         res["ocr"]["engine"] = "rapidocr (cached)"

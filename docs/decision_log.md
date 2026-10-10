@@ -304,6 +304,27 @@ now run one at a time, and the augmentation OCR is resumable with a progress/ETA
   Caveat: the decision to look at rotation came from this stress test on validation images; clean CV only
   establishes that deskew does not hurt.
 
+### D23 · 10 Oct 12:45-13:15 · Freeze, final model, the one test-set run
+Team decisions (Hassan): final CRF trained on **train + validation** (900 receipts; the CRF is data-limited), the
+**v2 safe policy**, and the test set evaluated once after the freeze.
+- Receipt-confidence model refitted on the OOF predictions of the exact production configuration (deskew at
+  inference): nested estimate **64.6% auto-posted, 567/581 correct (97.6%, exact CI 96.0-98.7%)**, receipt ECE
+  0.026; threshold 0.9331 (`results/cv/confidence_deskew_infer.json`, `results/threshold_curve_crf.json`).
+- Validation numbers in the README come from the train-only CRF (`ml/artifacts/crf_train_only.pkl`, local) so they
+  stay comparable; after retraining, validation is in-sample.
+- Frozen at commit 1858835 (model, OCR settings, deskew, decoder, policy). Then `python -m ml.final_test
+  --final-model crf --confirm`, once (`results/test_metrics.json`, commit 5d6ca49).
+- **Test, real OCR (n=100):** CRF posting-correct **81%**, auto-posted **58% with 56/58 correct** (exact CI
+  88.1-99.6%), fully-correct 17%, line-item F1 0.33 / 0.65; rules 55%, 30% auto-posted (29/30). Gold words: CRF 94%,
+  86% auto-posted (85/86). Without 7 receipts duplicating train/validation text: 79.6%, 51/53. Unseen templates
+  (64 receipts): 76.6%, 30/31. **This agrees with the CV estimate (83.9%, 97.6%) and not with the earlier
+  validation figures (91%, 80/81)**, which the CV had already flagged as optimistic (D20).
+- Not done in this round: LiLT (no GPU here). The test set is now used, so a later LiLT can only be reported with
+  CV/validation numbers, labelled as such.
+- App consequence (for Mohid): the app's sample receipts and seeded claims are validation receipts, which the
+  final model has now seen. Proposed: regenerate demo examples from test receipts (`python -m ml.build_demo
+  --split test`), point the scan page's samples at them, and rebuild `backend/seed_assets` the same way.
+
 ## Definitions (fixed before reporting; see `ml/metrics.py`)
 - Field exact match: both absent, or both present with equal parsed amounts (0 = absent, D11).
 - Correct line item: same normalised name, quantity and price. Lenient: price exact, name >= 80% similar.

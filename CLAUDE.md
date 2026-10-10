@@ -45,7 +45,7 @@ python -m ml.evaluate --model crf --split validation --mode B        # model met
    until another receipt type is measured. Pakistani receipts are evaluation-only unless the team decides otherwise.
 5. **LLM features are optional and labelled.** Gemini is a fallback reader only and never auto-approves; it is off live.
 6. **Commits:** short one-line messages, **no co-author / "Generated with" trailer**. Push to `main`.
-7. Log every significant decision or incident in `docs/decision_log.md` (next number D21).
+7. Log every significant decision or incident in `docs/decision_log.md` (next number D24).
 
 ## Gotchas learned the hard way
 - Postgres (Neon, live) enforces `VARCHAR(n)`; SQLite (local, tests) doesn't. Keep values within column sizes.
@@ -62,9 +62,13 @@ two-series chart pair), soft canvas, 28px rounded cards (`.card`), pill buttons,
 Prefer arcs, rings and rounded shapes over boxy layouts. Charts are custom SVG in `components/charts.tsx` with hover
 tooltips. Text never uses series colours. Check every page at desktop width and at 390 px.
 
-## Open work (as of 10 Oct, 11:00)
-- One-time test-set evaluation, then update the README results and the `/model` page.
+## Open work (as of 10 Oct, 13:15)
+- ML v2 is on branch `improve/v2` (decision log D20-D23): constrained decoding, receipt-confidence policy, deskew,
+  qty default, final CRF on train+val. **Test set has been evaluated once** (`results/test_metrics.json`): never re-run.
+  Merge + deploy (Mohid): backend tests, `predict()` smoke test, `railway up`, then rebuild demo examples from TEST
+  receipts (`python -m ml.build_demo --split test`), swap the scan-page samples and `backend/seed_assets` (validation
+  receipts are now training data for the final model), redeploy the frontend, verify live.
 - `MODEL_CARD.md`, `docs/slides_outline.md`, `docs/demo_script.md` (5 min), `docs/judge_qa.md`.
 - Team decision on collecting 60-100 real Pakistani receipts as an evaluation set (dev/test halves, personal data blurred); no public labelled Pakistani receipt dataset was found. Outline in `docs/product_plan.md` section 8.
-- LiLT from Hassan (cannot be served on Railway: about 1.05 GB RAM); evaluate and calibrate if it arrives.
+- LiLT not trained (cannot be served on Railway: about 1.05 GB RAM); if added, report CV/validation numbers only.
 - Gemini key (parked). Optional: trim dashboard queries (1.2 s on Postgres vs 0.55 s on SQLite).
