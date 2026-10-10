@@ -232,3 +232,4 @@ ml/artifacts/*
 frontend/node_modules/
 frontend/.next/
 backend/local.db
+data/cache/cv/

@@ -208,6 +208,35 @@ VARCHAR(16). Fixed (Python ints, 64-bit mask), test added, event titles capped a
 seed failure can no longer stop the API from starting. Live on Postgres since 10:45: health, sign-in, dashboard,
 scan -> auto-approve, finance queue and role checks all pass.
 
+### D20 · 10 Oct 11:15-12:30 · Improvement round v2 (Hassan): honest CV harness and failure taxonomy
+Work on branch `improve/v2`; `main` tagged `pre-improve-baseline`. The validation numbers reproduce exactly
+(CRF Mode B 91%, STP 81% with 80/81; Mode A 95%; rules Mode B 65%). The test split is still untouched
+(no `results/test_metrics.json`; its OCR cache exists but no test metric was ever computed).
+**New protocol** (`ml/cv.py`): group-aware 5-fold cross-validation over train + validation (900 receipts).
+Groups = identical word sequences + near-duplicate templates (Jaccard >= 0.5 on distinctive words, i.e. words
+on <= 3% of receipts): 676 groups, 332 receipts share a group, largest 12; 5 folds of 180
+(`results/cv_groups.json`). Each fold trains like production (gold + projected real-OCR words) and predicts its
+held-out receipts; out-of-fold (OOF) predictions are cached so decoding and policies are tuned without
+retraining. A change is adopted only if a paired cluster bootstrap (resampling groups) puts the 95% CI of
+the gain above 0. Every run is logged to `results/tuning_cv.json`.
+**Baseline (production settings), OOF:** Mode B posting-correct **78.0%** (fold mean 78.0 +- 2.4), Mode A
+88.2%, token F1 0.919; the 100 validation receipts inside CV score 88% (vs 91% for the model trained on all of
+train). The deployed policy (confidence >= 0.70 + absence check) on OOF auto-posts 70.9% with **94.4%** correct
+(602/638), vs 80/81 on validation (`results/policy_cv_base_assemble.json`). Re-selecting the policy honestly
+(chosen on 4 folds, applied to the 5th) reaches 96.8% (393/406) at 45% coverage when aiming for 98%.
+**Reading:** the official validation split is optimistic for receipts from unseen shops/templates
+(templated receipts score 84% OOF vs 74% for singletons). Validation numbers in the README remain labelled
+as validation; the single test run is the independent check.
+**Failure taxonomy** (`ml/taxonomy.py`, `results/failure_taxonomy.json`; OOF Mode B, 198 of 900 receipts
+wrong, 294 wrong fields): role confusion between header amounts 93 (e.g. subtotal tagged as total when they are
+equal), gold amount tagged as a non-header label 67 (subtotal as an item price on one-item receipts, total as
+the cash amount when paid exactly), OCR digit misread 31, missed field 26, amount never detected by OCR 23,
+spurious field 21, wrong candidate kept 6, split amount 2. About 75% of wrong fields are model/assembly
+errors, 19% OCR. By field: total 100, subtotal 79, tax 45, discount 26, service 19. Line items: wrong
+quantity on 308 receipts (mostly a printed "1"/"2" that OCR drops or glues to the name), name spelling
+(>= 0.8 similar) 333. Validation alone has only 9 failures (role confusion 4, non-header 3, OCR misread 2).
+Next: attack role confusion with arithmetic-constrained decoding (cheap, no retraining).
+
 ## Definitions (fixed before reporting; see `ml/metrics.py`)
 - Field exact match: both absent, or both present with equal parsed amounts (0 = absent, D11).
 - Correct line item: same normalised name, quantity and price. Lenient: price exact, name >= 80% similar.

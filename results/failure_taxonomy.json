@@ -1,0 +1,2679 @@
+{
+ "production_crf_validation_modeB": {
+  "n_receipts": 100,
+  "n_not_posting_correct": 9,
+  "wrong_fields_by_bucket": {
+   "role_confusion": 7,
+   "tagged_non_header": 3,
+   "ocr_digit_misread": 2
+  },
+  "receipts_by_first_bucket": {
+   "role_confusion": 4,
+   "tagged_non_header": 3,
+   "ocr_digit_misread": 2
+  },
+  "wrong_fields_by_field": {
+   "subtotal": 4,
+   "total": 4,
+   "tax": 2,
+   "service_charge": 1,
+   "discount": 1
+  },
+  "line_item_error_types_receipts": {
+   "item_qty_wrong": 38,
+   "item_name_spelling (>=0.8 similar)": 24,
+   "item_name_wrong (<0.8 similar)": 20,
+   "items_more_than_gold (split / extra)": 13,
+   "item_price_wrong": 10,
+   "items_fewer_than_gold (merge / missed)": 4
+  },
+  "posting_correct_by_template": {
+   "singleton_fail": 8,
+   "singleton_ok": 56,
+   "templated_fail": 1,
+   "templated_ok": 35
+  },
+  "failed": [
+   {
+    "id": "validation_5",
+    "wrong": [
+     [
+      "subtotal",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "validation_7",
+    "wrong": [
+     [
+      "subtotal",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "validation_9",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "validation_21",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "validation_23",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ],
+     [
+      "subtotal",
+      "role_confusion"
+     ],
+     [
+      "tax",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "validation_47",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "validation_55",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "validation_93",
+    "wrong": [
+     [
+      "tax",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "validation_94",
+    "wrong": [
+     [
+      "service_charge",
+      "role_confusion"
+     ],
+     [
+      "discount",
+      "role_confusion"
+     ]
+    ]
+   }
+  ],
+  "examples": {
+   "ocr_digit_misread": [
+    {
+     "id": "validation_5",
+     "field": "subtotal",
+     "gold": "7,273",
+     "pred": "71273"
+    },
+    {
+     "id": "validation_93",
+     "field": "tax",
+     "gold": "15,636",
+     "pred": "15,430"
+    }
+   ],
+   "tagged_non_header": [
+    {
+     "id": "validation_7",
+     "field": "subtotal",
+     "gold": "63,636",
+     "pred": "636"
+    },
+    {
+     "id": "validation_9",
+     "field": "total",
+     "gold": "20,000",
+     "pred": null
+    },
+    {
+     "id": "validation_21",
+     "field": "total",
+     "gold": "Rp 224,908",
+     "pred": null
+    }
+   ],
+   "role_confusion": [
+    {
+     "id": "validation_23",
+     "field": "total",
+     "gold": "20.000",
+     "pred": "1,818"
+    },
+    {
+     "id": "validation_23",
+     "field": "subtotal",
+     "gold": "18,182",
+     "pred": null
+    },
+    {
+     "id": "validation_23",
+     "field": "tax",
+     "gold": "1,818",
+     "pred": "18,182"
+    },
+    {
+     "id": "validation_47",
+     "field": "total",
+     "gold": "42,000",
+     "pred": null
+    },
+    {
+     "id": "validation_55",
+     "field": "subtotal",
+     "gold": null,
+     "pred": "60.000)"
+    },
+    {
+     "id": "validation_94",
+     "field": "service_charge",
+     "gold": "3.795",
+     "pred": null
+    },
+    {
+     "id": "validation_94",
+     "field": "discount",
+     "gold": null,
+     "pred": "3.795"
+    }
+   ]
+  }
+ },
+ "cv_base_oof_modeB": {
+  "n_receipts": 900,
+  "n_not_posting_correct": 198,
+  "wrong_fields_by_bucket": {
+   "role_confusion": 93,
+   "tagged_non_header": 67,
+   "ocr_digit_misread": 31,
+   "missed_field": 26,
+   "ocr_missed": 23,
+   "spurious_field": 21,
+   "wrong_candidate": 6,
+   "ocr_split_amount": 2
+  },
+  "receipts_by_first_bucket": {
+   "role_confusion": 63,
+   "tagged_non_header": 46,
+   "ocr_digit_misread": 29,
+   "missed_field": 21,
+   "ocr_missed": 18,
+   "spurious_field": 17,
+   "wrong_candidate": 2,
+   "ocr_split_amount": 2
+  },
+  "wrong_fields_by_field": {
+   "total": 100,
+   "subtotal": 79,
+   "tax": 45,
+   "discount": 26,
+   "service_charge": 19
+  },
+  "line_item_error_types_receipts": {
+   "item_name_spelling (>=0.8 similar)": 333,
+   "item_qty_wrong": 308,
+   "item_name_wrong (<0.8 similar)": 172,
+   "item_price_wrong": 150,
+   "items_more_than_gold (split / extra)": 137,
+   "items_fewer_than_gold (merge / missed)": 39
+  },
+  "posting_correct_by_template": {
+   "singleton_fail": 146,
+   "singleton_ok": 422,
+   "templated_fail": 52,
+   "templated_ok": 280
+  },
+  "failed": [
+   {
+    "id": "train_1",
+    "wrong": [
+     [
+      "tax",
+      "role_confusion"
+     ],
+     [
+      "service_charge",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_9",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_12",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ],
+     [
+      "tax",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_35",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ],
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_39",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_82",
+    "wrong": [
+     [
+      "subtotal",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_88",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_106",
+    "wrong": [
+     [
+      "total",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_135",
+    "wrong": [
+     [
+      "total",
+      "ocr_digit_misread"
+     ],
+     [
+      "subtotal",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_168",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_182",
+    "wrong": [
+     [
+      "total",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_183",
+    "wrong": [
+     [
+      "total",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_214",
+    "wrong": [
+     [
+      "total",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_237",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_293",
+    "wrong": [
+     [
+      "service_charge",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_406",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_413",
+    "wrong": [
+     [
+      "total",
+      "ocr_digit_misread"
+     ],
+     [
+      "subtotal",
+      "missed_field"
+     ],
+     [
+      "tax",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_425",
+    "wrong": [
+     [
+      "subtotal",
+      "wrong_candidate"
+     ]
+    ]
+   },
+   {
+    "id": "train_435",
+    "wrong": [
+     [
+      "tax",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_490",
+    "wrong": [
+     [
+      "total",
+      "spurious_field"
+     ],
+     [
+      "subtotal",
+      "spurious_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_527",
+    "wrong": [
+     [
+      "tax",
+      "role_confusion"
+     ],
+     [
+      "service_charge",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_546",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_582",
+    "wrong": [
+     [
+      "total",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_592",
+    "wrong": [
+     [
+      "tax",
+      "spurious_field"
+     ],
+     [
+      "discount",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_623",
+    "wrong": [
+     [
+      "discount",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_627",
+    "wrong": [
+     [
+      "discount",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_658",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_660",
+    "wrong": [
+     [
+      "discount",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_670",
+    "wrong": [
+     [
+      "total",
+      "spurious_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_694",
+    "wrong": [
+     [
+      "total",
+      "spurious_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_711",
+    "wrong": [
+     [
+      "total",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_734",
+    "wrong": [
+     [
+      "subtotal",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_743",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ],
+     [
+      "discount",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_748",
+    "wrong": [
+     [
+      "total",
+      "wrong_candidate"
+     ],
+     [
+      "subtotal",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_770",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_777",
+    "wrong": [
+     [
+      "discount",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "validation_82",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "validation_96",
+    "wrong": [
+     [
+      "discount",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_11",
+    "wrong": [
+     [
+      "service_charge",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_18",
+    "wrong": [
+     [
+      "subtotal",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_30",
+    "wrong": [
+     [
+      "total",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_52",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ],
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_92",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_127",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_162",
+    "wrong": [
+     [
+      "discount",
+      "spurious_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_167",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ],
+     [
+      "tax",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_179",
+    "wrong": [
+     [
+      "total",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_194",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ],
+     [
+      "subtotal",
+      "spurious_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_200",
+    "wrong": [
+     [
+      "tax",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_251",
+    "wrong": [
+     [
+      "tax",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_270",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_282",
+    "wrong": [
+     [
+      "tax",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_284",
+    "wrong": [
+     [
+      "subtotal",
+      "ocr_missed"
+     ],
+     [
+      "discount",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_290",
+    "wrong": [
+     [
+      "tax",
+      "role_confusion"
+     ],
+     [
+      "discount",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_321",
+    "wrong": [
+     [
+      "service_charge",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_324",
+    "wrong": [
+     [
+      "subtotal",
+      "missed_field"
+     ],
+     [
+      "tax",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_331",
+    "wrong": [
+     [
+      "tax",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_344",
+    "wrong": [
+     [
+      "tax",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_363",
+    "wrong": [
+     [
+      "subtotal",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_386",
+    "wrong": [
+     [
+      "total",
+      "ocr_digit_misread"
+     ],
+     [
+      "subtotal",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_403",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_439",
+    "wrong": [
+     [
+      "discount",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_460",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ],
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_495",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ],
+     [
+      "tax",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_516",
+    "wrong": [
+     [
+      "total",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_539",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_544",
+    "wrong": [
+     [
+      "total",
+      "ocr_missed"
+     ],
+     [
+      "subtotal",
+      "ocr_digit_misread"
+     ],
+     [
+      "tax",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_559",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_599",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ],
+     [
+      "tax",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_616",
+    "wrong": [
+     [
+      "subtotal",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_640",
+    "wrong": [
+     [
+      "subtotal",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_644",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_652",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ],
+     [
+      "subtotal",
+      "role_confusion"
+     ],
+     [
+      "tax",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_671",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_679",
+    "wrong": [
+     [
+      "subtotal",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_686",
+    "wrong": [
+     [
+      "subtotal",
+      "wrong_candidate"
+     ],
+     [
+      "service_charge",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_687",
+    "wrong": [
+     [
+      "tax",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_710",
+    "wrong": [
+     [
+      "discount",
+      "spurious_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_716",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_763",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_789",
+    "wrong": [
+     [
+      "total",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "validation_29",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ],
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "validation_94",
+    "wrong": [
+     [
+      "subtotal",
+      "tagged_non_header"
+     ],
+     [
+      "service_charge",
+      "role_confusion"
+     ],
+     [
+      "discount",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_27",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_32",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_49",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ],
+     [
+      "subtotal",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_77",
+    "wrong": [
+     [
+      "service_charge",
+      "spurious_field"
+     ],
+     [
+      "discount",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_98",
+    "wrong": [
+     [
+      "tax",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_116",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ],
+     [
+      "subtotal",
+      "tagged_non_header"
+     ],
+     [
+      "tax",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_138",
+    "wrong": [
+     [
+      "subtotal",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_147",
+    "wrong": [
+     [
+      "discount",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_153",
+    "wrong": [
+     [
+      "total",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_218",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_219",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ],
+     [
+      "subtotal",
+      "tagged_non_header"
+     ],
+     [
+      "tax",
+      "spurious_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_259",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ],
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_271",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_286",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ],
+     [
+      "subtotal",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_288",
+    "wrong": [
+     [
+      "subtotal",
+      "ocr_split_amount"
+     ]
+    ]
+   },
+   {
+    "id": "train_302",
+    "wrong": [
+     [
+      "service_charge",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_333",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_400",
+    "wrong": [
+     [
+      "tax",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_421",
+    "wrong": [
+     [
+      "tax",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_449",
+    "wrong": [
+     [
+      "total",
+      "ocr_digit_misread"
+     ],
+     [
+      "subtotal",
+      "tagged_non_header"
+     ],
+     [
+      "tax",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_462",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_479",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_535",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_598",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_649",
+    "wrong": [
+     [
+      "subtotal",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_667",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_668",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ],
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_692",
+    "wrong": [
+     [
+      "discount",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_745",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_754",
+    "wrong": [
+     [
+      "service_charge",
+      "spurious_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_779",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "validation_7",
+    "wrong": [
+     [
+      "subtotal",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "validation_9",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "validation_47",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_0",
+    "wrong": [
+     [
+      "total",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_6",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_16",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_44",
+    "wrong": [
+     [
+      "total",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_45",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ],
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_53",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ],
+     [
+      "subtotal",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_56",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_59",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_60",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_79",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_102",
+    "wrong": [
+     [
+      "tax",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_122",
+    "wrong": [
+     [
+      "discount",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_125",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_187",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_191",
+    "wrong": [
+     [
+      "tax",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_193",
+    "wrong": [
+     [
+      "tax",
+      "spurious_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_199",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_289",
+    "wrong": [
+     [
+      "subtotal",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_361",
+    "wrong": [
+     [
+      "service_charge",
+      "role_confusion"
+     ],
+     [
+      "discount",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_376",
+    "wrong": [
+     [
+      "tax",
+      "ocr_digit_misread"
+     ],
+     [
+      "service_charge",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_388",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_392",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_401",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_402",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_419",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ],
+     [
+      "tax",
+      "role_confusion"
+     ],
+     [
+      "service_charge",
+      "role_confusion"
+     ],
+     [
+      "discount",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_433",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_464",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_478",
+    "wrong": [
+     [
+      "subtotal",
+      "wrong_candidate"
+     ],
+     [
+      "tax",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_484",
+    "wrong": [
+     [
+      "total",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_496",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_556",
+    "wrong": [
+     [
+      "subtotal",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_568",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_607",
+    "wrong": [
+     [
+      "tax",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_638",
+    "wrong": [
+     [
+      "subtotal",
+      "tagged_non_header"
+     ],
+     [
+      "service_charge",
+      "spurious_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_676",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_678",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ],
+     [
+      "subtotal",
+      "spurious_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_719",
+    "wrong": [
+     [
+      "total",
+      "missed_field"
+     ],
+     [
+      "subtotal",
+      "ocr_missed"
+     ],
+     [
+      "tax",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_750",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_774",
+    "wrong": [
+     [
+      "tax",
+      "tagged_non_header"
+     ],
+     [
+      "service_charge",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_783",
+    "wrong": [
+     [
+      "total",
+      "spurious_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_788",
+    "wrong": [
+     [
+      "total",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "validation_26",
+    "wrong": [
+     [
+      "total",
+      "missed_field"
+     ],
+     [
+      "subtotal",
+      "spurious_field"
+     ]
+    ]
+   },
+   {
+    "id": "validation_93",
+    "wrong": [
+     [
+      "tax",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_55",
+    "wrong": [
+     [
+      "tax",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_71",
+    "wrong": [
+     [
+      "tax",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_117",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ],
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_149",
+    "wrong": [
+     [
+      "discount",
+      "spurious_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_173",
+    "wrong": [
+     [
+      "total",
+      "wrong_candidate"
+     ]
+    ]
+   },
+   {
+    "id": "train_177",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_180",
+    "wrong": [
+     [
+      "tax",
+      "role_confusion"
+     ],
+     [
+      "discount",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_235",
+    "wrong": [
+     [
+      "discount",
+      "spurious_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_266",
+    "wrong": [
+     [
+      "total",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_276",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_308",
+    "wrong": [
+     [
+      "total",
+      "ocr_digit_misread"
+     ],
+     [
+      "subtotal",
+      "spurious_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_329",
+    "wrong": [
+     [
+      "total",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_429",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ],
+     [
+      "tax",
+      "role_confusion"
+     ],
+     [
+      "service_charge",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_472",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ],
+     [
+      "tax",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_473",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_474",
+    "wrong": [
+     [
+      "tax",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_487",
+    "wrong": [
+     [
+      "total",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_515",
+    "wrong": [
+     [
+      "total",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_541",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ],
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_579",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_593",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_601",
+    "wrong": [
+     [
+      "subtotal",
+      "wrong_candidate"
+     ],
+     [
+      "discount",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_614",
+    "wrong": [
+     [
+      "tax",
+      "spurious_field"
+     ],
+     [
+      "service_charge",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_633",
+    "wrong": [
+     [
+      "subtotal",
+      "tagged_non_header"
+     ],
+     [
+      "discount",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_653",
+    "wrong": [
+     [
+      "total",
+      "ocr_split_amount"
+     ]
+    ]
+   },
+   {
+    "id": "train_674",
+    "wrong": [
+     [
+      "total",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_680",
+    "wrong": [
+     [
+      "subtotal",
+      "ocr_digit_misread"
+     ],
+     [
+      "tax",
+      "role_confusion"
+     ],
+     [
+      "service_charge",
+      "role_confusion"
+     ],
+     [
+      "discount",
+      "ocr_missed"
+     ]
+    ]
+   },
+   {
+    "id": "train_693",
+    "wrong": [
+     [
+      "total",
+      "missed_field"
+     ],
+     [
+      "tax",
+      "missed_field"
+     ],
+     [
+      "service_charge",
+      "missed_field"
+     ]
+    ]
+   },
+   {
+    "id": "train_718",
+    "wrong": [
+     [
+      "subtotal",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_730",
+    "wrong": [
+     [
+      "subtotal",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "train_732",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_749",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ],
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_757",
+    "wrong": [
+     [
+      "subtotal",
+      "role_confusion"
+     ]
+    ]
+   },
+   {
+    "id": "train_791",
+    "wrong": [
+     [
+      "total",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "train_797",
+    "wrong": [
+     [
+      "discount",
+      "spurious_field"
+     ]
+    ]
+   },
+   {
+    "id": "validation_5",
+    "wrong": [
+     [
+      "subtotal",
+      "ocr_digit_misread"
+     ]
+    ]
+   },
+   {
+    "id": "validation_21",
+    "wrong": [
+     [
+      "total",
+      "tagged_non_header"
+     ]
+    ]
+   },
+   {
+    "id": "validation_23",
+    "wrong": [
+     [
+      "total",
+      "role_confusion"
+     ],
+     [
+      "tax",
+      "role_confusion"
+     ]
+    ]
+   }
+  ],
+  "examples": {
+   "role_confusion": [
+    {
+     "id": "train_1",
+     "field": "tax",
+     "gold": "52,815",
+     "pred": "25,150"
+    },
+    {
+     "id": "train_1",
+     "field": "service_charge",
+     "gold": "25,150",
+     "pred": "52,815"
+    },
+    {
+     "id": "train_9",
+     "field": "total",
+     "gold": "40.000",
+     "pred": "40.00"
+    },
+    {
+     "id": "train_12",
+     "field": "subtotal",
+     "gold": "87,275",
+     "pred": "8,728"
+    },
+    {
+     "id": "train_12",
+     "field": "tax",
+     "gold": "8,728",
+     "pred": null
+    },
+    {
+     "id": "train_35",
+     "field": "total",
+     "gold": null,
+     "pred": "289000"
+    },
+    {
+     "id": "train_35",
+     "field": "subtotal",
+     "gold": "289000",
+     "pred": null
+    },
+    {
+     "id": "train_88",
+     "field": "subtotal",
+     "gold": "45,490",
+     "pred": "28.690"
+    }
+   ],
+   "tagged_non_header": [
+    {
+     "id": "train_39",
+     "field": "total",
+     "gold": "70,000",
+     "pred": null
+    },
+    {
+     "id": "train_82",
+     "field": "subtotal",
+     "gold": "20.909",
+     "pred": null
+    },
+    {
+     "id": "train_168",
+     "field": "total",
+     "gold": "12,750",
+     "pred": "12,75"
+    },
+    {
+     "id": "train_413",
+     "field": "tax",
+     "gold": "25,000",
+     "pred": null
+    },
+    {
+     "id": "train_734",
+     "field": "subtotal",
+     "gold": "50,000",
+     "pred": null
+    },
+    {
+     "id": "train_770",
+     "field": "total",
+     "gold": "67000",
+     "pred": null
+    },
+    {
+     "id": "train_777",
+     "field": "discount",
+     "gold": "250,000 -",
+     "pred": null
+    },
+    {
+     "id": "train_18",
+     "field": "subtotal",
+     "gold": "25000",
+     "pred": null
+    }
+   ],
+   "ocr_missed": [
+    {
+     "id": "train_106",
+     "field": "total",
+     "gold": "48,001",
+     "pred": "48,0"
+    },
+    {
+     "id": "train_183",
+     "field": "total",
+     "gold": "15,000",
+     "pred": null
+    },
+    {
+     "id": "train_214",
+     "field": "total",
+     "gold": "58,000",
+     "pred": "58.008"
+    },
+    {
+     "id": "train_435",
+     "field": "tax",
+     "gold": "Pb1 10% 7,000",
+     "pred": null
+    },
+    {
+     "id": "train_592",
+     "field": "discount",
+     "gold": "4,955",
+     "pred": null
+    },
+    {
+     "id": "train_30",
+     "field": "total",
+     "gold": "9,000",
+     "pred": "9:909"
+    },
+    {
+     "id": "train_179",
+     "field": "total",
+     "gold": "128,764",
+     "pred": null
+    },
+    {
+     "id": "train_251",
+     "field": "tax",
+     "gold": "1,773",
+     "pred": null
+    }
+   ],
+   "ocr_digit_misread": [
+    {
+     "id": "train_135",
+     "field": "total",
+     "gold": "55,834",
+     "pred": "60000"
+    },
+    {
+     "id": "train_135",
+     "field": "subtotal",
+     "gold": "55,834",
+     "pred": "834"
+    },
+    {
+     "id": "train_182",
+     "field": "total",
+     "gold": "22,500",
+     "pred": "22,50"
+    },
+    {
+     "id": "train_413",
+     "field": "total",
+     "gold": "275,000",
+     "pred": null
+    },
+    {
+     "id": "train_582",
+     "field": "total",
+     "gold": "56.000",
+     "pred": "56.080"
+    },
+    {
+     "id": "train_282",
+     "field": "tax",
+     "gold": "8.056",
+     "pred": "e.056"
+    },
+    {
+     "id": "train_344",
+     "field": "tax",
+     "gold": "11,000.00",
+     "pred": "12,000.00"
+    },
+    {
+     "id": "train_363",
+     "field": "subtotal",
+     "gold": "52,727",
+     "pred": "53727"
+    }
+   ],
+   "missed_field": [
+    {
+     "id": "train_293",
+     "field": "service_charge",
+     "gold": "20.200",
+     "pred": null
+    },
+    {
+     "id": "train_413",
+     "field": "subtotal",
+     "gold": "250,000",
+     "pred": null
+    },
+    {
+     "id": "train_623",
+     "field": "discount",
+     "gold": "121,250 -",
+     "pred": null
+    },
+    {
+     "id": "train_711",
+     "field": "total",
+     "gold": "1,092,542",
+     "pred": null
+    },
+    {
+     "id": "train_748",
+     "field": "subtotal",
+     "gold": "127,678",
+     "pred": null
+    },
+    {
+     "id": "train_11",
+     "field": "service_charge",
+     "gold": "12.870",
+     "pred": null
+    },
+    {
+     "id": "train_200",
+     "field": "tax",
+     "gold": "4,964",
+     "pred": null
+    },
+    {
+     "id": "train_324",
+     "field": "subtotal",
+     "gold": "Rp 35,636.36",
+     "pred": null
+    }
+   ],
+   "wrong_candidate": [
+    {
+     "id": "train_425",
+     "field": "subtotal",
+     "gold": "122,730",
+     "pred": "135,003"
+    },
+    {
+     "id": "train_748",
+     "field": "total",
+     "gold": "127,678",
+     "pred": "127-670"
+    },
+    {
+     "id": "train_686",
+     "field": "subtotal",
+     "gold": "109,000",
+     "pred": "114,450"
+    },
+    {
+     "id": "train_478",
+     "field": "subtotal",
+     "gold": "Rp. 209.999",
+     "pred": "999"
+    },
+    {
+     "id": "train_173",
+     "field": "total",
+     "gold": "346,500",
+     "pred": "-38,500"
+    },
+    {
+     "id": "train_601",
+     "field": "subtotal",
+     "gold": "116,200",
+     "pred": "58.100"
+    }
+   ],
+   "spurious_field": [
+    {
+     "id": "train_490",
+     "field": "total",
+     "gold": null,
+     "pred": "250000"
+    },
+    {
+     "id": "train_490",
+     "field": "subtotal",
+     "gold": null,
+     "pred": "48.540"
+    },
+    {
+     "id": "train_592",
+     "field": "tax",
+     "gold": null,
+     "pred": "4.865"
+    },
+    {
+     "id": "train_670",
+     "field": "total",
+     "gold": null,
+     "pred": "200.000"
+    },
+    {
+     "id": "train_694",
+     "field": "total",
+     "gold": null,
+     "pred": "250.000"
+    },
+    {
+     "id": "train_162",
+     "field": "discount",
+     "gold": null,
+     "pred": "(8.400)"
+    },
+    {
+     "id": "train_194",
+     "field": "subtotal",
+     "gold": null,
+     "pred": "270,000"
+    },
+    {
+     "id": "train_710",
+     "field": "discount",
+     "gold": null,
+     "pred": "20,000"
+    }
+   ],
+   "ocr_split_amount": [
+    {
+     "id": "train_288",
+     "field": "subtotal",
+     "gold": "72,727",
+     "pred": "721727"
+    },
+    {
+     "id": "train_653",
+     "field": "total",
+     "gold": "516,780",
+     "pred": "780"
+    }
+   ]
+  }
+ }
+}

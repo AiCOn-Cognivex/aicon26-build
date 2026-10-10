@@ -53,7 +53,7 @@ def _amount_context(words: list[dict]) -> list[dict]:
     return out
 
 
-def featurise(words: list[dict], width: float, height: float) -> list[dict]:
+def featurise(words: list[dict], width: float, height: float, features: str = "v2") -> list[dict]:
     """words must already be in reading order with line_no / pos_in_line / line_len."""
     lines: dict[int, list[int]] = {}
     for i, w in enumerate(words):
@@ -101,14 +101,18 @@ def featurise(words: list[dict], width: float, height: float) -> list[dict]:
     return feats
 
 
-FEATURES = "v2"  # feature-set version stored in the pickle; v1 (no amount context) is in git history
+FEATURES = "v2"  # production feature-set version stored in the pickle; v1 (no amount context) is in git history
+FEATURE_SETS = ("v2",)
 
 
 class CRFTagger:
-    def __init__(self, c1: float = 0.5, c2: float = 0.1, max_iter: int = 200):
+    def __init__(self, c1: float = 0.5, c2: float = 0.1, max_iter: int = 200, algorithm: str = "lbfgs",
+                 features: str = FEATURES):
         import sklearn_crfsuite
-        self.crf = sklearn_crfsuite.CRF(algorithm="lbfgs", c1=c1, c2=c2, max_iterations=max_iter,
-                                        all_possible_transitions=True)
+        kw = {"c1": c1, "c2": c2} if algorithm == "lbfgs" else {"c2": c2} if algorithm == "l2sgd" else {}
+        self.crf = sklearn_crfsuite.CRF(algorithm=algorithm, max_iterations=max_iter,
+                                        all_possible_transitions=True, **kw)
+        self.features = features
         self.T = 1.0
 
     def fit(self, X, y):
@@ -120,7 +124,7 @@ class CRFTagger:
         ws = reading_order(words)
         if not ws:
             return []
-        X = featurise(ws, width, height)
+        X = featurise(ws, width, height, features=self.features)
         labels = self.crf.predict_single(X)
         marg = self.crf.predict_marginals_single(X)
         T = self.T
@@ -138,14 +142,14 @@ class CRFTagger:
     def save(self, path: Path):
         path.parent.mkdir(parents=True, exist_ok=True)
         with open(path, "wb") as f:
-            pickle.dump({"crf": self.crf, "features": FEATURES}, f)
+            pickle.dump({"crf": self.crf, "features": self.features}, f)
 
     @classmethod
     def load(cls, path: Path) -> "CRFTagger":
         obj = cls.__new__(cls)
         with open(path, "rb") as f:
             d = pickle.load(f)
-        if not isinstance(d, dict) or d.get("features") != FEATURES:
-            raise ValueError(f"{path}: CRF saved with another feature set; retrain with python -m ml.train_crf")
-        obj.crf, obj.T = d["crf"], 1.0
+        if not isinstance(d, dict) or d.get("features") not in FEATURE_SETS:
+            raise ValueError(f"{path}: CRF saved with an unknown feature set; retrain with python -m ml.train_crf")
+        obj.crf, obj.T, obj.features = d["crf"], 1.0, d["features"]
         return obj
