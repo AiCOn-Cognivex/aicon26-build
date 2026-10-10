@@ -325,6 +325,14 @@ Team decisions (Hassan): final CRF trained on **train + validation** (900 receip
   final model has now seen. Proposed: regenerate demo examples from test receipts (`python -m ml.build_demo
   --split test`), point the scan page's samples at them, and rebuild `backend/seed_assets` the same way.
 
+### D24 · 10 Oct 13:30-14:00 · v2 live; demo receipts swapped to test receipts
+`improve/v2` fast-forwarded into `main`; backend tests (11) and a `predict()` smoke test passed; `railway up`.
+Live check: `/health` shows the rerank decoder and receipt threshold 0.933; `/extract` on test_3.jpg -> AUTO_POST,
+receipt confidence 0.995, OCR 0.56 s; `/results` serves `test_metrics`. Because the final model trained on validation,
+the app's sample receipts, seeded claims and `/model` examples now use CORD **test** receipts, picked in id order
+(`python -m ml.build_demo --split test`, `python backend/make_seed_assets.py`; seeded claims keep 4 auto-approved and
+3 in review). The test set was already evaluated (D23), so showing it changes no number.
+
 ## Definitions (fixed before reporting; see `ml/metrics.py`)
 - Field exact match: both absent, or both present with equal parsed amounts (0 = absent, D11).
 - Correct line item: same normalised name, quantity and price. Lenient: price exact, name >= 80% similar.

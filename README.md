@@ -153,7 +153,7 @@ The demo company's payslips, claims and finance KPIs in the app are fictional se
 - The CRF is data-limited: its learning curve is still rising at 800 receipts (`results/crf_tuning_v1.json`).
 - 17 receipt word sequences repeat across CORD splits (templated receipts); test results are also reported without them and on unseen templates only.
 - The arithmetic check only applies when a subtotal is printed (about two thirds of receipts).
-- The sample receipts in the app and the seeded demo claims are CORD validation receipts, which the final model was trained on.
+- The sample receipts in the app and the seeded demo claims are CORD test receipts (not used in training); the test set was evaluated once before they were chosen.
 - Live OCR takes 0.4-0.7 s per receipt on Railway after the thread fix (was 10-15 s; decision log D18).
 - The model reads amounts only. CORD has no date or merchant labels, so those come from simple rules (or the employee) and are labelled as such.
 - Instant approval is limited to the Meals wallet (restaurant/cafe receipts, what the model was validated on). Fuel, medical and other receipt types always go to a person until the model is measured on them.

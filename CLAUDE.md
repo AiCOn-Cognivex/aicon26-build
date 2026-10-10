@@ -45,7 +45,7 @@ python -m ml.evaluate --model crf --split validation --mode B        # model met
    until another receipt type is measured. Pakistani receipts are evaluation-only unless the team decides otherwise.
 5. **LLM features are optional and labelled.** Gemini is a fallback reader only and never auto-approves; it is off live.
 6. **Commits:** short one-line messages, **no co-author / "Generated with" trailer**. Push to `main`.
-7. Log every significant decision or incident in `docs/decision_log.md` (next number D24).
+7. Log every significant decision or incident in `docs/decision_log.md` (next number D25).
 
 ## Gotchas learned the hard way
 - Postgres (Neon, live) enforces `VARCHAR(n)`; SQLite (local, tests) doesn't. Keep values within column sizes.
@@ -68,10 +68,7 @@ tooltips. Text never uses series colours. Check every page at desktop width and 
   Merge + deploy (Mohid): backend tests, `predict()` smoke test, `railway up`, then rebuild demo examples from TEST
   receipts (`python -m ml.build_demo --split test`), swap the scan-page samples and `backend/seed_assets` (validation
   receipts are now training data for the final model), redeploy the frontend, verify live.
-- [ ] **Later: swap demo receipts to TEST receipts** (~20 min). The final model was trained on validation, so the
-  current samples are training data. `python -m ml.build_demo --split test`, point `SAMPLES` in
-  `frontend/src/app/app/claims/new/page.tsx` and `backend/seed_assets` at test receipts, frontend checks, `vercel --prod`.
-  Until then, don't present the samples as unseen (README Limitations already says so).
+- [x] Demo receipts swapped to CORD TEST receipts (scan samples, seeded claims, /model examples), D24.
 - `MODEL_CARD.md`, `docs/slides_outline.md`, `docs/demo_script.md` (5 min), `docs/judge_qa.md`.
 - Team decision on collecting 60-100 real Pakistani receipts as an evaluation set (dev/test halves, personal data blurred); no public labelled Pakistani receipt dataset was found. Outline in `docs/product_plan.md` section 8.
 - LiLT not trained (cannot be served on Railway: about 1.05 GB RAM); if added, report CV/validation numbers only.

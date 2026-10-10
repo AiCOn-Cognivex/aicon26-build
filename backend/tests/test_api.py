@@ -6,8 +6,8 @@ from datetime import date
 
 from backend.tests.conftest import ROOT, login
 
-SAMPLE = ROOT / "frontend" / "public" / "demo" / "validation_0.jpg"   # model: AUTO_POST
-UNSURE = ROOT / "frontend" / "public" / "demo" / "validation_21.jpg"  # model: HUMAN_REVIEW
+SAMPLE = ROOT / "frontend" / "public" / "demo" / "test_3.jpg"   # model: AUTO_POST
+UNSURE = ROOT / "frontend" / "public" / "demo" / "test_0.jpg"   # model: HUMAN_REVIEW
 
 
 def test_auth_required_and_wrong_password(client):
@@ -118,7 +118,7 @@ def test_demo_reset(client, sara):
 def test_fingerprint_fits_column():
     from PIL import Image
     from backend.app.services.receipts import dhash
-    for name in ("validation_0", "validation_3", "validation_21", "validation_5"):
+    for name in ("test_3", "test_5", "test_1", "test_0"):
         h = dhash(Image.open(ROOT / "frontend" / "public" / "demo" / f"{name}.jpg"))
         assert len(h) == 16 and all(c in "0123456789abcdef" for c in h), h
     for f in (ROOT / "backend" / "seed_assets").glob("*.jpg"):

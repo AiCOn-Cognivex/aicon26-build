@@ -1,336 +1,37 @@
 [
  {
-  "file": "validation_6.jpg",
+  "file": "test_7.jpg",
   "fields": {
    "total": {
-    "text": "123,000",
-    "value": 123000.0,
-    "confidence": 0.9278,
-    "ocr_confidence": 0.845
+    "text": "111,000",
+    "value": 111000.0,
+    "confidence": 0.9987,
+    "ocr_confidence": 0.815
    },
-   "subtotal": null,
-   "tax": null,
+   "subtotal": {
+    "text": "100,909",
+    "value": 100909.0,
+    "confidence": 0.9993,
+    "ocr_confidence": 0.8603
+   },
+   "tax": {
+    "text": "10,09",
+    "value": 10.09,
+    "confidence": 0.9236,
+    "ocr_confidence": 0.606
+   },
    "service_charge": null,
    "discount": null
   },
   "line_items": [
    {
-    "name": "POTATO SAUSAGE BREAD",
+    "name": "Kupon 15",
     "qty": "1",
-    "price": "19,000",
-    "confidence": 0.9871,
-    "price_value": 19000.0,
-    "qty_value": 1.0
-   },
-   {
-    "name": "OREO GREEN TEA SPREAD",
-    "qty": "1",
-    "price": "152000",
-    "confidence": 0.9815,
-    "price_value": 152000.0,
-    "qty_value": 1.0
-   },
-   {
-    "name": "WHITE CHOCO BANANA SPREAD",
-    "qty": "1",
-    "price": "52,000",
-    "confidence": 0.9769,
-    "price_value": 52000.0,
-    "qty_value": 1.0
-   }
-  ],
-  "reconciliation": {
-   "status": "NOT_CHECKABLE",
-   "checks": []
-  },
-  "decision": "AUTO_POST",
-  "reasons": [
-   "all key fields confident"
-  ],
-  "words": [
-   {
-    "text": "1",
-    "box": [
-     162.0,
-     592.0,
-     177.8,
-     628.0
-    ],
-    "label": "B-menu.cnt",
-    "prob": 0.9871
-   },
-   {
-    "text": "POTATO",
-    "box": [
-     193.6,
-     592.0,
-     288.5,
-     628.0
-    ],
-    "label": "B-menu.nm",
-    "prob": 0.9933
-   },
-   {
-    "text": "SAUSAGE",
-    "box": [
-     304.4,
-     592.0,
-     415.1,
-     628.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.991
-   },
-   {
-    "text": "BREAD",
-    "box": [
-     430.9,
-     592.0,
-     510.0,
-     628.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9962
-   },
-   {
-    "text": "19,000",
-    "box": [
-     640.0,
-     594.0,
-     739.0,
-     634.0
-    ],
-    "label": "B-menu.price",
-    "prob": 0.9995
-   },
-   {
-    "text": "1",
-    "box": [
-     167.0,
-     635.0,
-     182.6,
-     665.0
-    ],
-    "label": "B-menu.cnt",
-    "prob": 0.9815
-   },
-   {
-    "text": "OREO",
-    "box": [
-     198.1,
-     635.0,
-     260.4,
-     665.0
-    ],
-    "label": "B-menu.nm",
-    "prob": 0.9926
-   },
-   {
-    "text": "GREEN",
-    "box": [
-     276.0,
-     635.0,
-     353.8,
-     665.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9893
-   },
-   {
-    "text": "TEA",
-    "box": [
-     369.3,
-     635.0,
-     416.0,
-     665.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9964
-   },
-   {
-    "text": "SPREAD",
-    "box": [
-     431.6,
-     635.0,
-     525.0,
-     665.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9908
-   },
-   {
-    "text": "152000",
-    "box": [
-     634.0,
-     635.0,
-     738.0,
-     673.0
-    ],
-    "label": "B-menu.price",
-    "prob": 0.9834
-   },
-   {
-    "text": "1",
-    "box": [
-     165.0,
-     671.0,
-     180.7,
-     708.0
-    ],
-    "label": "B-menu.cnt",
-    "prob": 0.9907
-   },
-   {
-    "text": "WHITE",
-    "box": [
-     196.5,
-     671.0,
-     275.2,
-     708.0
-    ],
-    "label": "B-menu.nm",
-    "prob": 0.994
-   },
-   {
-    "text": "CHOCO",
-    "box": [
-     290.9,
-     671.0,
-     369.6,
-     708.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9911
-   },
-   {
-    "text": "BANANA",
-    "box": [
-     385.4,
-     671.0,
-     479.8,
-     708.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9956
-   },
-   {
-    "text": "SPREAD",
-    "box": [
-     495.6,
-     671.0,
-     590.0,
-     708.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9769
-   },
-   {
-    "text": "52,000",
-    "box": [
-     629.0,
-     672.0,
-     735.0,
-     712.0
-    ],
-    "label": "B-menu.price",
-    "prob": 0.9982
-   },
-   {
-    "text": "TOTAL",
-    "box": [
-     191.0,
-     749.0,
-     353.0,
-     814.0
-    ],
-    "label": "O",
-    "prob": 0.9991
-   },
-   {
-    "text": "123,000",
-    "box": [
-     505.0,
-     751.0,
-     732.0,
-     818.0
-    ],
-    "label": "B-total.total_price",
-    "prob": 0.9278
-   },
-   {
-    "text": "CARD",
-    "box": [
-     187.0,
-     813.0,
-     327.0,
-     878.0
-    ],
-    "label": "O",
-    "prob": 0.9977
-   },
-   {
-    "text": "123000",
-    "box": [
-     508.0,
-     813.0,
-     729.0,
-     882.0
-    ],
-    "label": "B-total.creditcardprice",
-    "prob": 0.967
-   }
-  ],
-  "image_size": [
-   864,
-   1296
-  ],
-  "model": "CRF (token + layout features)"
- },
- {
-  "file": "validation_7.jpg",
-  "fields": {
-   "total": {
-    "text": "59,500",
-    "value": 59500.0,
-    "confidence": 0.9902,
-    "ocr_confidence": 0.7184
-   },
-   "subtotal": {
-    "text": "636",
-    "value": 636.0,
-    "confidence": 0.4958,
-    "ocr_confidence": 0.7552
-   },
-   "tax": {
-    "text": "5.409",
-    "value": 5409.0,
-    "confidence": 0.9975,
-    "ocr_confidence": 0.7897
-   },
-   "service_charge": null,
-   "discount": {
-    "text": "-9,545",
-    "value": -9545.0,
-    "confidence": 0.8197,
-    "ocr_confidence": 0.8017
-   }
-  },
-  "line_items": [
-   {
-    "name": "Choco Devil",
-    "qty": "4",
-    "price": "63,636",
-    "confidence": 0.8296,
-    "price_value": 63636.0,
-    "qty_value": 4.0
-   },
-   {
-    "name": "CP 360 Club Card",
-    "qty": null,
-    "price": "-9.545",
-    "confidence": 0.3954,
-    "price_value": -9545.0,
-    "qty_value": null
+    "price": "100,000",
+    "confidence": 0.9827,
+    "price_value": 100000.0,
+    "qty_value": 1.0,
+    "qty_imputed": true
    }
   ],
   "reconciliation": {
@@ -338,583 +39,182 @@
    "checks": [
     {
      "rule": "subtotal + tax + service - discount = total",
-     "expected": -3500.0,
-     "actual": 59500.0,
+     "expected": 100919.09,
+     "actual": 111000.0,
      "ok": false
     }
    ]
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "low confidence on subtotal (0.50 < 0.70)",
-   "arithmetic check failed: subtotal + tax + service - discount = total (expected -3,500.00, got 59,500.00)"
+   "overall confidence 0.01 < 0.93 (weakest: tax 0.92)",
+   "arithmetic check failed: subtotal + tax + service - discount = total (expected 100,919.09, got 111,000.00)"
   ],
   "words": [
    {
-    "text": "Darepes",
+    "text": "Kupon",
     "box": [
-     480.0,
-     9.0,
-     535.0,
-     149.0
-    ],
-    "label": "O",
-    "prob": 0.977
-   },
-   {
-    "text": "4",
-    "box": [
-     36.0,
-     407.0,
-     49.0,
-     437.0
-    ],
-    "label": "B-menu.cnt",
-    "prob": 0.8296
-   },
-   {
-    "text": "Choco",
-    "box": [
-     62.0,
-     407.0,
-     127.0,
-     437.0
+     69.0,
+     523.0,
+     124.0,
+     552.0
     ],
     "label": "B-menu.nm",
-    "prob": 0.8858
+    "prob": 0.9967
    },
    {
-    "text": "Devil",
+    "text": "15",
     "box": [
-     140.0,
-     407.0,
-     205.0,
-     437.0
+     135.0,
+     523.0,
+     157.0,
+     552.0
     ],
     "label": "I-menu.nm",
-    "prob": 0.9796
+    "prob": 0.9827
    },
    {
-    "text": "63,636",
+    "text": "100,000",
     "box": [
-     417.0,
-     403.0,
-     495.0,
-     430.0
+     419.0,
+     533.0,
+     498.0,
+     563.0
     ],
     "label": "B-menu.price",
-    "prob": 0.9813
+    "prob": 0.9974
    },
    {
-    "text": "CP",
+    "text": "ADD",
     "box": [
-     68.0,
-     436.0,
-     92.1,
-     463.0
+     70.0,
+     552.0,
+     100.6,
+     582.0
     ],
-    "label": "B-menu.nm",
-    "prob": 0.4725
+    "label": "B-menu.sub.nm",
+    "prob": 0.8167
    },
    {
-    "text": "360",
+    "text": "CHICKEN",
     "box": [
-     104.2,
-     436.0,
-     140.4,
-     463.0
+     110.8,
+     552.0,
+     182.2,
+     582.0
     ],
-    "label": "I-menu.nm",
-    "prob": 0.4253
+    "label": "I-menu.sub.nm",
+    "prob": 0.8151
    },
    {
-    "text": "Club",
+    "text": "BOX",
     "box": [
-     152.4,
-     436.0,
-     200.7,
-     463.0
+     192.4,
+     552.0,
+     223.0,
+     582.0
     ],
-    "label": "I-menu.nm",
-    "prob": 0.4483
+    "label": "I-menu.sub.nm",
+    "prob": 0.8223
    },
    {
-    "text": "Card",
+    "text": "909",
     "box": [
-     212.8,
-     436.0,
-     261.0,
-     463.0
+     462.0,
+     565.0,
+     499.0,
+     590.0
     ],
-    "label": "I-menu.nm",
-    "prob": 0.4971
+    "label": "B-menu.sub.price",
+    "prob": 0.7107
    },
    {
-    "text": "-9.545",
+    "text": "Subtotal",
     "box": [
-     418.0,
-     431.0,
-     496.0,
-     458.0
-    ],
-    "label": "B-menu.price",
-    "prob": 0.3954
-   },
-   {
-    "text": "SubTotal:",
-    "box": [
-     211.0,
-     497.0,
-     318.0,
-     522.0
+     65.0,
+     610.0,
+     150.0,
+     640.0
     ],
     "label": "O",
-    "prob": 0.9893
+    "prob": 0.9991
    },
    {
-    "text": "63",
+    "text": "100,909",
     "box": [
-     411.0,
-     490.0,
-     437.7,
-     521.0
+     421.0,
+     623.0,
+     494.0,
+     648.0
     ],
     "label": "B-sub_total.subtotal_price",
-    "prob": 0.6299
+    "prob": 0.9993
    },
    {
-    "text": "636",
+    "text": "PB1(10)",
     "box": [
-     451.0,
-     490.0,
-     491.0,
-     521.0
-    ],
-    "label": "I-sub_total.subtotal_price",
-    "prob": 0.4958
-   },
-   {
-    "text": "Discount:",
-    "box": [
-     211.0,
-     529.0,
-     321.0,
-     556.0
-    ],
-    "label": "O",
-    "prob": 1.0
-   },
-   {
-    "text": "-9,545",
-    "box": [
-     415.0,
-     521.0,
-     493.0,
-     554.0
-    ],
-    "label": "B-sub_total.discount_price",
-    "prob": 0.8197
-   },
-   {
-    "text": "PB1:",
-    "box": [
-     267.0,
-     559.0,
-     324.0,
-     591.0
+     63.0,
+     637.0,
+     159.0,
+     670.0
     ],
     "label": "O",
     "prob": 0.9995
    },
    {
-    "text": "5.409",
+    "text": "10,09",
     "box": [
-     425.0,
-     553.0,
+     428.0,
+     651.0,
      495.0,
-     587.0
-    ],
-    "label": "B-sub_total.tax_price",
-    "prob": 0.9975
-   },
-   {
-    "text": "Total:",
-    "box": [
-     200.0,
-     629.0,
-     302.0,
-     681.0
-    ],
-    "label": "O",
-    "prob": 0.9983
-   },
-   {
-    "text": "59,500",
-    "box": [
-     406.0,
-     617.0,
-     511.0,
      679.0
     ],
-    "label": "B-total.total_price",
-    "prob": 0.9902
+    "label": "B-sub_total.tax_price",
+    "prob": 0.9234
    },
    {
-    "text": "cash:",
+    "text": "Total",
     "box": [
-     274.0,
-     686.0,
-     342.0,
-     716.0
+     59.0,
+     697.0,
+     118.0,
+     727.0
     ],
     "label": "O",
-    "prob": 0.9613
+    "prob": 0.9984
    },
    {
-    "text": "100,0000",
+    "text": "111,000",
     "box": [
-     422.0,
-     672.0,
-     529.0,
-     705.0
-    ],
-    "label": "B-total.cashprice",
-    "prob": 0.997
-   },
-   {
-    "text": "Change:",
-    "box": [
-     240.0,
-     719.0,
-     330.0,
-     744.0
-    ],
-    "label": "O",
-    "prob": 0.9997
-   },
-   {
-    "text": "40,500",
-    "box": [
-     421.0,
-     701.0,
-     498.0,
+     416.0,
+     707.0,
+     493.0,
      734.0
     ],
-    "label": "B-total.changeprice",
-    "prob": 0.9922
-   }
-  ],
-  "image_size": [
-   576,
-   864
-  ],
-  "model": "CRF (token + layout features)"
- },
- {
-  "file": "validation_8.jpg",
-  "fields": {
-   "total": {
-    "text": "11,700",
-    "value": 11700.0,
-    "confidence": 0.9964,
-    "ocr_confidence": 0.8433
-   },
-   "subtotal": {
-    "text": "11,700",
-    "value": 11700.0,
-    "confidence": 0.9704,
-    "ocr_confidence": 0.7696
-   },
-   "tax": null,
-   "service_charge": null,
-   "discount": null
-  },
-  "line_items": [
-   {
-    "name": "TALAM UNGU",
-    "qty": "3X",
-    "price": "19,500",
-    "confidence": 0.9838,
-    "price_value": 19500.0,
-    "qty_value": 3.0
-   },
-   {
-    "name": "MIKA KECIL",
-    "qty": "1X",
-    "price": null,
-    "confidence": 0.6929,
-    "price_value": null,
-    "qty_value": 1.0
-   }
-  ],
-  "reconciliation": {
-   "status": "PASS",
-   "checks": [
-    {
-     "rule": "subtotal + tax + service - discount = total",
-     "expected": 11700.0,
-     "actual": 11700.0,
-     "ok": true
-    }
-   ]
-  },
-  "decision": "AUTO_POST",
-  "reasons": [
-   "all key fields confident and arithmetic reconciles"
-  ],
-  "words": [
-   {
-    "text": "3X",
-    "box": [
-     141.0,
-     380.0,
-     166.0,
-     403.0
-    ],
-    "label": "B-menu.cnt",
-    "prob": 0.9906
-   },
-   {
-    "text": "06500",
-    "box": [
-     275.0,
-     382.0,
-     327.0,
-     407.0
-    ],
-    "label": "B-menu.unitprice",
-    "prob": 0.9442
-   },
-   {
-    "text": "TALAM",
-    "box": [
-     141.0,
-     402.0,
-     188.5,
-     427.0
-    ],
-    "label": "B-menu.nm",
-    "prob": 0.9946
-   },
-   {
-    "text": "UNGU",
-    "box": [
-     198.0,
-     402.0,
-     236.0,
-     427.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9838
-   },
-   {
-    "text": "19,500",
-    "box": [
-     375.0,
-     403.0,
-     436.0,
-     428.0
-    ],
-    "label": "B-menu.price",
-    "prob": 0.9932
-   },
-   {
-    "text": "DISC",
-    "box": [
-     138.0,
-     424.0,
-     177.1,
-     448.0
-    ],
-    "label": "O",
-    "prob": 0.9992
-   },
-   {
-    "text": "ITEM",
-    "box": [
-     186.9,
-     424.0,
-     226.0,
-     448.0
-    ],
-    "label": "O",
-    "prob": 0.9998
-   },
-   {
-    "text": "-40.000%",
-    "box": [
-     357.0,
-     425.0,
-     437.0,
-     450.0
-    ],
-    "label": "O",
-    "prob": 0.982
-   },
-   {
-    "text": "AMOUNT",
-    "box": [
-     137.0,
-     445.0,
-     197.0,
-     470.0
-    ],
-    "label": "O",
-    "prob": 0.9948
-   },
-   {
-    "text": "-7.800",
-    "box": [
-     376.0,
-     449.0,
-     437.0,
-     471.0
-    ],
-    "label": "B-menu.discountprice",
-    "prob": 0.7357
-   },
-   {
-    "text": "1X",
-    "box": [
-     136.0,
-     466.0,
-     161.0,
-     490.0
-    ],
-    "label": "B-menu.cnt",
-    "prob": 0.6929
-   },
-   {
-    "text": "@Q",
-    "box": [
-     274.0,
-     470.0,
-     297.0,
-     492.0
-    ],
-    "label": "B-menu.unitprice",
-    "prob": 0.3809
-   },
-   {
-    "text": "MIKA",
-    "box": [
-     131.0,
-     488.0,
-     170.6,
-     515.0
-    ],
-    "label": "B-menu.nm",
-    "prob": 0.9238
-   },
-   {
-    "text": "KECIL",
-    "box": [
-     180.5,
-     488.0,
-     230.0,
-     515.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9169
-   },
-   {
-    "text": "4.00xITEMS",
-    "box": [
-     234.0,
-     514.0,
-     333.0,
-     539.0
-    ],
-    "label": "B-total.menuqty_cnt",
-    "prob": 0.8782
-   },
-   {
-    "text": "SUBTOTAL",
-    "box": [
-     128.0,
-     532.0,
-     211.0,
-     561.0
-    ],
-    "label": "O",
-    "prob": 0.9998
-   },
-   {
-    "text": "11,700",
-    "box": [
-     378.0,
-     539.0,
-     441.0,
-     565.0
-    ],
-    "label": "B-sub_total.subtotal_price",
-    "prob": 0.9704
-   },
-   {
-    "text": "TOTAL",
-    "box": [
-     129.0,
-     556.0,
-     225.0,
-     585.0
-    ],
-    "label": "O",
-    "prob": 0.9997
-   },
-   {
-    "text": "11,700",
-    "box": [
-     378.0,
-     564.0,
-     441.0,
-     588.0
-    ],
     "label": "B-total.total_price",
-    "prob": 0.9964
+    "prob": 0.9987
    },
    {
-    "text": "CASH",
+    "text": "Cash",
     "box": [
-     124.0,
-     581.0,
-     208.0,
-     608.0
+     56.0,
+     756.0,
+     108.0,
+     787.0
     ],
     "label": "O",
-    "prob": 0.9998
+    "prob": 0.9996
    },
    {
-    "text": "20,000",
+    "text": "Rp-111,000",
     "box": [
-     376.0,
-     587.0,
-     442.0,
-     614.0
+     385.0,
+     760.0,
+     493.0,
+     792.0
     ],
     "label": "B-total.cashprice",
-    "prob": 0.9991
-   },
-   {
-    "text": "CHANGE",
-    "box": [
-     123.0,
-     605.0,
-     244.0,
-     633.0
-    ],
-    "label": "O",
-    "prob": 0.9997
-   },
-   {
-    "text": "8,300",
-    "box": [
-     386.0,
-     613.0,
-     443.0,
-     638.0
-    ],
-    "label": "B-total.changeprice",
-    "prob": 0.9981
+    "prob": 0.9795
    }
   ],
   "image_size": [
@@ -924,13 +224,13 @@
   "model": "CRF (token + layout features)"
  },
  {
-  "file": "validation_10.jpg",
+  "file": "test_11.jpg",
   "fields": {
    "total": {
-    "text": "60.000",
-    "value": 60000.0,
-    "confidence": 0.9403,
-    "ocr_confidence": 0.8006
+    "text": "230,000",
+    "value": 230000.0,
+    "confidence": 0.9673,
+    "ocr_confidence": 0.7433
    },
    "subtotal": null,
    "tax": null,
@@ -939,20 +239,12 @@
   },
   "line_items": [
    {
-    "name": "Serbu",
+    "name": null,
     "qty": "1",
-    "price": "40.000",
-    "confidence": 0.6925,
-    "price_value": 40000.0,
+    "price": null,
+    "confidence": 0.6915,
+    "price_value": null,
     "qty_value": 1.0
-   },
-   {
-    "name": "Choco Peanut Bread",
-    "qty": null,
-    "price": "20.000",
-    "confidence": 0.9487,
-    "price_value": 20000.0,
-    "qty_value": null
    }
   ],
   "reconciliation": {
@@ -965,136 +257,657 @@
   ],
   "words": [
    {
-    "text": "Serbu",
-    "box": [
-     165.0,
-     576.0,
-     243.6,
-     612.0
-    ],
-    "label": "B-menu.nm",
-    "prob": 0.6925
-   },
-   {
     "text": "1",
     "box": [
-     259.3,
-     576.0,
-     275.0,
-     612.0
+     114.0,
+     372.0,
+     123.5,
+     406.0
     ],
     "label": "B-menu.cnt",
-    "prob": 0.8645
+    "prob": 0.6915
    },
    {
-    "text": "40.000",
+    "text": "BANABERRYFRESHCREAMCAK230,000",
     "box": [
-     601.0,
-     589.0,
-     700.0,
-     627.0
+     123.5,
+     372.0,
+     400.0,
+     406.0
     ],
-    "label": "B-menu.price",
-    "prob": 0.7669
-   },
-   {
-    "text": "Choco",
-    "box": [
-     165.0,
-     610.0,
-     239.7,
-     651.0
-    ],
-    "label": "B-menu.nm",
-    "prob": 0.996
-   },
-   {
-    "text": "Peanut",
-    "box": [
-     254.7,
-     610.0,
-     344.3,
-     651.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9918
-   },
-   {
-    "text": "Bread",
-    "box": [
-     359.3,
-     610.0,
-     434.0,
-     651.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9487
-   },
-   {
-    "text": "20.000",
-    "box": [
-     600.0,
-     622.0,
-     700.0,
-     663.0
-    ],
-    "label": "B-menu.price",
-    "prob": 0.9913
+    "label": "O",
+    "prob": 0.8816
    },
    {
     "text": "TOTAL",
     "box": [
-     398.0,
-     710.0,
-     475.0,
-     746.0
+     130.0,
+     421.0,
+     212.0,
+     457.0
+    ],
+    "label": "O",
+    "prob": 0.999
+   },
+   {
+    "text": "230,000",
+    "box": [
+     288.0,
+     410.0,
+     406.0,
+     448.0
+    ],
+    "label": "B-total.total_price",
+    "prob": 0.9672
+   },
+   {
+    "text": "CASH",
+    "box": [
+     129.0,
+     451.0,
+     170.0,
+     473.0
+    ],
+    "label": "O",
+    "prob": 0.9997
+   },
+   {
+    "text": "230.000",
+    "box": [
+     346.0,
+     437.0,
+     408.0,
+     461.0
+    ],
+    "label": "B-total.cashprice",
+    "prob": 0.962
+   },
+   {
+    "text": "CHANGE",
+    "box": [
+     126.0,
+     464.0,
+     234.0,
+     505.0
+    ],
+    "label": "O",
+    "prob": 0.9981
+   }
+  ],
+  "image_size": [
+   576,
+   864
+  ],
+  "model": "CRF (token + layout features)"
+ },
+ {
+  "file": "test_12.jpg",
+  "fields": {
+   "total": {
+    "text": "120,000",
+    "value": 120000.0,
+    "confidence": 0.7327,
+    "ocr_confidence": 0.8191
+   },
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "line_items": [
+   {
+    "name": "0571-1854 BLUS WANITA",
+    "qty": "29",
+    "price": "120,000",
+    "confidence": 0.7047,
+    "price_value": 120000.0,
+    "qty_value": 29.0
+   },
+   {
+    "name": "1002-0060 SHOPPING BAG",
+    "qty": null,
+    "price": null,
+    "confidence": 0.8315,
+    "price_value": null,
+    "qty_value": null
+   }
+  ],
+  "reconciliation": {
+   "status": "NOT_CHECKABLE",
+   "checks": []
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "overall confidence 0.60 < 0.93 (weakest: total 0.73)"
+  ],
+  "words": [
+   {
+    "text": "29",
+    "box": [
+     415.0,
+     269.0,
+     469.0,
+     323.0
+    ],
+    "label": "B-menu.cnt",
+    "prob": 0.7047
+   },
+   {
+    "text": "0571-1854",
+    "box": [
+     69.0,
+     354.0,
+     168.4,
+     392.0
+    ],
+    "label": "B-menu.nm",
+    "prob": 0.9843
+   },
+   {
+    "text": "BLUS",
+    "box": [
+     179.5,
+     354.0,
+     223.7,
+     392.0
+    ],
+    "label": "I-menu.nm",
+    "prob": 0.9829
+   },
+   {
+    "text": "WANITA",
+    "box": [
+     234.7,
+     354.0,
+     301.0,
+     392.0
+    ],
+    "label": "I-menu.nm",
+    "prob": 0.9834
+   },
+   {
+    "text": "120,000",
+    "box": [
+     343.0,
+     371.0,
+     427.0,
+     408.0
+    ],
+    "label": "B-menu.price",
+    "prob": 0.9843
+   },
+   {
+    "text": "8120,0000%",
+    "box": [
+     170.0,
+     384.0,
+     311.0,
+     415.0
+    ],
+    "label": "O",
+    "prob": 0.5398
+   },
+   {
+    "text": "1002-0060",
+    "box": [
+     69.0,
+     396.0,
+     169.6,
+     444.0
+    ],
+    "label": "B-menu.nm",
+    "prob": 0.8315
+   },
+   {
+    "text": "SHOPPING",
+    "box": [
+     180.8,
+     396.0,
+     270.3,
+     444.0
+    ],
+    "label": "I-menu.nm",
+    "prob": 0.8331
+   },
+   {
+    "text": "BAG",
+    "box": [
+     281.5,
+     396.0,
+     315.0,
+     444.0
+    ],
+    "label": "I-menu.nm",
+    "prob": 0.8478
+   },
+   {
+    "text": "08801002",
+    "box": [
+     211.0,
+     438.0,
+     310.0,
+     465.0
+    ],
+    "label": "B-total.total_price",
+    "prob": 0.4022
+   },
+   {
+    "text": "TOTAL",
+    "box": [
+     60.0,
+     483.0,
+     117.1,
+     522.0
+    ],
+    "label": "O",
+    "prob": 0.9994
+   },
+   {
+    "text": "(2",
+    "box": [
+     128.6,
+     483.0,
+     151.4,
+     522.0
+    ],
+    "label": "O",
+    "prob": 0.9026
+   },
+   {
+    "text": "iten)",
+    "box": [
+     162.9,
+     483.0,
+     220.0,
+     522.0
+    ],
+    "label": "O",
+    "prob": 0.8641
+   },
+   {
+    "text": "120,000",
+    "box": [
+     345.0,
+     483.0,
+     431.0,
+     516.0
+    ],
+    "label": "B-total.total_price",
+    "prob": 0.5893
+   },
+   {
+    "text": "CC.Visa.CA",
+    "box": [
+     55.0,
+     514.0,
+     184.0,
+     548.0
+    ],
+    "label": "O",
+    "prob": 0.9862
+   },
+   {
+    "text": "120,000",
+    "box": [
+     343.0,
+     513.0,
+     432.0,
+     544.0
+    ],
+    "label": "B-total.total_price",
+    "prob": 0.7321
+   },
+   {
+    "text": "Total",
+    "box": [
+     54.0,
+     546.0,
+     109.7,
+     577.0
+    ],
+    "label": "O",
+    "prob": 0.9974
+   },
+   {
+    "text": "kembalian",
+    "box": [
+     120.8,
+     546.0,
+     221.0,
+     577.0
+    ],
+    "label": "O",
+    "prob": 0.9892
+   }
+  ],
+  "image_size": [
+   576,
+   864
+  ],
+  "model": "CRF (token + layout features)"
+ },
+ {
+  "file": "test_13.jpg",
+  "fields": {
+   "total": {
+    "text": "51-300",
+    "value": 51300.0,
+    "confidence": 0.8714,
+    "ocr_confidence": 0.669
+   },
+   "subtotal": {
+    "text": "46.636",
+    "value": 46636.0,
+    "confidence": 0.9472,
+    "ocr_confidence": 0.7731
+   },
+   "tax": {
+    "text": "4.664",
+    "value": 4664.0,
+    "confidence": 0.9772,
+    "ocr_confidence": 0.5079
+   },
+   "service_charge": null,
+   "discount": null
+  },
+  "line_items": [
+   {
+    "name": "BASO KLAH 1.43.636",
+    "qty": "1",
+    "price": "43.634",
+    "confidence": 0.7784,
+    "price_value": 43634.0,
+    "qty_value": 1.0,
+    "qty_imputed": true
+   },
+   {
+    "name": "A.PTHERALCELAS",
+    "qty": "1",
+    "price": "3.000",
+    "confidence": 0.7133,
+    "price_value": 3000.0,
+    "qty_value": 1.0
+   }
+  ],
+  "reconciliation": {
+   "status": "PASS",
+   "checks": [
+    {
+     "rule": "subtotal + tax + service - discount = total",
+     "expected": 51300.0,
+     "actual": 51300.0,
+     "ok": true
+    }
+   ]
+  },
+  "decision": "HUMAN_REVIEW",
+  "reasons": [
+   "overall confidence 0.92 < 0.93 (weakest: total 0.87)"
+  ],
+  "words": [
+   {
+    "text": "FOURNC",
+    "box": [
+     485.0,
+     363.0,
+     576.0,
+     378.0
+    ],
+    "label": "O",
+    "prob": 0.8382
+   },
+   {
+    "text": "BASO",
+    "box": [
+     133.0,
+     557.0,
+     195.7,
+     590.0
+    ],
+    "label": "B-menu.nm",
+    "prob": 0.9444
+   },
+   {
+    "text": "KLAH",
+    "box": [
+     211.3,
+     557.0,
+     274.0,
+     590.0
+    ],
+    "label": "I-menu.nm",
+    "prob": 0.9548
+   },
+   {
+    "text": "1.43.636",
+    "box": [
+     423.0,
+     559.0,
+     548.0,
+     597.0
+    ],
+    "label": "I-menu.nm",
+    "prob": 0.7784
+   },
+   {
+    "text": "43.634",
+    "box": [
+     612.0,
+     564.0,
+     700.0,
+     598.0
+    ],
+    "label": "B-menu.price",
+    "prob": 0.9769
+   },
+   {
+    "text": "A.PTHERALCELAS",
+    "box": [
+     132.0,
+     599.0,
+     361.0,
+     632.0
+    ],
+    "label": "B-menu.nm",
+    "prob": 0.7133
+   },
+   {
+    "text": "1",
+    "box": [
+     417.0,
+     601.0,
+     435.9,
+     636.0
+    ],
+    "label": "B-menu.cnt",
+    "prob": 0.9854
+   },
+   {
+    "text": "3.000",
+    "box": [
+     454.7,
+     601.0,
+     549.0,
+     636.0
+    ],
+    "label": "B-menu.unitprice",
+    "prob": 0.9872
+   },
+   {
+    "text": "3.000",
+    "box": [
+     623.0,
+     601.0,
+     702.0,
+     640.0
+    ],
+    "label": "B-menu.price",
+    "prob": 0.9275
+   },
+   {
+    "text": "FUNG",
+    "box": [
+     698.0,
+     550.0,
+     739.0,
+     687.0
+    ],
+    "label": "O",
+    "prob": 0.9492
+   },
+   {
+    "text": "TOTAL.",
+    "box": [
+     130.0,
+     637.0,
+     211.0,
+     676.0
+    ],
+    "label": "O",
+    "prob": 0.9892
+   },
+   {
+    "text": "46.63",
+    "box": [
+     612.0,
+     642.0,
+     700.0,
+     682.0
+    ],
+    "label": "B-total.total_price",
+    "prob": 0.4737
+   },
+   {
+    "text": "46.636",
+    "box": [
+     611.0,
+     684.0,
+     703.0,
+     723.0
+    ],
+    "label": "B-sub_total.subtotal_price",
+    "prob": 0.945
+   },
+   {
+    "text": "TAX",
+    "box": [
+     133.0,
+     725.0,
+     178.8,
+     755.0
     ],
     "label": "O",
     "prob": 0.9988
    },
    {
-    "text": "60.000",
+    "text": "10.00",
     "box": [
-     596.0,
-     690.0,
-     698.0,
-     754.0
+     194.1,
+     725.0,
+     270.5,
+     755.0
+    ],
+    "label": "O",
+    "prob": 0.9844
+   },
+   {
+    "text": "%",
+    "box": [
+     285.7,
+     725.0,
+     301.0,
+     755.0
+    ],
+    "label": "O",
+    "prob": 0.9909
+   },
+   {
+    "text": "4.664",
+    "box": [
+     623.0,
+     725.0,
+     693.0,
+     758.0
+    ],
+    "label": "B-sub_total.tax_price",
+    "prob": 0.9684
+   },
+   {
+    "text": "GRA-D",
+    "box": [
+     130.0,
+     764.0,
+     200.8,
+     795.0
+    ],
+    "label": "O",
+    "prob": 0.9901
+   },
+   {
+    "text": "TOTAL.",
+    "box": [
+     215.0,
+     764.0,
+     300.0,
+     795.0
+    ],
+    "label": "O",
+    "prob": 0.9833
+   },
+   {
+    "text": "51-300",
+    "box": [
+     607.0,
+     761.0,
+     700.0,
+     801.0
     ],
     "label": "B-total.total_price",
-    "prob": 0.9403
+    "prob": 0.8611
    },
    {
-    "text": "CASH",
+    "text": "TUMAI",
     "box": [
-     93.0,
-     779.0,
-     167.0,
-     819.0
+     132.0,
+     802.0,
+     214.0,
+     834.0
     ],
     "label": "O",
-    "prob": 0.9998
+    "prob": 0.9961
    },
    {
-    "text": "60.000",
+    "text": "52.000",
     "box": [
-     598.0,
-     786.0,
-     695.0,
-     827.0
+     608.0,
+     804.0,
+     699.0,
+     835.0
     ],
     "label": "B-total.cashprice",
-    "prob": 0.9932
+    "prob": 0.4984
    },
    {
-    "text": "CHANGED",
+    "text": "KEEALT",
     "box": [
-     93.0,
-     819.0,
-     208.0,
-     855.0
+     134.0,
+     841.0,
+     240.0,
+     870.0
     ],
     "label": "O",
-    "prob": 0.9943
+    "prob": 0.9946
+   },
+   {
+    "text": "700",
+    "box": [
+     647.0,
+     840.0,
+     692.0,
+     871.0
+    ],
+    "label": "B-total.changeprice",
+    "prob": 0.6717
    }
   ],
   "image_size": [
@@ -1104,61 +917,87 @@
   "model": "CRF (token + layout features)"
  },
  {
-  "file": "validation_11.jpg",
+  "file": "test_14.jpg",
   "fields": {
    "total": {
-    "text": "89.100",
-    "value": 89100.0,
-    "confidence": 0.9957,
-    "ocr_confidence": 0.8468
+    "text": "281-435",
+    "value": 281435.0,
+    "confidence": 0.9976,
+    "ocr_confidence": 0.7397
    },
    "subtotal": {
-    "text": "81.000",
-    "value": 81000.0,
-    "confidence": 0.9985,
-    "ocr_confidence": 0.7102
+    "text": "238,000",
+    "value": 238000.0,
+    "confidence": 0.9815,
+    "ocr_confidence": 0.7978
    },
    "tax": {
-    "text": "8.100",
-    "value": 8100.0,
-    "confidence": 0.9972,
-    "ocr_confidence": 0.7132
+    "text": "25,585",
+    "value": 25585.0,
+    "confidence": 0.9953,
+    "ocr_confidence": 0.6584
    },
-   "service_charge": null,
+   "service_charge": {
+    "text": "17,850",
+    "value": 17850.0,
+    "confidence": 0.9898,
+    "ocr_confidence": 0.7273
+   },
    "discount": null
   },
   "line_items": [
    {
-    "name": "Se'I Sapi Sambal Matah\uff08R )1",
-    "qty": null,
-    "price": "20.000",
-    "confidence": 0.6768,
+    "name": "RedVelvet Cheese slc",
+    "qty": "1",
+    "price": "38,000",
+    "confidence": 0.8898,
+    "price_value": 38000.0,
+    "qty_value": 1.0,
+    "qty_imputed": true
+   },
+   {
+    "name": "Chicken Baked Rice",
+    "qty": "1",
+    "price": "000",
+    "confidence": 0.9292,
+    "price_value": 0.0,
+    "qty_value": 1.0,
+    "qty_imputed": true
+   },
+   {
+    "name": "Fish n Chips",
+    "qty": "1",
+    "price": "000",
+    "confidence": 0.9743,
+    "price_value": 0.0,
+    "qty_value": 1.0,
+    "qty_imputed": true
+   },
+   {
+    "name": "Mushroun Soup",
+    "qty": "1",
+    "price": "000",
+    "confidence": 0.9646,
+    "price_value": 0.0,
+    "qty_value": 1.0,
+    "qty_imputed": true
+   },
+   {
+    "name": "Chanonile",
+    "qty": "1",
+    "price": "000",
+    "confidence": 0.8093,
+    "price_value": 0.0,
+    "qty_value": 1.0
+   },
+   {
+    "name": "Iced Tea",
+    "qty": "1",
+    "price": "20,000",
+    "confidence": 0.994,
     "price_value": 20000.0,
-    "qty_value": null
-   },
-   {
-    "name": "Se'Sapi Lada Hitam (J)",
-    "qty": null,
-    "price": "35.000",
-    "confidence": 0.9297,
-    "price_value": 35000.0,
-    "qty_value": null
-   },
-   {
-    "name": "Nasi Putih2",
-    "qty": null,
-    "price": "10.000",
-    "confidence": 0.895,
-    "price_value": 10000.0,
-    "qty_value": null
-   },
-   {
-    "name": "Milk Shake Coklat",
-    "qty": null,
-    "price": "16.000",
-    "confidence": 0.9437,
-    "price_value": 16000.0,
-    "qty_value": null
+    "qty_value": 1.0,
+    "qty_imputed": true
    }
   ],
   "reconciliation": {
@@ -1166,8 +1005,8 @@
    "checks": [
     {
      "rule": "subtotal + tax + service - discount = total",
-     "expected": 89100.0,
-     "actual": 89100.0,
+     "expected": 281435.0,
+     "actual": 281435.0,
      "ok": true
     }
    ]
@@ -1178,349 +1017,645 @@
   ],
   "words": [
    {
-    "text": "Se'I",
+    "text": "RedVelvet",
     "box": [
-     101.0,
-     526.0,
-     174.5,
-     562.0
+     271.0,
+     531.0,
+     373.6,
+     557.0
     ],
     "label": "B-menu.nm",
-    "prob": 0.6769
+    "prob": 0.904
    },
    {
-    "text": "Sapi",
+    "text": "Cheese",
     "box": [
-     192.9,
-     526.0,
-     266.3,
-     562.0
+     385.0,
+     531.0,
+     453.4,
+     557.0
     ],
     "label": "I-menu.nm",
-    "prob": 0.6768
+    "prob": 0.8898
    },
    {
-    "text": "Sambal",
+    "text": "slc",
     "box": [
-     284.7,
-     526.0,
-     394.9,
-     562.0
+     464.8,
+     531.0,
+     499.0,
+     557.0
     ],
     "label": "I-menu.nm",
-    "prob": 0.9604
+    "prob": 0.9636
    },
    {
-    "text": "Matah\uff08R",
+    "text": "38,000",
     "box": [
-     413.3,
-     526.0,
-     541.9,
-     562.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9592
-   },
-   {
-    "text": ")1",
-    "box": [
-     560.3,
-     526.0,
-     597.0,
-     562.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.8047
-   },
-   {
-    "text": "20.000",
-    "box": [
-     730.0,
-     523.0,
-     832.0,
-     560.0
+     607.0,
+     529.0,
+     683.0,
+     563.0
     ],
     "label": "B-menu.price",
+    "prob": 0.9996
+   },
+   {
+    "text": "Chicken",
+    "box": [
+     272.0,
+     554.0,
+     352.5,
+     581.0
+    ],
+    "label": "B-menu.nm",
+    "prob": 0.9849
+   },
+   {
+    "text": "Baked",
+    "box": [
+     364.0,
+     554.0,
+     421.5,
+     581.0
+    ],
+    "label": "I-menu.nm",
+    "prob": 0.9755
+   },
+   {
+    "text": "Rice",
+    "box": [
+     433.0,
+     554.0,
+     479.0,
+     581.0
+    ],
+    "label": "I-menu.nm",
+    "prob": 0.9292
+   },
+   {
+    "text": "000",
+    "box": [
+     644.0,
+     554.0,
+     681.0,
+     581.0
+    ],
+    "label": "B-menu.price",
+    "prob": 0.9709
+   },
+   {
+    "text": "Fish",
+    "box": [
+     270.0,
+     576.0,
+     318.3,
+     603.0
+    ],
+    "label": "B-menu.nm",
+    "prob": 0.9865
+   },
+   {
+    "text": "n",
+    "box": [
+     330.4,
+     576.0,
+     342.5,
+     603.0
+    ],
+    "label": "I-menu.nm",
+    "prob": 0.983
+   },
+   {
+    "text": "Chips",
+    "box": [
+     354.6,
+     576.0,
+     415.0,
+     603.0
+    ],
+    "label": "I-menu.nm",
+    "prob": 0.9751
+   },
+   {
+    "text": "000",
+    "box": [
+     636.0,
+     575.0,
+     682.0,
+     601.0
+    ],
+    "label": "B-menu.price",
+    "prob": 0.9743
+   },
+   {
+    "text": "Mushroun",
+    "box": [
+     271.0,
+     598.0,
+     365.2,
+     628.0
+    ],
+    "label": "B-menu.nm",
+    "prob": 0.9848
+   },
+   {
+    "text": "Soup",
+    "box": [
+     376.9,
+     598.0,
+     424.0,
+     628.0
+    ],
+    "label": "I-menu.nm",
+    "prob": 0.9691
+   },
+   {
+    "text": "000",
+    "box": [
+     633.0,
+     595.0,
+     683.0,
+     627.0
+    ],
+    "label": "B-menu.price",
+    "prob": 0.9646
+   },
+   {
+    "text": "Chanonile",
+    "box": [
+     271.0,
+     622.0,
+     380.0,
+     647.0
+    ],
+    "label": "B-menu.nm",
+    "prob": 0.8093
+   },
+   {
+    "text": "000",
+    "box": [
+     644.0,
+     619.0,
+     683.0,
+     646.0
+    ],
+    "label": "B-menu.price",
+    "prob": 0.8785
+   },
+   {
+    "text": "1",
+    "box": [
+     246.0,
+     642.0,
+     258.5,
+     672.0
+    ],
+    "label": "B-menu.cnt",
+    "prob": 0.9761
+   },
+   {
+    "text": "Iced",
+    "box": [
+     271.0,
+     642.0,
+     321.0,
+     672.0
+    ],
+    "label": "B-menu.nm",
+    "prob": 0.994
+   },
+   {
+    "text": "Tea",
+    "box": [
+     333.5,
+     642.0,
+     371.0,
+     672.0
+    ],
+    "label": "I-menu.nm",
     "prob": 0.9955
    },
    {
-    "text": "Se'Sapi",
+    "text": "20,000",
     "box": [
-     101.0,
-     564.0,
-     220.6,
-     599.0
-    ],
-    "label": "B-menu.nm",
-    "prob": 0.9328
-   },
-   {
-    "text": "Lada",
-    "box": [
-     237.7,
-     564.0,
-     306.1,
-     599.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9297
-   },
-   {
-    "text": "Hitam",
-    "box": [
-     323.2,
-     564.0,
-     408.6,
-     599.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9823
-   },
-   {
-    "text": "(J)",
-    "box": [
-     425.7,
-     564.0,
-     477.0,
-     599.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9664
-   },
-   {
-    "text": "35.000",
-    "box": [
-     732.0,
-     563.0,
-     832.0,
-     597.0
+     610.0,
+     642.0,
+     684.0,
+     670.0
     ],
     "label": "B-menu.price",
-    "prob": 0.9989
+    "prob": 0.9976
    },
    {
-    "text": "Nasi",
+    "text": "SUBTOTAL",
     "box": [
-     101.0,
+     271.0,
+     688.0,
+     365.0,
+     715.0
+    ],
+    "label": "O",
+    "prob": 0.9995
+   },
+   {
+    "text": "238,000",
+    "box": [
      600.0,
-     184.6,
-     638.0
+     686.0,
+     684.0,
+     713.0
+    ],
+    "label": "B-sub_total.subtotal_price",
+    "prob": 0.9814
+   },
+   {
+    "text": "Service",
+    "box": [
+     272.0,
+     712.0,
+     359.0,
+     739.0
+    ],
+    "label": "O",
+    "prob": 0.9997
+   },
+   {
+    "text": "17,850",
+    "box": [
+     611.0,
+     708.0,
+     688.0,
+     740.0
+    ],
+    "label": "B-sub_total.service_price",
+    "prob": 0.9898
+   },
+   {
+    "text": "PB1",
+    "box": [
+     270.0,
+     734.0,
+     311.0,
+     761.0
+    ],
+    "label": "O",
+    "prob": 0.9961
+   },
+   {
+    "text": "25,585",
+    "box": [
+     607.0,
+     725.0,
+     690.0,
+     767.0
+    ],
+    "label": "B-sub_total.tax_price",
+    "prob": 0.9924
+   },
+   {
+    "text": "TOTAL",
+    "box": [
+     277.0,
+     781.0,
+     387.0,
+     805.0
+    ],
+    "label": "O",
+    "prob": 0.9994
+   },
+   {
+    "text": "281-435",
+    "box": [
+     523.0,
+     776.0,
+     687.0,
+     808.0
+    ],
+    "label": "B-total.total_price",
+    "prob": 0.9975
+   },
+   {
+    "text": "Coupon",
+    "box": [
+     270.0,
+     825.0,
+     347.0,
+     852.0
+    ],
+    "label": "O",
+    "prob": 0.996
+   },
+   {
+    "text": "100,000",
+    "box": [
+     604.0,
+     821.0,
+     690.0,
+     851.0
+    ],
+    "label": "B-total.cashprice",
+    "prob": 0.4142
+   },
+   {
+    "text": "CASH",
+    "box": [
+     269.0,
+     844.0,
+     326.0,
+     877.0
+    ],
+    "label": "O",
+    "prob": 0.9998
+   },
+   {
+    "text": "200,000",
+    "box": [
+     606.0,
+     847.0,
+     691.0,
+     874.0
+    ],
+    "label": "B-total.cashprice",
+    "prob": 0.959
+   },
+   {
+    "text": "Change",
+    "box": [
+     269.0,
+     869.0,
+     346.0,
+     904.0
+    ],
+    "label": "O",
+    "prob": 0.9994
+   },
+   {
+    "text": "18,565",
+    "box": [
+     615.0,
+     868.0,
+     693.0,
+     899.0
+    ],
+    "label": "B-total.changeprice",
+    "prob": 0.9941
+   }
+  ],
+  "image_size": [
+   900,
+   1600
+  ],
+  "model": "CRF (token + layout features)"
+ },
+ {
+  "file": "test_15.jpg",
+  "fields": {
+   "total": {
+    "text": "63.000",
+    "value": 63000.0,
+    "confidence": 0.9722,
+    "ocr_confidence": 0.7424
+   },
+   "subtotal": null,
+   "tax": null,
+   "service_charge": null,
+   "discount": null
+  },
+  "line_items": [
+   {
+    "name": "Lemon Tea (L)",
+    "qty": "1",
+    "price": "25.000",
+    "confidence": 0.9757,
+    "price_value": 25000.0,
+    "qty_value": 1.0,
+    "qty_imputed": true
+   },
+   {
+    "name": "Caramel Small",
+    "qty": "1",
+    "price": "38.000",
+    "confidence": 0.9788,
+    "price_value": 38000.0,
+    "qty_value": 1.0,
+    "qty_imputed": true
+   }
+  ],
+  "reconciliation": {
+   "status": "NOT_CHECKABLE",
+   "checks": []
+  },
+  "decision": "AUTO_POST",
+  "reasons": [
+   "all key fields confident"
+  ],
+  "words": [
+   {
+    "text": "XXI",
+    "box": [
+     206.0,
+     149.0,
+     360.0,
+     229.0
+    ],
+    "label": "O",
+    "prob": 0.956
+   },
+   {
+    "text": "cate",
+    "box": [
+     211.0,
+     229.0,
+     345.0,
+     285.0
+    ],
+    "label": "O",
+    "prob": 0.9333
+   },
+   {
+    "text": "Lemon",
+    "box": [
+     82.0,
+     514.0,
+     142.0,
+     546.0
     ],
     "label": "B-menu.nm",
-    "prob": 0.9815
+    "prob": 0.9928
    },
    {
-    "text": "Putih2",
+    "text": "Tea",
     "box": [
-     205.5,
-     600.0,
-     331.0,
-     638.0
+     154.0,
+     514.0,
+     190.0,
+     546.0
     ],
     "label": "I-menu.nm",
-    "prob": 0.895
+    "prob": 0.9912
    },
    {
-    "text": "10.000",
+    "text": "(L)",
     "box": [
-     735.0,
-     601.0,
-     831.0,
-     633.0
-    ],
-    "label": "B-menu.price",
-    "prob": 0.999
-   },
-   {
-    "text": "Milk",
-    "box": [
-     100.0,
-     639.0,
-     164.0,
-     677.0
-    ],
-    "label": "B-menu.nm",
-    "prob": 0.9529
-   },
-   {
-    "text": "Shake",
-    "box": [
-     180.0,
-     639.0,
-     260.0,
-     677.0
+     202.0,
+     514.0,
+     238.0,
+     546.0
     ],
     "label": "I-menu.nm",
-    "prob": 0.9437
+    "prob": 0.9757
    },
    {
-    "text": "Coklat",
+    "text": "25.000",
     "box": [
-     276.0,
-     639.0,
-     372.0,
-     677.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9567
-   },
-   {
-    "text": "16.000",
-    "box": [
-     733.0,
-     638.0,
-     832.0,
-     673.0
+     423.0,
+     525.0,
+     496.0,
+     555.0
     ],
     "label": "B-menu.price",
     "prob": 0.9984
    },
    {
-    "text": "Subtotal",
+    "text": "Caramel",
     "box": [
-     99.0,
-     716.0,
-     232.0,
-     755.0
+     80.0,
+     543.0,
+     165.1,
+     574.0
+    ],
+    "label": "B-menu.nm",
+    "prob": 0.9944
+   },
+   {
+    "text": "Small",
+    "box": [
+     177.2,
+     543.0,
+     238.0,
+     574.0
+    ],
+    "label": "I-menu.nm",
+    "prob": 0.9788
+   },
+   {
+    "text": "38.000",
+    "box": [
+     423.0,
+     554.0,
+     496.0,
+     584.0
+    ],
+    "label": "B-menu.price",
+    "prob": 0.9885
+   },
+   {
+    "text": "TOTAL",
+    "box": [
+     264.0,
+     622.0,
+     330.0,
+     659.0
     ],
     "label": "O",
-    "prob": 0.9996
+    "prob": 0.9986
    },
    {
-    "text": "81.000",
+    "text": "63.000",
     "box": [
-     731.0,
-     713.0,
-     832.0,
-     747.0
-    ],
-    "label": "B-sub_total.subtotal_price",
-    "prob": 0.9985
-   },
-   {
-    "text": "PB110%",
-    "box": [
-     98.0,
-     753.0,
-     250.0,
-     795.0
-    ],
-    "label": "O",
-    "prob": 0.9999
-   },
-   {
-    "text": "8.100",
-    "box": [
-     745.0,
-     751.0,
-     832.0,
-     786.0
-    ],
-    "label": "B-sub_total.tax_price",
-    "prob": 0.9972
-   },
-   {
-    "text": "Total",
-    "box": [
-     98.0,
-     831.0,
-     186.0,
-     876.0
-    ],
-    "label": "O",
-    "prob": 0.9987
-   },
-   {
-    "text": "89.100",
-    "box": [
-     732.0,
-     824.0,
-     833.0,
-     862.0
+     420.0,
+     609.0,
+     502.0,
+     664.0
     ],
     "label": "B-total.total_price",
-    "prob": 0.9957
+    "prob": 0.9712
    },
    {
-    "text": "Kartu",
+    "text": "CASH",
     "box": [
-     95.0,
-     911.0,
-     189.0,
-     954.0
+     19.0,
+     688.0,
+     78.0,
+     720.0
     ],
     "label": "O",
-    "prob": 0.9948
+    "prob": 0.9998
    },
    {
-    "text": "89.100",
+    "text": "70.000",
     "box": [
-     734.0,
-     902.0,
-     832.0,
-     937.0
+     427.0,
+     692.0,
+     501.0,
+     723.0
     ],
-    "label": "B-total.creditcardprice",
-    "prob": 0.7278
+    "label": "B-total.cashprice",
+    "prob": 0.9988
    },
    {
-    "text": "Kembali",
+    "text": "CHANGED",
     "box": [
-     94.0,
-     948.0,
-     217.0,
-     994.0
+     16.0,
+     719.0,
+     110.0,
+     752.0
     ],
     "label": "O",
-    "prob": 0.991
+    "prob": 0.9994
+   },
+   {
+    "text": "7.000",
+    "box": [
+     437.0,
+     724.0,
+     503.0,
+     755.0
+    ],
+    "label": "B-total.changeprice",
+    "prob": 0.9972
    }
   ],
   "image_size": [
-   907,
-   1280
+   576,
+   864
   ],
   "model": "CRF (token + layout features)"
  },
  {
-  "file": "validation_14.jpg",
+  "file": "test_16.jpg",
   "fields": {
    "total": {
-    "text": "Rp39.600",
-    "value": 39600.0,
-    "confidence": 0.9972,
-    "ocr_confidence": 0.876
+    "text": "70,000",
+    "value": 70000.0,
+    "confidence": 0.9871,
+    "ocr_confidence": 0.7446
    },
    "subtotal": {
-    "text": "36.000",
-    "value": 36000.0,
-    "confidence": 0.5458,
-    "ocr_confidence": 0.8151
+    "text": "63.636",
+    "value": 63636.0,
+    "confidence": 0.999,
+    "ocr_confidence": 0.7307
    },
    "tax": {
-    "text": "Rp3.600",
-    "value": 3600.0,
-    "confidence": 0.9929,
-    "ocr_confidence": 0.8359
+    "text": "6.364",
+    "value": 6364.0,
+    "confidence": 0.9412,
+    "ocr_confidence": 0.7108
    },
    "service_charge": null,
    "discount": null
   },
   "line_items": [
    {
-    "name": "Arem Arem",
-    "qty": null,
-    "price": "24.000",
-    "confidence": 0.9883,
-    "price_value": 24000.0,
-    "qty_value": null
-   },
-   {
-    "name": "Kroket",
-    "qty": "1x",
-    "price": "12.000",
-    "confidence": 0.6468,
-    "price_value": 12000.0,
-    "qty_value": 1.0
+    "name": "1[LG]BLACKSAKURA",
+    "qty": "1",
+    "price": "59,091",
+    "confidence": 0.4692,
+    "price_value": 59091.0,
+    "qty_value": 1.0,
+    "qty_imputed": true
    }
   ],
   "reconciliation": {
@@ -1528,569 +1663,296 @@
    "checks": [
     {
      "rule": "subtotal + tax + service - discount = total",
-     "expected": 39600.0,
-     "actual": 39600.0,
+     "expected": 70000.0,
+     "actual": 70000.0,
      "ok": true
     }
    ]
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on subtotal (0.55 < 0.70)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "words": [
    {
-    "text": "Arem",
+    "text": "1[LG]BLACKSAKURA",
     "box": [
-     158.0,
-     538.0,
-     199.3,
-     565.0
+     113.0,
+     637.0,
+     398.0,
+     665.0
     ],
     "label": "B-menu.nm",
-    "prob": 0.9896
+    "prob": 0.4692
    },
    {
-    "text": "Arem",
+    "text": "59,091",
     "box": [
-     209.7,
-     538.0,
-     251.0,
-     565.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9883
-   },
-   {
-    "text": "@12.000",
-    "box": [
-     204.0,
-     565.0,
-     277.0,
-     590.0
-    ],
-    "label": "B-menu.unitprice",
-    "prob": 0.9969
-   },
-   {
-    "text": "24.000",
-    "box": [
-     407.0,
-     568.0,
-     470.0,
-     595.0
-    ],
-    "label": "B-menu.price",
-    "prob": 0.9987
-   },
-   {
-    "text": "Kroket",
-    "box": [
-     154.0,
-     596.0,
-     221.0,
-     623.0
-    ],
-    "label": "B-menu.nm",
-    "prob": 0.6468
-   },
-   {
-    "text": "1x",
-    "box": [
-     157.0,
-     624.0,
-     180.0,
-     647.0
-    ],
-    "label": "B-menu.cnt",
-    "prob": 0.9685
-   },
-   {
-    "text": "@12.000",
-    "box": [
-     204.0,
-     625.0,
-     275.0,
-     648.0
-    ],
-    "label": "B-menu.unitprice",
-    "prob": 0.9998
-   },
-   {
-    "text": "12.000",
-    "box": [
-     406.0,
      629.0,
-     471.0,
-     654.0
+     639.0,
+     716.0,
+     670.0
     ],
     "label": "B-menu.price",
-    "prob": 0.9981
+    "prob": 0.9731
    },
    {
-    "text": "Subtotal",
+    "text": "1",
     "box": [
-     153.0,
-     672.0,
-     234.0,
-     699.0
+     113.0,
+     666.0,
+     132.3,
+     694.0
+    ],
+    "label": "B-menu.sub.cnt",
+    "prob": 0.6079
+   },
+   {
+    "text": "LONGAN",
+    "box": [
+     132.3,
+     666.0,
+     248.0,
+     694.0
+    ],
+    "label": "B-menu.sub.nm",
+    "prob": 0.7424
+   },
+   {
+    "text": "1",
+    "box": [
+     110.0,
+     697.0,
+     129.5,
+     723.0
+    ],
+    "label": "B-menu.sub.cnt",
+    "prob": 0.79
+   },
+   {
+    "text": "ROASTEDALMOND",
+    "box": [
+     129.5,
+     697.0,
+     383.0,
+     723.0
+    ],
+    "label": "B-menu.sub.nm",
+    "prob": 0.8122
+   },
+   {
+    "text": "1",
+    "box": [
+     108.0,
+     727.0,
+     128.9,
+     751.0
+    ],
+    "label": "B-menu.sub.cnt",
+    "prob": 0.8196
+   },
+   {
+    "text": "NANGGO",
+    "box": [
+     128.9,
+     727.0,
+     254.0,
+     751.0
+    ],
+    "label": "B-menu.sub.nm",
+    "prob": 0.8333
+   },
+   {
+    "text": "1",
+    "box": [
+     104.0,
+     752.0,
+     120.0,
+     790.0
+    ],
+    "label": "B-menu.sub.cnt",
+    "prob": 0.5069
+   },
+   {
+    "text": "NINERALWATER",
+    "box": [
+     120.0,
+     752.0,
+     312.0,
+     790.0
+    ],
+    "label": "B-menu.sub.nm",
+    "prob": 0.4417
+   },
+   {
+    "text": "(bundling)5k",
+    "box": [
+     328.0,
+     752.0,
+     520.0,
+     790.0
+    ],
+    "label": "I-menu.sub.nm",
+    "prob": 0.4234
+   },
+   {
+    "text": "4.545",
+    "box": [
+     646.0,
+     758.0,
+     722.0,
+     791.0
+    ],
+    "label": "B-menu.sub.price",
+    "prob": 0.4269
+   },
+   {
+    "text": "Sub",
+    "box": [
+     96.0,
+     816.0,
+     135.7,
+     843.0
     ],
     "label": "O",
-    "prob": 0.9974
-   },
-   {
-    "text": "Rp",
-    "box": [
-     377.0,
-     678.0,
-     397.7,
-     705.0
-    ],
-    "label": "B-sub_total.subtotal_price",
-    "prob": 0.5712
-   },
-   {
-    "text": "36.000",
-    "box": [
-     408.0,
-     678.0,
-     470.0,
-     705.0
-    ],
-    "label": "I-sub_total.subtotal_price",
-    "prob": 0.5458
-   },
-   {
-    "text": "Tax(10.0%)",
-    "box": [
-     152.0,
-     699.0,
-     262.0,
-     726.0
-    ],
-    "label": "O",
-    "prob": 0.9995
-   },
-   {
-    "text": "Rp3.600",
-    "box": [
-     386.0,
-     707.0,
-     469.0,
-     730.0
-    ],
-    "label": "B-sub_total.tax_price",
-    "prob": 0.9929
+    "prob": 0.9993
    },
    {
     "text": "Total",
     "box": [
-     150.0,
-     750.0,
-     206.0,
-     776.0
+     148.9,
+     816.0,
+     215.0,
+     843.0
     ],
     "label": "O",
-    "prob": 0.9987
+    "prob": 0.9998
    },
    {
-    "text": "Rp39.600",
+    "text": "63.636",
     "box": [
-     376.0,
-     758.0,
-     471.0,
-     782.0
-    ],
-    "label": "B-total.total_price",
-    "prob": 0.9972
-   },
-   {
-    "text": "Other",
-    "box": [
-     147.0,
-     776.0,
-     204.0,
-     805.0
-    ],
-    "label": "O",
-    "prob": 0.9965
-   },
-   {
-    "text": "Rp39.600",
-    "box": [
-     374.0,
-     782.0,
-     471.0,
-     809.0
-    ],
-    "label": "B-total.emoneyprice",
-    "prob": 0.8005
-   }
-  ],
-  "image_size": [
-   605,
-   1280
-  ],
-  "model": "CRF (token + layout features)"
- },
- {
-  "file": "validation_35.jpg",
-  "fields": {
-   "total": {
-    "text": "304.326",
-    "value": 304326.0,
-    "confidence": 0.9948,
-    "ocr_confidence": 0.7196
-   },
-   "subtotal": {
-    "text": "261,000",
-    "value": 261000.0,
-    "confidence": 0.9936,
-    "ocr_confidence": 0.8013
-   },
-   "tax": {
-    "text": "27,666",
-    "value": 27666.0,
-    "confidence": 0.9928,
-    "ocr_confidence": 0.7722
-   },
-   "service_charge": {
-    "text": "15,660",
-    "value": 15660.0,
-    "confidence": 0.6864,
-    "ocr_confidence": 0.7279
-   },
-   "discount": null
-  },
-  "line_items": [
-   {
-    "name": "BLACK PEPPER MEATBALL",
-    "qty": null,
-    "price": "76,500",
-    "confidence": 0.9621,
-    "price_value": 76500.0,
-    "qty_value": null
-   },
-   {
-    "name": "QUARTO FORMANGGI PASTA",
-    "qty": null,
-    "price": "82,500",
-    "confidence": 0.9666,
-    "price_value": 82500.0,
-    "qty_value": null
-   },
-   {
-    "name": "GREEN TEA WITH CRUMBLE",
-    "qty": null,
-    "price": "56,000",
-    "confidence": 0.9495,
-    "price_value": 56000.0,
-    "qty_value": null
-   },
-   {
-    "name": "ORIGINAL BREWED TEA",
-    "qty": null,
-    "price": "46,000",
-    "confidence": 0.984,
-    "price_value": 46000.0,
-    "qty_value": null
-   }
-  ],
-  "reconciliation": {
-   "status": "PASS",
-   "checks": [
-    {
-     "rule": "subtotal + tax + service - discount = total",
-     "expected": 304326.0,
-     "actual": 304326.0,
-     "ok": true
-    }
-   ]
-  },
-  "decision": "HUMAN_REVIEW",
-  "reasons": [
-   "low confidence on service_charge (0.69 < 0.70)"
-  ],
-  "words": [
-   {
-    "text": "BLACK",
-    "box": [
-     244.0,
-     843.0,
-     319.5,
-     890.0
-    ],
-    "label": "B-menu.nm",
-    "prob": 0.9778
-   },
-   {
-    "text": "PEPPER",
-    "box": [
-     334.6,
-     843.0,
-     425.1,
-     890.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9621
-   },
-   {
-    "text": "MEATBALL",
-    "box": [
-     440.2,
-     843.0,
-     561.0,
-     890.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9667
-   },
-   {
-    "text": "76,500",
-    "box": [
-     615.0,
-     848.0,
-     709.0,
-     885.0
-    ],
-    "label": "B-menu.price",
-    "prob": 0.9971
-   },
-   {
-    "text": "QUARTO",
-    "box": [
-     245.0,
-     877.0,
-     336.9,
-     926.0
-    ],
-    "label": "B-menu.nm",
-    "prob": 0.9753
-   },
-   {
-    "text": "FORMANGGI",
-    "box": [
-     352.2,
-     877.0,
-     490.1,
-     926.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9666
-   },
-   {
-    "text": "PASTA",
-    "box": [
-     505.4,
-     877.0,
-     582.0,
-     926.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9855
-   },
-   {
-    "text": "82,500",
-    "box": [
-     618.0,
-     882.0,
-     715.0,
-     920.0
-    ],
-    "label": "B-menu.price",
-    "prob": 0.9958
-   },
-   {
-    "text": "GREEN",
-    "box": [
-     246.0,
-     913.0,
-     322.8,
-     962.0
-    ],
-    "label": "B-menu.nm",
-    "prob": 0.9815
-   },
-   {
-    "text": "TEA",
-    "box": [
-     338.2,
-     913.0,
-     384.3,
-     962.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9764
-   },
-   {
-    "text": "WITH",
-    "box": [
-     399.6,
-     913.0,
-     461.1,
-     962.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.987
-   },
-   {
-    "text": "CRUMBLE",
-    "box": [
-     476.5,
-     913.0,
-     584.0,
-     962.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9495
-   },
-   {
-    "text": "56,000",
-    "box": [
-     622.0,
-     918.0,
-     719.0,
-     956.0
-    ],
-    "label": "B-menu.price",
-    "prob": 0.9963
-   },
-   {
-    "text": "ORIGINAL",
-    "box": [
-     245.0,
-     950.0,
-     371.3,
-     999.0
-    ],
-    "label": "B-menu.nm",
-    "prob": 0.9988
-   },
-   {
-    "text": "BREWED",
-    "box": [
-     387.1,
-     950.0,
-     481.8,
-     999.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9939
-   },
-   {
-    "text": "TEA",
-    "box": [
-     497.6,
-     950.0,
-     545.0,
-     999.0
-    ],
-    "label": "I-menu.nm",
-    "prob": 0.9933
-   },
-   {
-    "text": "46,000",
-    "box": [
-     626.0,
-     955.0,
+     632.0,
+     819.0,
      724.0,
-     993.0
-    ],
-    "label": "B-menu.price",
-    "prob": 0.984
-   },
-   {
-    "text": "SUBTTL",
-    "box": [
-     193.0,
-     987.0,
-     302.0,
-     1028.0
-    ],
-    "label": "O",
-    "prob": 0.9893
-   },
-   {
-    "text": "261,000",
-    "box": [
-     615.0,
-     991.0,
-     729.0,
-     1033.0
+     850.0
     ],
     "label": "B-sub_total.subtotal_price",
-    "prob": 0.9936
+    "prob": 0.9988
    },
    {
-    "text": "SVCCHG6%",
+    "text": "PB1",
     "box": [
-     193.0,
-     1029.0,
-     365.0,
-     1070.0
+     92.0,
+     842.0,
+     137.3,
+     879.0
     ],
     "label": "O",
     "prob": 0.9987
    },
    {
-    "text": "15,660",
+    "text": "(10%)",
     "box": [
-     636.0,
-     1030.0,
-     734.0,
-     1070.0
-    ],
-    "label": "B-sub_total.service_price",
-    "prob": 0.6864
-   },
-   {
-    "text": "PB110%",
-    "box": [
-     190.0,
-     1071.0,
-     318.0,
-     1112.0
+     152.4,
+     842.0,
+     228.0,
+     879.0
     ],
     "label": "O",
-    "prob": 0.9994
+    "prob": 0.9507
    },
    {
-    "text": "27,666",
+    "text": "6.364",
     "box": [
-     637.0,
-     1068.0,
-     740.0,
-     1110.0
+     647.0,
+     850.0,
+     725.0,
+     883.0
     ],
     "label": "B-sub_total.tax_price",
-    "prob": 0.9928
+    "prob": 0.8918
    },
    {
-    "text": "TOTAL",
+    "text": "Rounding",
     "box": [
-     191.0,
-     1158.0,
-     358.0,
-     1198.0
+     91.0,
+     873.0,
+     215.0,
+     911.0
     ],
     "label": "O",
-    "prob": 0.9988
+    "prob": 0.9751
    },
    {
-    "text": "304.326",
+    "text": "Total",
     "box": [
-     522.0,
-     1148.0,
-     743.0,
-     1195.0
+     91.0,
+     909.0,
+     172.0,
+     942.0
+    ],
+    "label": "O",
+    "prob": 0.9997
+   },
+   {
+    "text": "70,000",
+    "box": [
+     623.0,
+     913.0,
+     725.0,
+     949.0
     ],
     "label": "B-total.total_price",
-    "prob": 0.9948
+    "prob": 0.9871
+   },
+   {
+    "text": "CashPayment",
+    "box": [
+     87.0,
+     976.0,
+     276.0,
+     1009.0
+    ],
+    "label": "O",
+    "prob": 0.9997
+   },
+   {
+    "text": "100,000",
+    "box": [
+     622.0,
+     981.0,
+     726.0,
+     1012.0
+    ],
+    "label": "B-total.cashprice",
+    "prob": 0.9416
+   },
+   {
+    "text": "Change",
+    "box": [
+     84.0,
+     1005.0,
+     191.0,
+     1046.0
+    ],
+    "label": "O",
+    "prob": 0.9997
+   },
+   {
+    "text": "30,000",
+    "box": [
+     635.0,
+     1014.0,
+     727.0,
+     1046.0
+    ],
+    "label": "B-total.changeprice",
+    "prob": 0.9998
    }
   ],
   "image_size": [
-   900,
-   1600
+   864,
+   1296
   ],
   "model": "CRF (token + layout features)"
  }

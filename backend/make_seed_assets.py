@@ -1,4 +1,5 @@
-"""Build backend/seed_assets/: a few CORD v2 VALIDATION receipts (CC-BY-4.0) with the model's real output,
+"""Build backend/seed_assets/: a few CORD v2 TEST receipts (CC-BY-4.0; the final model
+trains on train + validation, decision log D23) with the model's real output,
 used as the images of seeded demo claims. Receipts used as public demo samples (frontend/public/demo) are
 excluded, so a judge uploading a sample is not flagged as a duplicate of a seeded claim.
 
@@ -19,16 +20,16 @@ from ml.ocr import load_image, normalise_words  # noqa: E402
 from ml.ocr_cache import load_cache  # noqa: E402
 
 OUT = ROOT / "backend" / "seed_assets"
-DEMO = {p.stem for p in (ROOT / "frontend" / "public" / "demo").glob("validation_*.jpg")}
+DEMO = {p.stem for p in (ROOT / "frontend" / "public" / "demo").glob("test_*.jpg")}
 WANT_AUTO, WANT_REVIEW = 4, 3
 
 
 def main():
     OUT.mkdir(exist_ok=True)
-    cache = load_cache("validation")
+    cache = load_cache("test")
     picked, n_auto, n_rev = [], 0, 0
-    for rec in load_split("validation")[6:]:
-        name = f"validation_{rec['idx']}"
+    for rec in load_split("test"):
+        name = f"test_{rec['idx']}"
         if name in DEMO:
             continue
         c = cache[rec["id"]]

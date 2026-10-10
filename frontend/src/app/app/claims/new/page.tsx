@@ -12,7 +12,8 @@ import { useAuth } from "@/lib/auth";
 import { api } from "@/lib/client";
 import { dLong, money } from "@/lib/format";
 
-const SAMPLES = ["validation_0", "validation_3", "validation_1", "validation_21", "validation_23", "validation_5"];
+// CORD TEST receipts: the final model was trained on train + validation (decision log D23)
+const SAMPLES = ["test_3", "test_5", "test_6", "test_8", "test_1", "test_0"];
 type Scan = ClaimFull & { wallets: WalletBal[] };
 
 export default function Page() {

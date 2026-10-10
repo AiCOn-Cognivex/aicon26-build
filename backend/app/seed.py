@@ -51,13 +51,13 @@ MERCHANTS = {
 }
 # current-month claims with real receipt images: (employee, asset, wallet, days ago, note)
 IMAGE_CLAIMS = [
-    ("ayesha@northwind.example", "validation_6.jpg", "meals", 3, "Client dinner, Jakarta visit"),
-    ("ayesha@northwind.example", "validation_7.jpg", "meals", 0, "Team lunch with distributor, Jakarta"),
-    ("bilal@northwind.example", "validation_14.jpg", "meals", 1, "Lunch during vendor training"),
-    ("hamza@northwind.example", "validation_35.jpg", "meals", 2, "Dinner with regional distributors, Jakarta"),
-    ("hamza@northwind.example", "validation_10.jpg", "meals", 5, "Client lunch, Jakarta"),
-    ("fatima@northwind.example", "validation_8.jpg", "meals", 4, "Working lunch at supplier site"),
-    ("sara@northwind.example", "validation_11.jpg", "meals", 6, "Audit team lunch"),
+    ("ayesha@northwind.example", "test_11.jpg", "meals", 3, "Client dinner, Jakarta visit"),
+    ("ayesha@northwind.example", "test_7.jpg", "meals", 0, "Team lunch with distributor, Jakarta"),
+    ("bilal@northwind.example", "test_12.jpg", "meals", 1, "Lunch during vendor training"),
+    ("hamza@northwind.example", "test_13.jpg", "meals", 2, "Dinner with regional distributors, Jakarta"),
+    ("hamza@northwind.example", "test_15.jpg", "meals", 5, "Client lunch, Jakarta"),
+    ("fatima@northwind.example", "test_14.jpg", "meals", 4, "Working lunch at supplier site"),
+    ("sara@northwind.example", "test_16.jpg", "meals", 6, "Audit team lunch"),
 ]
 
 
