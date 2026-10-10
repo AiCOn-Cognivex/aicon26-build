@@ -50,6 +50,8 @@ def main():
     ap.add_argument("--out", default=str(ROOT / "ml" / "artifacts" / "crf.pkl"))
     ap.add_argument("--with-validation", action="store_true", help="train on train + validation (final model)")
     a = ap.parse_args()
+    from . import layout
+    layout.DESKEW = False  # deskew is an inference-time step (D22); training data keeps the plain grouping
     Xtr, ytr = to_xy(train_sequences(a.source, a.with_validation))
     Xva, yva = to_xy([(r["id"], gold_sequence(r), r["width"], r["height"]) for r in load_split("validation")])
     t0 = time.time()

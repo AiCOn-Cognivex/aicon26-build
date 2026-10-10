@@ -149,7 +149,10 @@ def _slim(tagged):
 
 def run_fold(job):
     cfg, k, folds = job
+    from . import layout
     from .crf_model import CRFTagger, featurise
+    deskew = cfg.get("deskew") or "infer"  # production (D22): plain grouping for training, deskew when tagging
+    layout.DESKEW = deskew == "both"
     recs = _records()
     cache, aug = _caches(cfg.get("aug", []))
     feats = cfg.get("features", "v2")
@@ -173,6 +176,7 @@ def run_fold(job):
     m = CRFTagger(c1=cfg["c1"], c2=cfg["c2"], max_iter=cfg.get("max_iter", 200),
                   algorithm=cfg.get("algorithm", "lbfgs"), features=feats).fit(X, y)
     fit_s = time.time() - t0
+    layout.DESKEW = deskew in ("infer", "both")
     out = []
     for rid, r in recs.items():
         if folds[rid] != k:
@@ -273,6 +277,7 @@ def main():
     ap.add_argument("--algorithm", default="lbfgs")
     ap.add_argument("--source", default="both", choices=["gold", "ocr", "both"])
     ap.add_argument("--aug", nargs="*", default=[], help="extra OCR caches of augmented train/val images")
+    ap.add_argument("--deskew", default="infer", choices=["infer", "both", "off"])
     ap.add_argument("--note", default="")
     ap.add_argument("--compare", nargs=2, metavar=("A", "B"))
     a = ap.parse_args()
@@ -283,10 +288,14 @@ def main():
         print(json.dumps(res, indent=1))
         return
     cfg = {"features": a.features, "c1": a.c1, "c2": a.c2, "max_iter": a.max_iter, "algorithm": a.algorithm,
-           "source": a.source, "aug": a.aug}
+           "source": a.source, "aug": a.aug, "deskew": a.deskew}
     t0 = time.time()
+    from .progress import Progress
+    prog, outs = Progress(K, f"cv {a.name} folds", every=0), []
     with Pool(K) as pool:
-        outs = pool.map(run_fold, [(cfg, k, folds) for k in range(K)])
+        for o in pool.imap_unordered(run_fold, [(cfg, k, folds) for k in range(K)]):
+            outs.append(o)
+            prog.step()
     preds = [p for o in sorted(outs, key=lambda o: o["fold"]) for p in o["preds"]]
     CV_DIR.mkdir(parents=True, exist_ok=True)
     with open(CV_DIR / f"{a.name}.pkl", "wb") as f:

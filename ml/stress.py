@@ -25,6 +25,7 @@ from .ocr_cache import load_cache
 
 def run_level(cache: dict, fn, pol) -> dict:
     n = ok = auto = auto_ok = 0
+    per = {}
     for r in load_split("validation"):
         c = cache[r["id"]]
         pred = decode(fn(normalise_words(c["words"]), c["width"], c["height"]), pol)
@@ -33,20 +34,29 @@ def run_level(cache: dict, fn, pol) -> dict:
                    pred.get("assignment_posterior"), pred.get("receipt_confidence"))["decision"]
         n += 1
         ok += comp["posting_correct"]
+        per[r["id"]] = [int(comp["posting_correct"]), int(d == "AUTO_POST")]
         if d == "AUTO_POST":
             auto += 1
             auto_ok += comp["posting_correct"]
     return {"n": n, "posting_correct": ok / n, "stp": auto / n, "n_auto": auto, "auto_correct": auto_ok,
-            "auto_post_correctness": auto_ok / auto if auto else None}
+            "auto_post_correctness": auto_ok / auto if auto else None, "per_receipt": per}
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="crf")
+    ap.add_argument("--crf-path", default=None, help="evaluate another CRF pickle with the crf policy")
+    ap.add_argument("--tag", default="")
     a = ap.parse_args()
     from .predict import policy_for
     pol = policy_for(a.model)
     name, _, fn = taggers.load(a.model)
+    if a.crf_path:
+        from pathlib import Path
+        from .crf_model import CRFTagger
+        t = CRFTagger.load(Path(a.crf_path))
+        t.T = pol.get("temperature", 1.0)
+        name, fn = f"{name} [{Path(a.crf_path).name}]", t.tag
     out = {"model": name, "policy": {k: v for k, v in pol.items() if k != "note"}, "split": "validation",
            "levels": {"clean": run_level(load_cache("validation"), fn, pol)}}
     for lvl in STRESS:
@@ -54,7 +64,7 @@ def main():
         if p.exists():
             with open(p, encoding="utf-8") as f:
                 out["levels"][lvl] = run_level({r["id"]: r for r in map(json.loads, f)}, fn, pol)
-    (ROOT / "results" / f"robustness_images_{a.model}.json").write_text(json.dumps(out, indent=1))
+    (ROOT / "results" / "cv" / f"robustness_images_{a.model}{a.tag}.json").write_text(json.dumps(out, indent=1))
     for k, v in out["levels"].items():
         print(f"{k:11s} posting {v['posting_correct']:.2f}  STP {v['stp']:.2f}  auto correct {v['auto_correct']}/{v['n_auto']}")
 

@@ -280,6 +280,30 @@ cluster bootstrap (`results/cv/`).
 - Receipt-confidence model without the hard rules: 46.8% at 97.4% (it auto-posted a receipt with no total).
 Tuning outputs moved to `results/cv/` so the app's `/results` payload is unchanged.
 
+### D22 · 10 Oct 12:00-13:05 · P2: image augmentation, stress test, deskew
+(PC crashed at 12:15 while 4 OCR workers and 5 CV trainers ran together; nothing committed was lost. Jobs
+now run one at a time, and the augmentation OCR is resumable with a progress/ETA log.)
+- **Augmentation B, rejected.** One degraded copy per receipt (2-4 of: blur, JPEG, noise, brightness/contrast,
+  shadow, downscale, rotation up to 3 degrees with gold boxes rotated), re-OCR'd and labelled by projection
+  (`ml/augment_images.py`; copies only in the training folds of their source receipt). Degraded copies keep
+  68% labelled tokens (clean 69%) but only 87% of gold amounts are readable (clean 96%). OOF with the new
+  decoder: 83.9% -> 84.4% (+0.6, CI -0.5 to +1.6, 12 fixed / 7 broken). On the stress test a train-only model
+  with the copies was 0-6 points better per level, but that was not paired-tested and the clean gain is noise;
+  training data triples. Not adopted.
+- **Robustness stress test** (`ml/stress.py`, `results/cv/robustness_images_crf_*.json`): every validation image
+  degraded at 8 fixed levels, production OCR + model + policy. Posting-correct before deskew: clean 90%, blur
+  1.5/2.5 85%/65%, JPEG q10 66%, noise 20 52%, downscale 0.35 80%, shadow 93%, **rotation 3/6 degrees
+  64%/45%**; auto-post correctness stayed >= 94% except rotation 6 degrees (16/20). Rotation was the weak spot.
+- **Deskew at inference, adopted** (`ml/layout.py`): the tilt is estimated from the OCR word boxes (projection
+  profile, +-5.7 degrees) and word centres are straightened before line grouping, only when the tilt is >= 1.5
+  degrees. No re-OCR, < 5 ms. Training keeps the plain grouping (validated setting). Clean OOF: 83.9% -> 83.9%
+  (9 fixed / 9 broken); Viterbi-only 78.0% -> 79.4%. Stress, paired: rotation 3 degrees 64% -> 78%
+  (+14, CI +6 to +22), rotation 6 degrees 45% -> 54% (+9, CI +2 to +17), auto-posts at 6 degrees 34/38
+  correct; all other levels unchanged (CIs include 0). Deskew in training too, with no minimum angle,
+  was rejected: -1.2 OOF (CI -2.5 to 0.0), it fired on 40% of receipts with ~1 degree tilt.
+  Caveat: the decision to look at rotation came from this stress test on validation images; clean CV only
+  establishes that deskew does not hurt.
+
 ## Definitions (fixed before reporting; see `ml/metrics.py`)
 - Field exact match: both absent, or both present with equal parsed amounts (0 = absent, D11).
 - Correct line item: same normalised name, quantity and price. Lenient: price exact, name >= 80% similar.

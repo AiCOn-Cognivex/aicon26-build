@@ -94,11 +94,36 @@ def _job(args):
     return {"id": rec["id"], "width": W, "height": H, "rot": rot, "src_size": list(img.size), "words": words}
 
 
-def _write(path, rows):
+def _run_batch(pool, path, jobs, label):
+    """OCR `jobs`, appending each result to `path` as it finishes; ids already in `path` are skipped,
+    so a crashed run resumes where it stopped."""
+    from .progress import Progress
     AUG.mkdir(parents=True, exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
-        for r in rows:
-            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    have = set()
+    if path.exists():
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                try:
+                    have.add(json.loads(line)["id"])
+                except (json.JSONDecodeError, KeyError):
+                    pass  # a line cut off by the crash: that receipt is redone
+    todo = [j for j in jobs if j[0]["id"] not in have]
+    if not todo:
+        print(f"[{label}] already complete ({len(have)})", flush=True)
+        return
+    good = [l for l in open(path, encoding="utf-8")] if path.exists() else []
+    with open(path, "w", encoding="utf-8") as f:  # rewrite only complete lines, then append
+        for l in good:
+            try:
+                json.loads(l)
+                f.write(l if l.endswith("\n") else l + "\n")
+            except json.JSONDecodeError:
+                pass
+        prog = Progress(len(jobs), label, done=len(jobs) - len(todo))
+        for row in pool.imap_unordered(_job, todo, chunksize=2):
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+            f.flush()
+            prog.step()
 
 
 STRESS = {  # fixed levels for the robustness stress test on validation images
@@ -116,22 +141,22 @@ def main():
     ap.add_argument("--copies", type=int, default=2)
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--stress", action="store_true")
+    ap.add_argument("--levels", nargs="*", default=None, help="stress levels to run (default: all)")
+    ap.add_argument("--splits", nargs="*", default=["train", "validation"])
     a = ap.parse_args()
     os.environ.setdefault("OCR_THREADS", "2")
     with Pool(a.workers) as pool:
         if a.stress:
             recs = load_split("validation")
-            for name, ops in STRESS.items():
-                rows = pool.map(_job, [(r, 0, ops, name) for r in recs])
-                _write(AUG / f"stress_validation_{name}.jsonl", rows)
-                print("stress", name, flush=True)
+            for name in a.levels or STRESS:
+                _run_batch(pool, AUG / f"stress_validation_{name}.jsonl", [(r, 0, STRESS[name], name) for r in recs],
+                           f"stress {name}")
             return
-        for split in ("train", "validation"):
+        for split in a.splits:
             recs = load_split(split)
             for c in range(1, a.copies + 1):
-                rows = pool.map(_job, [(r, c, None, "aug") for r in recs], chunksize=8)
-                _write(AUG / f"ocr_rapidocr_{split}_aug{c}.jsonl", rows)
-                print("done", split, c, flush=True)
+                _run_batch(pool, AUG / f"ocr_rapidocr_{split}_aug{c}.jsonl", [(r, c, None, "aug") for r in recs],
+                           f"{split} copy {c}")
 
 
 if __name__ == "__main__":

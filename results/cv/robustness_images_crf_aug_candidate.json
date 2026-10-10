@@ -1,0 +1,93 @@
+{
+ "model": "CRF (token + layout features) [crf_aug_candidate.pkl]",
+ "policy": {
+  "threshold": 0.0,
+  "tol_abs": 50.0,
+  "tol_rel": 0.01,
+  "require_reconciliation": false,
+  "use_ocr_conf": false,
+  "check_absent": false,
+  "decoder": "rerank",
+  "lam": 1.5,
+  "min_posterior": 0.0,
+  "receipt_model": "receipt_conf_crf.json",
+  "receipt_threshold": 0.9265,
+  "model": "crf",
+  "temperature": 1.1
+ },
+ "split": "validation",
+ "levels": {
+  "clean": {
+   "n": 100,
+   "posting_correct": 0.93,
+   "stp": 0.75,
+   "n_auto": 75,
+   "auto_correct": 74,
+   "auto_post_correctness": 0.9866666666666667
+  },
+  "blur_1.5": {
+   "n": 100,
+   "posting_correct": 0.86,
+   "stp": 0.68,
+   "n_auto": 68,
+   "auto_correct": 67,
+   "auto_post_correctness": 0.9852941176470589
+  },
+  "blur_2.5": {
+   "n": 100,
+   "posting_correct": 0.68,
+   "stp": 0.5,
+   "n_auto": 50,
+   "auto_correct": 47,
+   "auto_post_correctness": 0.94
+  },
+  "jpeg_10": {
+   "n": 100,
+   "posting_correct": 0.66,
+   "stp": 0.48,
+   "n_auto": 48,
+   "auto_correct": 46,
+   "auto_post_correctness": 0.9583333333333334
+  },
+  "noise_20": {
+   "n": 100,
+   "posting_correct": 0.54,
+   "stp": 0.39,
+   "n_auto": 39,
+   "auto_correct": 35,
+   "auto_post_correctness": 0.8974358974358975
+  },
+  "scale_0.35": {
+   "n": 100,
+   "posting_correct": 0.81,
+   "stp": 0.66,
+   "n_auto": 66,
+   "auto_correct": 65,
+   "auto_post_correctness": 0.9848484848484849
+  },
+  "shadow_0.5": {
+   "n": 100,
+   "posting_correct": 0.95,
+   "stp": 0.8,
+   "n_auto": 80,
+   "auto_correct": 79,
+   "auto_post_correctness": 0.9875
+  },
+  "rot_3": {
+   "n": 100,
+   "posting_correct": 0.7,
+   "stp": 0.48,
+   "n_auto": 48,
+   "auto_correct": 44,
+   "auto_post_correctness": 0.9166666666666666
+  },
+  "rot_6": {
+   "n": 100,
+   "posting_correct": 0.47,
+   "stp": 0.25,
+   "n_auto": 25,
+   "auto_correct": 20,
+   "auto_post_correctness": 0.8
+  }
+ }
+}
