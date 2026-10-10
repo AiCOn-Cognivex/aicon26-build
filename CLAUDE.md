@@ -45,13 +45,15 @@ python -m ml.evaluate --model crf --split validation --mode B        # model met
    until another receipt type is measured. Pakistani receipts are evaluation-only unless the team decides otherwise.
 5. **LLM features are optional and labelled.** Gemini is a fallback reader only and never auto-approves; it is off live.
 6. **Commits:** short one-line messages, **no co-author / "Generated with" trailer**. Push to `main`.
-7. Log every significant decision or incident in `docs/decision_log.md` (next number D28).
+7. Log every significant decision or incident in `docs/decision_log.md` (next number D29).
 
 ## Gotchas learned the hard way
 - Postgres (Neon, live) enforces `VARCHAR(n)`; SQLite (local, tests) doesn't. Keep values within column sizes.
 - Git Bash rewrites values starting with `/` (e.g. `/tmp/x`) into Windows paths: set such Railway variables from PowerShell.
 - `NEXT_PUBLIC_API_URL` is baked in at build time; redeploy the frontend after changing it.
-- Duplicate detection means a sample receipt can be claimed once. Finance overview -> **Reset demo data** restores the seed.
+- Duplicate detection means a sample receipt can be claimed once. Finance overview -> **Reset demo data** restores the seed (~5 s).
+- Claim pages are static: link with `claimHref(id)` / `reviewHref(id)` (`lib/routes.ts`), not `/app/claims/${id}`.
+- `useApi` shows the last copy of a page at once; any POST/PUT/DELETE clears that cache (`lib/client.ts`).
 - Neon free tier sleeps after 5 min idle (first request +0.5-1 s). Railway runs in US West (sfo); Neon is in AWS us-west-2.
 - OCR threads follow the container CPU quota (`ml/ocr.py`); this took live OCR from 10-15 s to under 1 s.
 - `.gitignore` uses `/lib/` (root only) so `frontend/src/lib/` is tracked.
@@ -73,4 +75,8 @@ tooltips. Text never uses series colours. Check every page at desktop width and 
 - `MODEL_CARD.md`, `docs/slides_outline.md`, `docs/demo_script.md` (5 min), `docs/judge_qa.md`.
 - Team decision on collecting 60-100 real Pakistani receipts as an evaluation set (dev/test halves, personal data blurred); no public labelled Pakistani receipt dataset was found. Outline in `docs/product_plan.md` section 8.
 - LiLT not trained (cannot be served on Railway: about 1.05 GB RAM); if added, report CV/validation numbers only.
-- Gemini key (parked). Optional: trim dashboard queries (1.2 s on Postgres vs 0.55 s on SQLite).
+- Gemini key (parked).
+- Speed (D28): every DB query is a ~35 ms round trip to Neon; keep pages to a few queries. The next big win
+  is moving the API and database to Singapore (Railway region + a new Neon project in ap-southeast-1;
+  the demo DB re-seeds itself), about 400 ms -> 150 ms per request from Pakistan. Team decision.
+- Pitch: on the scan page test_1 goes to finance; test_4 auto-posts there (D28).

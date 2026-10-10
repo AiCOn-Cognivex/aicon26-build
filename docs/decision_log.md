@@ -385,6 +385,36 @@ Rejected: the decoder on CRF outputs is saturated; the remaining errors need new
 different model such as LiLT, more data), not a re-scoring of the same evidence. Production unchanged.
 Results: `results/cv/ranker_tier1_{lr,gbm}.json`.
 
+### D28 · 10 Oct 16:45-18:00 · Speed and bug audit (backend, database, frontend); no model change
+Measured first. Live server time (Railway HTTP logs) showed tiny queries costing 100-750 ms: every database query is
+a network round trip to Neon (about 35 ms each, Railway sfo to Neon us-west-2), and the dashboard made 23 of them.
+From Pakistan every call also crosses Pakistan -> Railway edge (Singapore) -> US West: about 400 ms floor per request.
+Changes (all GET responses byte-identical before/after on a fresh seeded database, 70 endpoints compared):
+- Dashboard 23 -> 7 queries (rows loaded once and shared; `calendar()` recomputed wallet balances inside its loop).
+  The "N claims with finance" nudge counted only the 5 most recent open claims; now counts all.
+- Company loaded with the user (one query); `Claim.extraction` deferred (lists no longer load OCR words); duplicate
+  checks select only fingerprint columns; finance employees list 1 grouped query instead of one per employee.
+- Demo seed inserts its 284 history claims in one batch (was one flush per claim): live reset now **5.0 s**.
+- Scan: database work moved off the async event loop (it blocked every other request); a model crash returns a clear
+  422 instead of a 500; drafts never submitted are deleted after 12 h with their image (10 had piled up live).
+- Bugs: token iat/exp used the server's local zone (naive UTC .timestamp(): -5 h on this PC; Railway runs UTC so live
+  was unaffected); negative `limit` gave a 500 on Postgres; failed-login map grew without bound.
+- `/results` cached in memory; every response carries `Server-Timing: app;dur=` (server time without the network).
+- Frontend: user kept from sign-in (pages no longer wait for /auth/me first); last page data shown at once and
+  refreshed (cleared on any change and on sign-out); identical in-flight GETs shared; dashboard prefetched during
+  sign-in. Claim pages `/app/claims/[id]` and `/finance/review/[id]` were rendered per visit by a serverless function
+  in Washington (iad1, 0.9-2.6 s before the page could start); now static `/app/claims/view?id=` and
+  `/finance/review/view?id=` served from the edge (old URLs still work). Amounts typed with commas ("4,180") were
+  read as 4 by parseFloat; now parsed as 4180.
+Live, median over 5 calls on one connection from Pakistan (before -> after, ms): dashboard 1082 -> 628, claim 851 ->
+529, payslips 650 -> 481, payroll 815 -> 565, employees 683 -> 480, advances 624 -> 489; /health 424 -> 406 (the
+network floor). Server-only now 75-250 ms per page.
+Found while smoke-testing (not caused by this change): the scan page re-encodes the photo (JPEG q85) before the
+model reads it. On that input test_4 is read exactly right (174,600 / 194,000 / discount 19,400) and auto-posts
+(0.958); on the raw file (/extract, as checked in D26) it reads the discount as tax and goes to review (0.28). All 6
+scan-page samples are read right on the scan path; test_1 is the one that goes to finance (0.70). Pitch: use test_1
+for the review example. Biggest remaining speed lever is not code: API and database in Singapore (see CLAUDE.md).
+
 ## Definitions (fixed before reporting; see `ml/metrics.py`)
 - Field exact match: both absent, or both present with equal parsed amounts (0 = absent, D11).
 - Correct line item: same normalised name, quantity and price. Lenient: price exact, name >= 80% similar.

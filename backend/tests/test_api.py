@@ -7,7 +7,7 @@ from datetime import date
 from backend.tests.conftest import ROOT, login
 
 SAMPLE = ROOT / "frontend" / "public" / "demo" / "test_3.jpg"   # model: AUTO_POST
-UNSURE = ROOT / "frontend" / "public" / "demo" / "test_4.jpg"   # model: HUMAN_REVIEW
+UNSURE = ROOT / "frontend" / "public" / "demo" / "test_4.jpg"   # reviewed for policy + edited amount (D28)
 
 
 def test_auth_required_and_wrong_password(client):
