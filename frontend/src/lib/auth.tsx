@@ -13,6 +13,8 @@ export type Me = {
   grade: string;
   joined_on: string;
   company: { name: string; currency: string; fx_rates: Record<string, number>; cutoff_day: number };
+  can_approve_advances?: boolean; // finance manager or higher (D29)
+  assistant?: boolean; // Ask Cognivex is switched on (Gemini key set on the server)
 };
 
 type Ctx = {

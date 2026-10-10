@@ -95,8 +95,24 @@ def test_advance_within_cap(client):
     assert client.post("/advances", headers=fatima, json={"amount": too_much}).status_code == 422
     if st["available"] >= 1000:
         r = client.post("/advances", headers=fatima, json={"amount": 1000, "reason": "test"}).json()
-        assert r["history"][0]["status"] == "approved"
+        assert r["history"][0]["status"] == "requested"  # request-based: a finance manager decides (D29)
         assert r["outstanding"] >= 1000
+        assert client.post("/advances", headers=fatima, json={"amount": 1000}).status_code == 409
+
+
+def test_advance_needs_finance_manager(client, sara):
+    omar = login(client, "omar@northwind.example")
+    assert client.get("/auth/me", headers=omar).json()["can_approve_advances"] is True
+    assert client.get("/auth/me", headers=sara).json()["can_approve_advances"] is False
+    lst = client.get("/admin/advances", headers=sara).json()
+    pending = [a for a in lst["advances"] if a["status"] == "requested"]
+    assert pending and not any(a["can_decide"] for a in pending) and lst["approvers"] == ["Omar Farooq"]
+    aid = pending[0]["id"]
+    assert client.post(f"/admin/advances/{aid}/decide", headers=sara, json={"action": "approve"}).status_code == 403
+    assert client.post(f"/admin/advances/{aid}/decide", headers=omar, json={"action": "reject"}).status_code == 422
+    r = client.post(f"/admin/advances/{aid}/decide", headers=omar, json={"action": "approve", "note": "OK"})
+    assert r.status_code == 200 and r.json()["status"] == "approved"
+    assert client.post(f"/admin/advances/{aid}/decide", headers=omar, json={"action": "approve"}).status_code == 409
 
 
 def test_policy_update_and_audit(client, sara):
@@ -138,6 +154,28 @@ def test_token_times_are_utc_and_server_timing(client):
     p = jwt.decode(tok, config.JWT_SECRET, algorithms=["HS256"])
     assert abs(p["iat"] - time.time()) < 60 and p["exp"] - p["iat"] == ttl  # was off by the local UTC offset
     assert client.get("/health").headers["server-timing"].startswith("app;dur=")
+
+
+def test_assistant_off_without_key_and_grounded_with_one(client, ayesha, monkeypatch):
+    import io
+    import json as _json
+
+    from backend.app import config
+    from backend.app.services import assistant
+    assert client.post("/me/ask", headers=ayesha, json={"question": "When is payday?"}).status_code == 503
+    sent = {}
+
+    def fake_urlopen(req, timeout=None):
+        sent["body"] = _json.loads(req.data)
+        reply = {"candidates": [{"content": {"parts": [{"text": "Your next payday is soon."}]}}]}
+        return io.BytesIO(_json.dumps(reply).encode())
+    monkeypatch.setattr(config, "GEMINI_API_KEY", "test-key")
+    monkeypatch.setattr(assistant.urllib.request, "urlopen", fake_urlopen)
+    assert client.get("/auth/me", headers=ayesha).json()["assistant"] is True
+    r = client.post("/me/ask", headers=ayesha, json={"question": "When is payday?"})
+    assert r.status_code == 200 and r.json()["answer"] == "Your next payday is soon."
+    prompt = sent["body"]["contents"][0]["parts"][0]["text"]
+    assert "Ayesha Khan" in prompt and "Hamza" not in prompt and "Bilal" not in prompt  # only her own data
 
 
 def test_demo_reset(client, sara):

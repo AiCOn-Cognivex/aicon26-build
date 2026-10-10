@@ -177,7 +177,7 @@ def advance_status(db: Session, user: User, company: Company, t: date | None = N
     available = max(0, int((cap - outstanding) // 500 * 500))
     return {"earned_so_far": round(earned), "share": company.advance_share, "cap": round(cap),
             "outstanding": round(outstanding), "available": available, "repay_date": pay["pay_date"],
-            "auto_approve": company.advance_auto_approve, "monthly_net": round(base_net),
+            "auto_approve": False, "monthly_net": round(base_net),  # request-based: a finance manager decides (D29)
             "history": [{"id": a.id, "amount": a.amount, "status": a.status, "reason": a.reason,
                          "requested_at": a.requested_at.isoformat() + "Z",
                          "repay_date": a.repay_date.isoformat() if a.repay_date else None, "note": a.note}

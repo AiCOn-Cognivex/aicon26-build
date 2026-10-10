@@ -4,15 +4,18 @@ from __future__ import annotations
 from datetime import date, datetime
 
 from fastapi import APIRouter, Depends, HTTPException, Query
+from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ..db import get_db
-from ..models import Event, User, Wallet
+from ..models import Claim, Event, User, Wallet
 from ..security import current_user
 from ..services import payroll as P
 from ..services.payroll import short_day
+from ..services import assistant as A
 from ..services.common import claim_dict, event_dict, user_dict
+from ..services.receipts import gemini_available
 
 router = APIRouter(tags=["employee"])
 
@@ -146,3 +149,46 @@ def company_wallets(user: User = Depends(current_user), db: Session = Depends(ge
     return {"wallets": [{"code": w.code, "name": w.name, "period": w.period, "limit": w.limits.get(user.grade, 0),
                          "auto_approve": w.auto_approve, "per_claim_cap": w.per_claim_cap}
                         for w in db.scalars(select(Wallet).where(Wallet.company_id == user.company_id).order_by(Wallet.id))]}
+
+
+class AskIn(BaseModel):
+    question: str = Field(min_length=2, max_length=400)
+
+
+@router.post("/me/ask")
+def ask(body: AskIn, user: User = Depends(current_user), db: Session = Depends(get_db)):
+    """Ask Cognivex (optional, Gemini): answers questions about the employee's own pay from their own records only."""
+    if not gemini_available():
+        raise HTTPException(503, "The assistant is not switched on")
+    if not A.allow(user.id):
+        raise HTTPException(429, "That's a lot of questions. Please try again in a few minutes.")
+    dash = dashboard(user, db)  # the same numbers the employee sees on their pages
+    slips = P.payslips_for(db, user)
+    recent = list(db.scalars(select(Claim).where(Claim.user_id == user.id, Claim.status != "draft")
+                             .order_by(Claim.submitted_at.desc()).limit(10)))
+    wmap = {w.id: w.name for w in P.wallets_for(db, user.company_id)}
+    company = user.company
+    data = {
+        "employee": dash["user"], "today": dash["today"], "next_payday": dash["payday"], "claim_cutoff": dash["cutoff"],
+        "allowance_wallets": dash["wallets"], "allowance_totals": dash["allowance_totals"],
+        "salary_advance": P.advance_status(db, user, company), "provident_fund": dash["pf"],
+        "last_12_paychecks": dash["paychecks"],
+        "recent_payslips_with_changes": [_slip(s, slips[i - 1] if i else None) for i, s in enumerate(slips)][-3:],
+        "recent_claims": [{"id": c.id, "status": c.status, "allowance": wmap.get(c.wallet_id), "merchant": c.merchant,
+                           "amount_pkr": c.amount_pkr, "receipt_date": c.receipt_date.isoformat() if c.receipt_date else None,
+                           "paid_with_salary_on": c.pay_date.isoformat() if c.pay_date else None,
+                           "why_reviewed": (c.reasons or [])[:2], "reviewer_note": c.reviewer_note} for c in recent],
+        "upcoming_dates": dash["calendar"],
+        "company_rules": {
+            "payday": "last working day (Mon-Fri) of each month",
+            "claim_cutoff": f"claims approved by day {company.cutoff_day} are paid with that month's salary, later ones the month after",
+            "salary_advance": f"up to {round(company.advance_share * 100)}% of net pay earned so far this month, no interest or fees, "
+                              "a finance manager approves each request, deducted from the next salary",
+            "provident_fund": f"employee and employer each put in {company.pf_rate:.2%} of basic salary every month",
+            "salary_structure": "gross = basic + house rent (45% of basic) + utilities (10% of basic)",
+        },
+    }
+    try:
+        return A.ask(body.question.strip(), data, name=user.name, company=company.name, today=dash["today"])
+    except RuntimeError:
+        raise HTTPException(502, "The assistant couldn't answer just now. Please try again.")

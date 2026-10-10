@@ -39,6 +39,7 @@ const EVENT_ICON: Record<string, [React.ComponentType<{ size?: number }>, string
   advance_requested: [HandCoins, "bg-surface-2 text-ink-2"],
   advance_approved: [HandCoins, "bg-brand-soft text-brand-strong"],
   advance_repaid: [RotateCcw, "bg-accent-soft text-accent"],
+  advance_rejected: [CircleX, "bg-bad-soft text-bad"],
   policy_changed: [SlidersHorizontal, "bg-surface-2 text-ink-2"],
 };
 

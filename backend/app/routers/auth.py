@@ -10,9 +10,10 @@ from sqlalchemy.orm import Session
 from .. import config
 from ..db import get_db, utcnow
 from ..models import Company, User
-from ..security import (check_throttle, clear_failures, create_token, current_user, hash_password,
-                        record_failure, verify_password)
+from ..security import (can_approve_advances, check_throttle, clear_failures, create_token, current_user,
+                        hash_password, record_failure, verify_password)
 from ..services.common import user_dict
+from ..services.receipts import gemini_available
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -35,7 +36,8 @@ def token(form: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get
 def me_dict(db: Session, user: User) -> dict:
     company = db.get(Company, user.company_id)
     return {**user_dict(user), "company": {"name": company.name, "currency": company.currency,
-                                           "fx_rates": company.fx_rates, "cutoff_day": company.cutoff_day}}
+                                           "fx_rates": company.fx_rates, "cutoff_day": company.cutoff_day},
+            "can_approve_advances": can_approve_advances(user), "assistant": gemini_available()}
 
 
 @router.get("/me")
@@ -62,7 +64,7 @@ def demo_accounts(db: Session = Depends(get_db)):
     """Test logins shown on the sign-in page (seeded demo company only)."""
     if not config.SEED_DEMO:
         return {"accounts": []}
-    picks = ["ayesha@northwind.example", "sara@northwind.example"]
+    picks = ["ayesha@northwind.example", "sara@northwind.example", "omar@northwind.example"]
     users = {u.email: u for u in db.scalars(select(User).where(User.email.in_(picks)))}
     return {"password": config.DEMO_PASSWORD,
             "accounts": [{"email": e, "name": users[e].name, "role": users[e].role, "title": users[e].title}

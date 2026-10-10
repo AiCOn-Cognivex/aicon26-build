@@ -17,7 +17,7 @@ JWT_TTL_MIN = int(os.getenv("JWT_TTL_MIN", "720"))
 
 # Optional LLM fallback reader for receipt types our model was not trained on
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")  # stable GA model (Sep 2026); pin, not "-latest"
 
 SEED_DEMO = os.getenv("SEED_DEMO", "1") == "1"
 # Public password of the seeded test accounts (shown on the login page; demo data only)

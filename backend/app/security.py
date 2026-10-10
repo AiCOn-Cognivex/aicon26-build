@@ -86,3 +86,18 @@ def require_finance(user: User = Depends(current_user)) -> User:
     if user.role != "finance":
         raise HTTPException(status.HTTP_403_FORBIDDEN, "Finance role required")
     return user
+
+
+# Salary advances are approved by a finance manager or higher: finance role at grade G3 or above (D29)
+ADVANCE_APPROVER_MIN_GRADE = 3
+
+
+def can_approve_advances(user: User) -> bool:
+    digits = "".join(ch for ch in user.grade or "" if ch.isdigit())
+    return user.role == "finance" and int(digits or 0) >= ADVANCE_APPROVER_MIN_GRADE
+
+
+def require_advance_approver(user: User = Depends(require_finance)) -> User:
+    if not can_approve_advances(user):
+        raise HTTPException(status.HTTP_403_FORBIDDEN, "Only a finance manager or higher can decide salary advances")
+    return user

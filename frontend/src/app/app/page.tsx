@@ -7,6 +7,7 @@ import { AreaChart, ArcGauge, PayChart, Ring, SERIES } from "@/components/charts
 import { PageHeader } from "@/components/shell";
 import { Card, CardHead, DemoTag, ErrorNote, LinkButton, Skeleton, cx } from "@/components/ui";
 import { ActivityList, ClaimMini, MoneyCalendar, NotifBell, SeeAll, WalletCard } from "@/components/widgets";
+import { AskCognivex } from "@/components/AskCognivex";
 import type { Dashboard } from "@/lib/appTypes";
 import { useAuth } from "@/lib/auth";
 import { d, greeting, money, monthLabel } from "@/lib/format";
@@ -38,12 +39,12 @@ export default function DashboardPage() {
       />
       {error && <ErrorNote error={error} onRetry={reload} />}
       {!data && !error && <DashSkeleton />}
-      {data && <Body data={data} />}
+      {data && <Body data={data} assistant={!!user?.assistant} />}
     </>
   );
 }
 
-function Body({ data }: { data: Dashboard }) {
+function Body({ data, assistant }: { data: Dashboard; assistant: boolean }) {
   const p = data.payday;
   const chart = [
     ...data.paychecks.map((c) => ({ period: c.period, salary: c.salary, reimbursements: c.reimbursements, pay_date: c.pay_date })),
@@ -97,6 +98,8 @@ function Body({ data }: { data: Dashboard }) {
           Get an advance <ArrowUpRight size={16} />
         </LinkButton>
       </Card>
+
+      {assistant && <AskCognivex />}
 
       <section className="xl:col-span-12">
         <div className="mb-3 flex items-end justify-between px-1">

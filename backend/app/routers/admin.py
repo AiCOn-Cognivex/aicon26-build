@@ -14,7 +14,7 @@ from sqlalchemy.orm import Session, undefer
 from .. import config
 from ..db import Base, engine, get_db, utcnow
 from ..models import Advance, Claim, Company, Event, User, Wallet
-from ..security import require_finance
+from ..security import can_approve_advances, require_advance_approver, require_finance
 from ..services import payroll as P
 from ..services.payroll import nice_day
 from ..services.common import claim_dict, event_dict, iso, log_event, user_dict
@@ -71,6 +71,8 @@ def overview(fin: User = Depends(require_finance), db: Session = Depends(get_db)
         "labels_collected": {"reviewed": len(manual), "corrected": sum(c.corrected_amount is not None for c in claims)},
         "by_wallet": [{"wallet": k, **{kk: round(vv) for kk, vv in v.items()}} for k, v in by_wallet.items()],
         "advances_open": round(sum(a.amount for a in advances if a.status in ("approved", "requested") and a.repay_date and a.repay_date >= t)),
+        "advances_pending": {"count": sum(a.status == "requested" for a in advances),
+                             "amount": round(sum(a.amount for a in advances if a.status == "requested"))},
         "events": [{**event_dict(e, names), "employee": names.get(e.user_id)} for e in events],
         "employees": len([u for u in users.values() if u.is_active]),
     }
@@ -162,9 +164,57 @@ def decide(cid: int, body: DecideIn, fin: User = Depends(require_finance), db: S
 def advances(fin: User = Depends(require_finance), db: Session = Depends(get_db)):
     users, _ = _maps(db, fin.company_id)
     rows = db.scalars(select(Advance).where(Advance.user_id.in_(list(users))).order_by(Advance.requested_at.desc()))
-    return {"advances": [{"id": a.id, "employee": users[a.user_id].name, "amount": a.amount, "status": a.status,
-                          "reason": a.reason, "requested_at": iso(a.requested_at),
-                          "repay_date": a.repay_date.isoformat() if a.repay_date else None} for a in rows]}
+    approver = can_approve_advances(fin)
+    company = db.get(Company, fin.company_id)
+    out = []
+    for a in rows:
+        u = users[a.user_id]
+        row = {"id": a.id, "employee": u.name, "employee_id": u.id, "title": u.title, "grade": u.grade,
+               "amount": a.amount, "status": a.status, "reason": a.reason, "requested_at": iso(a.requested_at),
+               "decided_at": iso(a.decided_at), "note": a.note,
+               "decided_by": users[a.decided_by_id].name if a.decided_by_id in users else None,
+               "repay_date": a.repay_date.isoformat() if a.repay_date else None,
+               "can_decide": approver and a.status == "requested" and a.user_id != fin.id}
+        if a.status == "requested":  # what the employee could take without this request, for the approver
+            st = P.advance_status(db, u, company)
+            row["cap"], row["monthly_net"] = st["cap"], st["monthly_net"]
+        out.append(row)
+    return {"advances": out, "can_approve": approver,
+            "approvers": [u.name for u in users.values() if u.is_active and can_approve_advances(u)]}
+
+
+class AdvanceDecision(BaseModel):
+    action: str = Field(pattern="^(approve|reject)$")
+    note: str | None = Field(default=None, max_length=300)
+
+
+@router.post("/advances/{aid}/decide")
+def decide_advance(aid: int, body: AdvanceDecision, fin: User = Depends(require_advance_approver),
+                   db: Session = Depends(get_db)):
+    """Finance manager or higher approves or rejects a salary advance request (D29)."""
+    a = db.get(Advance, aid)
+    owner = db.get(User, a.user_id) if a else None
+    if a is None or owner is None or owner.company_id != fin.company_id:
+        raise HTTPException(404, "Advance not found")
+    if a.status != "requested":
+        raise HTTPException(409, "This advance is not waiting for a decision")
+    if a.user_id == fin.id:
+        raise HTTPException(403, "You cannot decide your own advance")
+    if body.action == "reject" and not (body.note or "").strip():
+        raise HTTPException(422, "Please give the employee a reason")
+    a.decided_at, a.decided_by_id, a.note = utcnow(), fin.id, (body.note or "").strip() or None
+    if body.action == "approve":
+        a.status = "approved"
+        a.repay_date = P.payday_on_or_after(P.today())  # deducted from the next salary after approval
+        log_event(db, company_id=fin.company_id, user_id=a.user_id, actor_id=fin.id, kind="advance_approved",
+                  title=f"Advance approved by {fin.name}: deducted on {nice_day(a.repay_date)}, no interest",
+                  amount=a.amount, ref_type="advance", ref_id=a.id)
+    else:
+        a.status = "rejected"
+        log_event(db, company_id=fin.company_id, user_id=a.user_id, actor_id=fin.id, kind="advance_rejected",
+                  title=f"Advance request declined: {a.note}", amount=a.amount, ref_type="advance", ref_id=a.id)
+    db.commit()
+    return {"ok": True, "status": a.status}
 
 
 def _payroll_rows(db: Session, fin: User, pd: date):

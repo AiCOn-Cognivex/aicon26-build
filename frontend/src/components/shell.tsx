@@ -79,10 +79,14 @@ function NavLink({ item, active, onClick }: { item: Item; active: boolean; onCli
 function useNav(): { main: Item[]; finance: Item[]; more: Item[] } {
   const { user } = useAuth();
   const [queue, setQueue] = useState(0);
+  const [advances, setAdvances] = useState(0);
   const pathname = usePathname();
   useEffect(() => {
     if (user?.role !== "finance") return;
     api<{ claims: unknown[] }>("/admin/queue").then((r) => setQueue(r.claims.length)).catch(() => {});
+    api<{ advances: { status: string }[] }>("/admin/advances")
+      .then((r) => setAdvances(r.advances.filter((a) => a.status === "requested").length))
+      .catch(() => {});
   }, [user, pathname]);
   return {
     main: [
@@ -97,6 +101,7 @@ function useNav(): { main: Item[]; finance: Item[]; more: Item[] } {
         ? [
             { href: "/finance", label: "Overview", icon: LayoutGrid },
             { href: "/finance/review", label: "Review queue", icon: ClipboardCheck, badge: queue },
+            { href: "/finance/advances", label: "Salary advances", icon: HandCoins, badge: advances },
             { href: "/finance/payroll", label: "Payroll", icon: Banknote },
             { href: "/finance/policies", label: "Allowance policy", icon: SlidersHorizontal },
           ]

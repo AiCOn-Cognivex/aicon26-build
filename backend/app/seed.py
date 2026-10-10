@@ -73,7 +73,7 @@ def seed_demo(db: Session) -> bool:
     t = P.today()
     co = Company(name="Northwind Traders (Demo)", currency="PKR", cutoff_day=25,
                  fx_rates={"IDR": 0.017, "USD": 280.0}, pf_rate=0.0833, pf_profit_rate=0.10,
-                 advance_share=0.5, advance_auto_approve=True)
+                 advance_share=0.5, advance_auto_approve=False)  # advances: a finance manager approves (D29)
     db.add(co)
     db.flush()
     pw = hash_password(config.DEMO_PASSWORD)
@@ -193,13 +193,27 @@ def seed_demo(db: Session) -> bool:
 
     # ---- this month ----
     cur_pay = P.payday_on_or_after(t)
+    omar = users["omar@northwind.example"]
     adv2 = Advance(user_id=bilal.id, amount=15000, reason="Medical bills at home", status="approved",
-                   requested_at=utc(t - timedelta(days=2), 13), decided_at=utc(t - timedelta(days=2), 13), repay_date=cur_pay)
+                   requested_at=utc(t - timedelta(days=2), 13), decided_at=utc(t - timedelta(days=2), 15),
+                   decided_by_id=omar.id, repay_date=cur_pay)
     db.add(adv2)
     db.flush()
-    log_event(db, company_id=co.id, user_id=bilal.id, kind="advance_approved",
-              title=f"Advance approved: deducted on {nice_day(cur_pay)}, no interest", amount=15000,
+    log_event(db, company_id=co.id, user_id=bilal.id, actor_id=bilal.id, kind="advance_requested",
+              title="Salary advance requested: waiting for a finance manager", amount=15000,
               ref_type="advance", ref_id=adv2.id, ts=adv2.requested_at)
+    log_event(db, company_id=co.id, user_id=bilal.id, actor_id=omar.id, kind="advance_approved",
+              title=f"Advance approved by {omar.name}: deducted on {nice_day(cur_pay)}, no interest", amount=15000,
+              ref_type="advance", ref_id=adv2.id, ts=adv2.decided_at)
+    # one request waiting for a finance manager (Omar), so the approval flow can be shown
+    hamza = users["hamza@northwind.example"]
+    adv3 = Advance(user_id=hamza.id, amount=30000, reason="Car repair before a client visit", status="requested",
+                   requested_at=utcnow() - timedelta(hours=3), repay_date=cur_pay)
+    db.add(adv3)
+    db.flush()
+    log_event(db, company_id=co.id, user_id=hamza.id, actor_id=hamza.id, kind="advance_requested",
+              title="Salary advance requested: waiting for a finance manager", amount=30000,
+              ref_type="advance", ref_id=adv3.id, ts=adv3.requested_at)
     # manual approvals without images (fuel / medical are always reviewed)
     month_start = date(t.year, t.month, 1)
     for email, code, amt, merchant in [("ayesha@northwind.example", "fuel", 8200, "Highway Fuel Point"),
