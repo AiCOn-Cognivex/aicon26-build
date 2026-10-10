@@ -370,6 +370,21 @@ builder queue 1 min 35 s, build 17 s with the dependency layer cached, export 23
 49 s (build 33 s). Live check: threshold 0.926; test_3 AUTO_POST, test_4 HUMAN_REVIEW; the Mandi House photo now
 reads total 11,661.60, subtotal 10,320, tax 1,341.60 (review, 0.83); Pizza Online total 4,180.00 (review).
 
+### D27 · 10 Oct 16:00-17:00 · Second-stage amount ranker: tried and rejected
+Idea: re-score every money token for each posted field with receipt-level evidence the CRF cannot see (its own
+label distribution, label words on the line and the lines around it, rank and position among amounts, arithmetic
+relations: equals the item sum, is the sum of two amounts, is a typical tax/service percentage of another or the
+base of one), trained on out-of-fold CRF predictions; its probabilities replace the CRF marginals in the
+arithmetic decoder (`ml/ranker.py`, hook `pf` in `ml/decode.py`). Fully nested (ranker and lam chosen on 4 folds,
+scored on the 5th), 900 receipts, 8,408 money tokens, vs the production decoder (84.44%):
+- Logistic, labels = "token value equals the gold value": **78.6% (-5.9, CI -8.4 to -3.5; 19 fixed / 72 broken)**.
+  Value labels are noisy: the cash paid often equals the total and the subtotal often equals the total.
+- Logistic, labels = gold annotation projected onto the OCR token: **84.44% (+0.00; 12 / 12)**.
+- Gradient-boosted trees, same labels: **84.56% (+0.11, CI -1.1 to +1.3; 14 / 13)**.
+Rejected: the decoder on CRF outputs is saturated; the remaining errors need new information (better OCR, a
+different model such as LiLT, more data), not a re-scoring of the same evidence. Production unchanged.
+Results: `results/cv/ranker_tier1_{lr,gbm}.json`.
+
 ## Definitions (fixed before reporting; see `ml/metrics.py`)
 - Field exact match: both absent, or both present with equal parsed amounts (0 = absent, D11).
 - Correct line item: same normalised name, quantity and price. Lenient: price exact, name >= 80% similar.

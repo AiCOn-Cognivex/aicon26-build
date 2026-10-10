@@ -28,8 +28,9 @@ def _field_p(w: dict, cat: str) -> float:
     return p.get(f"B-{cat}", 0.0) + p.get(f"I-{cat}", 0.0)
 
 
-def _candidates(tagged: list[dict], k: int, min_p: float) -> dict[str, list[tuple]]:
-    """field -> [(prob, token index, value, text)] best first, plus (p_absent, None, None, None)."""
+def _candidates(tagged: list[dict], k: int, min_p: float, pf: dict | None = None) -> dict[str, list[tuple]]:
+    """field -> [(prob, token index, value, text)] best first, plus (p_absent, None, None, None).
+    pf: optional {field: [prob per token]} (second-stage ranker, D27) instead of the CRF marginals."""
     money = []
     for i, w in enumerate(tagged):
         t = w["text"]
@@ -41,8 +42,9 @@ def _candidates(tagged: list[dict], k: int, min_p: float) -> dict[str, list[tupl
         money.append((i, abs(float(v)), t))
     out = {}
     for f, cat in HEADER_FIELDS.items():
-        cands = sorted(((_field_p(tagged[i], cat), i, v, t) for i, v, t in money), reverse=True)
-        pmax = max((_field_p(w, cat) for w in tagged), default=0.0)
+        fp = (lambda i: pf[f][i]) if pf else (lambda i, cat=cat: _field_p(tagged[i], cat))
+        cands = sorted(((fp(i), i, v, t) for i, v, t in money), reverse=True)
+        pmax = max((fp(i) for i in range(len(tagged))), default=0.0)
         keep = [c for c in cands[:k] if c[0] >= min_p]
         out[f] = keep + [(max(1.0 - pmax, _FLOOR), None, None, None)]
     return out
@@ -62,12 +64,12 @@ def decode(tagged: list[dict], policy: dict = DEFAULT_POLICY) -> dict:
 
 
 def rerank(tagged: list[dict], lam: float = 2.0, k: int = 3, min_p: float = 0.02,
-           policy: dict = DEFAULT_POLICY) -> dict:
+           policy: dict = DEFAULT_POLICY, pf: dict | None = None) -> dict:
     """Tagged words (with per-word marginals `probs`) -> assemble()-style prediction with re-ranked fields."""
     base = assemble(tagged)
     if not tagged or "probs" not in tagged[0]:
         return base
-    cands = _candidates(tagged, k, min_p)
+    cands = _candidates(tagged, k, min_p, pf)
     names = list(HEADER_FIELDS)
     scored = []
     for combo in product(*(cands[f] for f in names)):
