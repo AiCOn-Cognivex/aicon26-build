@@ -25,8 +25,9 @@ def fmt(v: float) -> str:
 
 def image_flags(db: Session, claim: Claim) -> list[dict]:
     """Duplicate checks that only need the image (run at scan time, shown to the employee at once)."""
-    others = db.scalars(select(Claim).where(Claim.company_id == claim.company_id, Claim.id != claim.id,
-                                            Claim.status != "draft")).all()
+    # only the fingerprint columns: this compares against every claim in the company
+    others = db.execute(select(Claim.id, Claim.image_sha256, Claim.image_dhash, Claim.qr_payload).where(
+        Claim.company_id == claim.company_id, Claim.id != claim.id, Claim.status != "draft")).all()
     flags = []
     for o in others:
         if claim.image_sha256 and o.image_sha256 == claim.image_sha256:
@@ -44,8 +45,9 @@ def image_flags(db: Session, claim: Claim) -> list[dict]:
 def submit_flags(db: Session, claim: Claim, wallet: Wallet) -> list[dict]:
     """Checks that need the confirmed amount and date."""
     flags = []
-    mine = db.scalars(select(Claim).where(Claim.user_id == claim.user_id, Claim.id != claim.id,
-                                          Claim.status != "draft")).all()
+    mine = db.execute(select(Claim.id, Claim.receipt_date, Claim.amount_pkr, Claim.wallet_id, Claim.status,
+                             Claim.submitted_at).where(Claim.user_id == claim.user_id, Claim.id != claim.id,
+                                                       Claim.status != "draft")).all()
     for o in mine:
         if (o.receipt_date and o.receipt_date == claim.receipt_date and o.amount_pkr
                 and abs(o.amount_pkr - (claim.amount_pkr or 0)) < 1):

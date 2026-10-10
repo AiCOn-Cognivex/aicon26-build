@@ -16,6 +16,7 @@ import os
 import sys
 import time
 from contextlib import asynccontextmanager
+from functools import lru_cache
 from pathlib import Path
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
@@ -61,9 +62,29 @@ async def lifespan(_app: FastAPI):
     yield
 
 
+class ServerTiming:
+    """Adds `Server-Timing: app;dur=<ms>`: time spent inside the API, separate from the network (curl -i, devtools)."""
+
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            return await self.app(scope, receive, send)
+        t0 = time.perf_counter()
+
+        async def send_timed(msg):
+            if msg["type"] == "http.response.start":
+                dur = f"app;dur={(time.perf_counter() - t0) * 1000:.1f}".encode()
+                msg["headers"] = [*msg.get("headers", []), (b"server-timing", dur)]
+            await send(msg)
+        await self.app(scope, receive, send_timed)
+
+
 app = FastAPI(title="Cognivex employee finance API", version="2.0.0", lifespan=lifespan)
 origins = [o.strip() for o in os.getenv("ALLOWED_ORIGINS", "*").split(",") if o.strip()]
 app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(ServerTiming)
 for r in (auth.router, me.router, claims.router, advances.router, admin.router):
     app.include_router(r)
 
@@ -99,6 +120,7 @@ async def extract(file: UploadFile = File(...)):
 
 
 @app.get("/results")
+@lru_cache(maxsize=1)  # the files are baked into the image: read them once
 def results():
     """All metric files produced by the evaluation scripts (never hand-written)."""
     out = {}
@@ -113,6 +135,7 @@ def results():
 
 
 @app.get("/demo-examples")
+@lru_cache(maxsize=1)
 def demo_examples():
     if not DEMO.exists():
         return {"examples": []}

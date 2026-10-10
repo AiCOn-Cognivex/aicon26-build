@@ -7,8 +7,8 @@ deactivated user loses access immediately. Repeated failed logins for one email 
 from __future__ import annotations
 
 import time
-from collections import defaultdict, deque
-from datetime import timedelta
+from collections import deque
+from datetime import datetime, timedelta, timezone
 
 import bcrypt
 import jwt
@@ -17,12 +17,12 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 
 from . import config
-from .db import get_db, utcnow
+from .db import get_db
 from .models import User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 _ALGO = "HS256"
-_FAILS: dict[str, deque] = defaultdict(deque)
+_FAILS: dict[str, deque] = {}  # email -> recent failure times (entries removed once they expire)
 MAX_FAILS, WINDOW_S = 5, 300
 
 
@@ -38,15 +38,19 @@ def verify_password(password: str, hashed: str) -> bool:
 
 
 def check_throttle(email: str) -> None:
-    q = _FAILS[email.lower()]
+    q = _FAILS.get(email.lower())
+    if q is None:
+        return
     while q and time.time() - q[0] > WINDOW_S:
         q.popleft()
-    if len(q) >= MAX_FAILS:
+    if not q:
+        _FAILS.pop(email.lower(), None)
+    elif len(q) >= MAX_FAILS:
         raise HTTPException(status.HTTP_429_TOO_MANY_REQUESTS, "Too many failed attempts. Try again in a few minutes.")
 
 
 def record_failure(email: str) -> None:
-    _FAILS[email.lower()].append(time.time())
+    _FAILS.setdefault(email.lower(), deque()).append(time.time())
 
 
 def clear_failures(email: str) -> None:
@@ -54,7 +58,7 @@ def clear_failures(email: str) -> None:
 
 
 def create_token(user: User) -> tuple[str, int]:
-    now = utcnow()
+    now = datetime.now(timezone.utc)  # aware: .timestamp() of a naive time would use the server's local zone
     exp = now + timedelta(minutes=config.JWT_TTL_MIN)
     payload = {"sub": str(user.id), "role": user.role, "cid": user.company_id,
                "iat": int(now.timestamp()), "exp": int(exp.timestamp())}

@@ -1,13 +1,15 @@
 """Reimbursement claims: scan a receipt (model reads it), confirm, and get an instant decision."""
 from __future__ import annotations
 
-from datetime import date
+import logging
+from datetime import date, timedelta
 
-from fastapi import APIRouter, Depends, File, HTTPException, Response, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, Query, Response, UploadFile
 from fastapi.concurrency import run_in_threadpool
+from PIL import Image
 from pydantic import BaseModel, Field
-from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy import delete, select
+from sqlalchemy.orm import Session, undefer
 
 from ..db import get_db, utcnow
 from ..models import Claim, Company, Event, ReceiptImage, User, Wallet
@@ -19,11 +21,13 @@ from ..services.approval import image_flags, review_reasons, submit_flags
 from ..services.common import claim_dict, event_dict, log_event, run_predict
 
 router = APIRouter(prefix="/claims", tags=["claims"])
+log = logging.getLogger("uvicorn.error")
 MAX_BYTES = 8 * 1024 * 1024
+STALE_DRAFT_HOURS = 12  # a scan never submitted or discarded is unreachable once the scan page is closed
 
 
-def _load(db: Session, cid: int, user: User) -> Claim:
-    c = db.get(Claim, cid)
+def _load(db: Session, cid: int, user: User, full: bool = True) -> Claim:
+    c = db.get(Claim, cid, options=[undefer(Claim.extraction)] if full else None)
     if c is None or c.company_id != user.company_id or (c.user_id != user.id and user.role != "finance"):
         raise HTTPException(404, "Claim not found")
     return c
@@ -43,7 +47,11 @@ async def scan(file: UploadFile = File(...), user: User = Depends(current_user),
         jpeg, img = await run_in_threadpool(R.prepare_image, data)
     except Exception:
         raise HTTPException(422, "That file is not a readable image")
-    res = await run_predict(jpeg)
+    try:
+        res = await run_predict(jpeg)
+    except Exception:
+        log.exception("scan: extraction failed")
+        raise HTTPException(422, "We could not read that image. Try a sharper, well-lit photo of the receipt.")
     qr = await run_in_threadpool(R.decode_qr, img)
     t = P.today()
     words = res["ocr"]["words"]
@@ -76,6 +84,14 @@ async def scan(file: UploadFile = File(...), user: User = Depends(current_user),
                 sugg.update(wallet=ai["category"], wallet_source="gemini")
             if ai.get("currency") and sugg["currency"] == "PKR" and ai["currency"] != "PKR":
                 sugg.update(currency=ai["currency"], currency_source="gemini")
+    # database work runs in a worker thread: it must not block the event loop (other users' requests)
+    return await run_in_threadpool(_save_scan, db, user, t, data, jpeg, img, qr, res, sugg, ai)
+
+
+def _save_scan(db: Session, user: User, t: date, data: bytes, jpeg: bytes, img: Image.Image, qr: str | None,
+               res: dict, sugg: dict, ai: dict | None) -> dict:
+    _drop_stale_drafts(db, user.company_id)
+    words, total = res["ocr"]["words"], res["fields"].get("total")
     claim = Claim(company_id=user.company_id, user_id=user.id, status="draft", currency=sugg["currency"],
                   model_name=res["model"]["name"], model_decision=res["decision"],
                   model_total=total["value"] if total else None,
@@ -91,6 +107,13 @@ async def scan(file: UploadFile = File(...), user: User = Depends(current_user),
     claim.flags = image_flags(db, claim)
     db.commit()
     return {**claim_dict(claim, None, full=True), "wallets": P.wallet_balances(db, user, t)}
+
+
+def _drop_stale_drafts(db: Session, company_id: int) -> None:
+    old = select(Claim.id).where(Claim.company_id == company_id, Claim.status == "draft",
+                                 Claim.created_at < utcnow() - timedelta(hours=STALE_DRAFT_HOURS))
+    for stmt in (delete(ReceiptImage).where(ReceiptImage.claim_id.in_(old)), delete(Claim).where(Claim.id.in_(old))):
+        db.execute(stmt.execution_options(synchronize_session=False))
 
 
 class SubmitIn(BaseModel):
@@ -143,13 +166,13 @@ def submit(cid: int, body: SubmitIn, user: User = Depends(current_user), db: Ses
 
 
 @router.get("")
-def list_claims(status: str | None = None, limit: int = 100, user: User = Depends(current_user),
+def list_claims(status: str | None = None, limit: int = Query(100, ge=1, le=500), user: User = Depends(current_user),
                 db: Session = Depends(get_db)):
     q = select(Claim).where(Claim.user_id == user.id, Claim.status != "draft")
     if status:
         q = q.where(Claim.status.in_(status.split(",")))
     wmap = {w.id: w for w in P.wallets_for(db, user.company_id)}
-    rows = db.scalars(q.order_by(Claim.submitted_at.desc()).limit(min(limit, 500)))
+    rows = db.scalars(q.order_by(Claim.submitted_at.desc()).limit(limit))
     return {"claims": [claim_dict(c, wmap.get(c.wallet_id)) for c in rows]}
 
 
@@ -165,7 +188,7 @@ def get_claim(cid: int, user: User = Depends(current_user), db: Session = Depend
 
 @router.get("/{cid}/image")
 def claim_image(cid: int, user: User = Depends(current_user), db: Session = Depends(get_db)):
-    c = _load(db, cid, user)
+    c = _load(db, cid, user, full=False)
     img = db.scalar(select(ReceiptImage).where(ReceiptImage.claim_id == c.id))
     if img is None:
         raise HTTPException(404, "No image")
@@ -174,12 +197,10 @@ def claim_image(cid: int, user: User = Depends(current_user), db: Session = Depe
 
 @router.delete("/{cid}")
 def discard(cid: int, user: User = Depends(current_user), db: Session = Depends(get_db)):
-    c = _load(db, cid, user)
+    c = _load(db, cid, user, full=False)
     if c.user_id != user.id or c.status != "draft":
         raise HTTPException(409, "Only your own unsubmitted scans can be discarded")
-    img = db.scalar(select(ReceiptImage).where(ReceiptImage.claim_id == c.id))
-    if img:
-        db.delete(img)
+    db.execute(delete(ReceiptImage).where(ReceiptImage.claim_id == c.id))  # without loading the image bytes
     db.delete(c)
     db.commit()
     return {"ok": True}

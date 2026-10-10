@@ -6,10 +6,10 @@ import io
 import statistics
 from datetime import date
 
-from fastapi import APIRouter, Depends, HTTPException, Response
+from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from pydantic import BaseModel, Field
-from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy import case, func, select
+from sqlalchemy.orm import Session, undefer
 
 from .. import config
 from ..db import Base, engine, get_db, utcnow
@@ -87,20 +87,20 @@ def queue(fin: User = Depends(require_finance), db: Session = Depends(get_db)):
 
 
 @router.get("/claims")
-def all_claims(status: str | None = None, limit: int = 200, fin: User = Depends(require_finance),
+def all_claims(status: str | None = None, limit: int = Query(200, ge=1, le=1000), fin: User = Depends(require_finance),
                db: Session = Depends(get_db)):
     users, wallets = _maps(db, fin.company_id)
     q = select(Claim).where(Claim.company_id == fin.company_id, Claim.status != "draft")
     if status:
         q = q.where(Claim.status.in_(status.split(",")))
-    rows = db.scalars(q.order_by(Claim.submitted_at.desc()).limit(min(limit, 1000)))
+    rows = db.scalars(q.order_by(Claim.submitted_at.desc()).limit(limit))
     return {"claims": [{**claim_dict(c, wallets.get(c.wallet_id), users.get(c.user_id)), "auto": _is_auto(c)} for c in rows]}
 
 
 @router.get("/claims/{cid}")
 def claim_detail(cid: int, fin: User = Depends(require_finance), db: Session = Depends(get_db)):
     users, wallets = _maps(db, fin.company_id)
-    c = db.get(Claim, cid)
+    c = db.get(Claim, cid, options=[undefer(Claim.extraction)])
     if c is None or c.company_id != fin.company_id:
         raise HTTPException(404, "Claim not found")
     hist = [o.amount_pkr for o in db.scalars(select(Claim).where(
@@ -108,7 +108,8 @@ def claim_detail(cid: int, fin: User = Depends(require_finance), db: Session = D
         Claim.status.in_(P.APPROVED))) if o.amount_pkr]
     names = {k: v.name for k, v in users.items()}
     events = db.scalars(select(Event).where(Event.ref_type == "claim", Event.ref_id == c.id).order_by(Event.ts))
-    bal = next((w for w in P.wallet_balances(db, users[c.user_id]) if w["id"] == c.wallet_id), None)
+    bal = next((w for w in P.wallet_balances(db, users[c.user_id], wallets=list(wallets.values()))
+                if w["id"] == c.wallet_id), None)
     return {**claim_dict(c, wallets.get(c.wallet_id), users.get(c.user_id), full=True),
             "history": {"count": len(hist), "median": round(statistics.median(hist)) if hist else None},
             "wallet_balance": bal, "timeline": [event_dict(e, names) for e in events],
@@ -123,7 +124,7 @@ class DecideIn(BaseModel):
 
 @router.post("/claims/{cid}/decide")
 def decide(cid: int, body: DecideIn, fin: User = Depends(require_finance), db: Session = Depends(get_db)):
-    c = db.get(Claim, cid)
+    c = db.get(Claim, cid, options=[undefer(Claim.extraction)])
     if c is None or c.company_id != fin.company_id:
         raise HTTPException(404, "Claim not found")
     if c.status != "in_review":
@@ -285,10 +286,12 @@ def reset_demo(fin: User = Depends(require_finance), db: Session = Depends(get_d
 @router.get("/employees")
 def employees(fin: User = Depends(require_finance), db: Session = Depends(get_db)):
     users, _ = _maps(db, fin.company_id)
+    counts = {uid: (n, r) for uid, n, r in db.execute(
+        select(Claim.user_id, func.count(), func.sum(case((Claim.status == "in_review", 1), else_=0)))
+        .where(Claim.company_id == fin.company_id, Claim.status != "draft").group_by(Claim.user_id))}
     out = []
     for u in sorted(users.values(), key=lambda u: u.name):
-        claims = db.scalars(select(Claim).where(Claim.user_id == u.id, Claim.status != "draft")).all()
-        out.append({**user_dict(u), "monthly_gross": u.monthly_gross, "claims": len(claims),
-                    "in_review": sum(c.status == "in_review" for c in claims),
+        n, r = counts.get(u.id, (0, 0))
+        out.append({**user_dict(u), "monthly_gross": u.monthly_gross, "claims": n, "in_review": int(r or 0),
                     "last_login": iso(u.last_login)})
     return {"employees": out}

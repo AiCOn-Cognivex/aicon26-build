@@ -4,7 +4,7 @@ from __future__ import annotations
 from datetime import date, datetime
 
 from sqlalchemy import JSON, Boolean, Date, DateTime, Float, ForeignKey, Integer, LargeBinary, String, Text, UniqueConstraint
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .db import Base, utcnow
 
@@ -39,6 +39,7 @@ class User(Base):
     pf_opening: Mapped[float] = mapped_column(Float, default=0)        # PF balance before the seeded history
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     last_login: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    company: Mapped[Company] = relationship(lazy="joined", innerjoin=True)  # loaded with the user: one query, not two
 
 
 class Wallet(Base):
@@ -74,7 +75,8 @@ class Claim(Base):
     model_name: Mapped[str] = mapped_column(String(80), default="")
     model_decision: Mapped[str] = mapped_column(String(20), default="")
     model_total: Mapped[float | None] = mapped_column(Float, nullable=True)
-    extraction: Mapped[dict] = mapped_column(JSON, default=dict)       # model output: fields, words, reconciliation
+    # model output: fields, words, reconciliation. Deferred: loaded only when a claim is opened, not in lists
+    extraction: Mapped[dict] = mapped_column(JSON, default=dict, deferred=True)
     suggestions: Mapped[dict] = mapped_column(JSON, default=dict)      # date / merchant / wallet / currency + source
     flags: Mapped[list] = mapped_column(JSON, default=list)            # duplicate / anomaly findings
     reasons: Mapped[list] = mapped_column(JSON, default=list)          # why it went to review (empty if auto-approved)

@@ -91,12 +91,24 @@ def wallets_for(db: Session, company_id: int) -> list[Wallet]:
     return list(db.scalars(select(Wallet).where(Wallet.company_id == company_id).order_by(Wallet.id)))
 
 
-def wallet_balances(db: Session, user: User, t: date | None = None) -> list[dict]:
+def user_claims(db: Session, user: User) -> list[Claim]:
+    """The employee's claims that count against allowances or pay: approved, paid or in review."""
+    return list(db.scalars(select(Claim).where(Claim.user_id == user.id, Claim.status.in_(APPROVED + ("in_review",)))))
+
+
+def user_advances(db: Session, user: User) -> list[Advance]:
+    return list(db.scalars(select(Advance).where(Advance.user_id == user.id).order_by(Advance.requested_at.desc())))
+
+
+# The functions below accept rows the caller already loaded (claims, advances, wallets, payslips) so that one
+# page does not query the same tables several times: every query is a network round trip to the database.
+
+def wallet_balances(db: Session, user: User, t: date | None = None, claims: list[Claim] | None = None,
+                    wallets: list[Wallet] | None = None) -> list[dict]:
     t = t or today()
-    claims = list(db.scalars(select(Claim).where(Claim.user_id == user.id,
-                                                 Claim.status.in_(APPROVED + ("in_review",)))))
+    claims = user_claims(db, user) if claims is None else claims
     out = []
-    for w in wallets_for(db, user.company_id):
+    for w in wallets_for(db, user.company_id) if wallets is None else wallets:
         start, end = wallet_window(w.period, t)
         limit = float(w.limits.get(user.grade, 0))
         used = pending = 0.0
@@ -123,15 +135,22 @@ def wallet_balances(db: Session, user: User, t: date | None = None) -> list[dict
     return out
 
 
-def expected_pay(db: Session, user: User, company: Company, t: date | None = None) -> dict:
+def expected_pay(db: Session, user: User, company: Company, t: date | None = None, claims: list[Claim] | None = None,
+                 advances: list[Advance] | None = None) -> dict:
     t = t or today()
     pd = payday_on_or_after(t)
     basic, house, util = salary_parts(user.monthly_gross)
     pf_emp = round(basic * company.pf_rate)
-    reimb = list(db.scalars(select(Claim).where(Claim.user_id == user.id, Claim.status.in_(UNPAID_APPROVED),
-                                                Claim.pay_date == pd)))
-    adv = list(db.scalars(select(Advance).where(Advance.user_id == user.id, Advance.status == "approved",
-                                                Advance.repay_date == pd)))
+    if claims is None:
+        reimb = list(db.scalars(select(Claim).where(Claim.user_id == user.id, Claim.status.in_(UNPAID_APPROVED),
+                                                    Claim.pay_date == pd)))
+    else:
+        reimb = [c for c in claims if c.status in UNPAID_APPROVED and c.pay_date == pd]
+    if advances is None:
+        adv = list(db.scalars(select(Advance).where(Advance.user_id == user.id, Advance.status == "approved",
+                                                    Advance.repay_date == pd)))
+    else:
+        adv = [a for a in advances if a.status == "approved" and a.repay_date == pd]
     reimb_total = round(sum(c.amount_pkr or 0 for c in reimb))
     adv_total = round(sum(a.amount for a in adv))
     start = previous_payday(pd) + timedelta(days=1)
@@ -145,13 +164,14 @@ def expected_pay(db: Session, user: User, company: Company, t: date | None = Non
             "net": round(user.monthly_gross - user.tax_monthly - pf_emp - adv_total + reimb_total)}
 
 
-def advance_status(db: Session, user: User, company: Company, t: date | None = None) -> dict:
+def advance_status(db: Session, user: User, company: Company, t: date | None = None, pay: dict | None = None,
+                   advances: list[Advance] | None = None) -> dict:
     t = t or today()
-    pay = expected_pay(db, user, company, t)
+    advs = user_advances(db, user) if advances is None else advances
+    pay = expected_pay(db, user, company, t, advances=advs) if pay is None else pay
     base_net = user.monthly_gross - user.tax_monthly - pay["pf_employee"]
     earned = base_net * pay["cycle_progress"]
     cap = company.advance_share * earned
-    advs = list(db.scalars(select(Advance).where(Advance.user_id == user.id).order_by(Advance.requested_at.desc())))
     outstanding = sum(a.amount for a in advs if a.status == "requested" or
                       (a.status == "approved" and a.repay_date and a.repay_date >= t))
     available = max(0, int((cap - outstanding) // 500 * 500))
@@ -168,8 +188,8 @@ def payslips_for(db: Session, user: User) -> list[Payslip]:
     return list(db.scalars(select(Payslip).where(Payslip.user_id == user.id).order_by(Payslip.period)))
 
 
-def pf_summary(db: Session, user: User, company: Company) -> dict:
-    slips = payslips_for(db, user)
+def pf_summary(db: Session, user: User, company: Company, slips: list[Payslip] | None = None) -> dict:
+    slips = payslips_for(db, user) if slips is None else slips
     bal = user.pf_opening
     series = []
     emp_total = user.pf_opening / 2
@@ -190,10 +210,12 @@ def pf_summary(db: Session, user: User, company: Company) -> dict:
             "assumed_profit_rate": company.pf_profit_rate, "loan_eligible": round(0.8 * emp_total)}
 
 
-def calendar(db: Session, user: User, company: Company, t: date | None = None) -> list[dict]:
+def calendar(db: Session, user: User, company: Company, t: date | None = None, pay: dict | None = None,
+             balances: list[dict] | None = None) -> list[dict]:
     """Upcoming money dates for this employee (next ~2 months)."""
     t = t or today()
-    pay = expected_pay(db, user, company, t)
+    pay = expected_pay(db, user, company, t) if pay is None else pay
+    balances = wallet_balances(db, user, t) if balances is None else balances
     pd = date.fromisoformat(pay["pay_date"])
     items = [{"date": next_cutoff(t, company.cutoff_day).isoformat(), "kind": "cutoff",
               "title": "Claim cut-off", "detail": f"Claims approved by now are paid on {nice_day(pd)}"},
@@ -203,11 +225,11 @@ def calendar(db: Session, user: User, company: Company, t: date | None = None) -
         items.append({"date": pd.isoformat(), "kind": "advance", "title": "Advance deducted",
                       "amount": pay["advance_repayment"], "detail": "Interest-free, deducted from this salary"})
     seen = set()
-    for w in wallet_balances(db, user, t):
+    for w in balances:
         key = (w["resets_on"], w["period"])
         if w["days_to_reset"] <= 92 and key not in seen:
             seen.add(key)
-            names = [x["name"] for x in wallet_balances(db, user, t) if (x["resets_on"], x["period"]) == key]
+            names = [x["name"] for x in balances if (x["resets_on"], x["period"]) == key]
             items.append({"date": w["resets_on"], "kind": "reset", "title": "Allowances reset",
                           "detail": ", ".join(names)})
     nxt = last_working_day(*add_months(pd.year, pd.month, 1))

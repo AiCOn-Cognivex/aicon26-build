@@ -96,6 +96,7 @@ def seed_demo(db: Session) -> bool:
     months = [P.add_months(t.year, t.month, -k) for k in range(12, 0, -1)]
     increment_from = (t.year if t.month >= 7 else t.year - 1, 7)  # annual increment each July
     grade_scale = {"G1": 0.7, "G2": 1.0, "G3": 1.6}
+    history = []  # inserted in one batch below: one flush per claim cost ~1,000 database round trips on a reset
     for email, u in users.items():
         s = grade_scale[u.grade]
         field = u.department in ("Sales", "Supply Chain")
@@ -129,15 +130,17 @@ def seed_demo(db: Session) -> bool:
                     if c.user_id == sara.id and not auto:
                         c.decided_by_id = users["omar@northwind.example"].id  # nobody approves their own claim
                     db.add(c)
-                    db.flush()
-                    log_event(db, company_id=co.id, user_id=u.id, actor_id=u.id, kind="claim_submitted",
-                              title=f"{w.name} claim submitted", amount=amt, ref_type="claim", ref_id=c.id, ts=sub)
-                    log_event(db, company_id=co.id, user_id=u.id, actor_id=c.decided_by_id,
-                              kind="claim_auto_approved" if auto else "claim_approved",
-                              title=f"{w.name} claim {'auto-approved' if auto else 'approved'}: paid on {nice_day(pay)}",
-                              amount=amt, ref_type="claim", ref_id=c.id, ts=dec)
-                    log_event(db, company_id=co.id, user_id=u.id, kind="claim_paid", title=f"{w.name} claim reimbursed with salary",
-                              amount=amt, ref_type="claim", ref_id=c.id, ts=utc(pay, 10))
+                    history.append((c, u, w, auto, amt, sub, dec, pay))
+    db.flush()
+    for c, u, w, auto, amt, sub, dec, pay in history:
+        log_event(db, company_id=co.id, user_id=u.id, actor_id=u.id, kind="claim_submitted",
+                  title=f"{w.name} claim submitted", amount=amt, ref_type="claim", ref_id=c.id, ts=sub)
+        log_event(db, company_id=co.id, user_id=u.id, actor_id=c.decided_by_id,
+                  kind="claim_auto_approved" if auto else "claim_approved",
+                  title=f"{w.name} claim {'auto-approved' if auto else 'approved'}: paid on {nice_day(pay)}",
+                  amount=amt, ref_type="claim", ref_id=c.id, ts=dec)
+        log_event(db, company_id=co.id, user_id=u.id, kind="claim_paid", title=f"{w.name} claim reimbursed with salary",
+                  amount=amt, ref_type="claim", ref_id=c.id, ts=utc(pay, 10))
     # one rejected duplicate last month (Bilal) and one repaid advance (Ayesha, 4 months ago)
     bilal, ayesha = users["bilal@northwind.example"], users["ayesha@northwind.example"]
     ly, lm = P.add_months(t.year, t.month, -1)
@@ -170,7 +173,7 @@ def seed_demo(db: Session) -> bool:
     db.flush()
 
     # payslips (consistent with the claims and advances above)
-    claims = list(db.scalars(select(Claim).where(Claim.company_id == co.id, Claim.status == "paid")))
+    claims = [h[0] for h in history]  # the paid claims (the rejected one is not paid)
     for u in users.values():
         for y, m in months:
             pd = P.last_working_day(y, m)

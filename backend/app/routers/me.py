@@ -1,14 +1,14 @@
 """The signed-in employee's money: dashboard, activity, payslips, provident fund."""
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ..db import get_db
-from ..models import Claim, Company, Event, User, Wallet
+from ..models import Event, User, Wallet
 from ..security import current_user
 from ..services import payroll as P
 from ..services.payroll import short_day
@@ -41,22 +41,23 @@ def _nudges(wallets: list[dict], pay: dict, cutoff: date, t: date, n_review: int
 
 @router.get("/me/dashboard")
 def dashboard(user: User = Depends(current_user), db: Session = Depends(get_db)):
-    company = db.get(Company, user.company_id)
+    company = user.company
     t = P.today()
-    wallets = P.wallet_balances(db, user, t)
-    pay = P.expected_pay(db, user, company, t)
+    # each table is read once and shared by every widget (7 queries instead of 23)
+    claims, advances, wallet_rows = P.user_claims(db, user), P.user_advances(db, user), P.wallets_for(db, user.company_id)
+    wallets = P.wallet_balances(db, user, t, claims, wallet_rows)
+    pay = P.expected_pay(db, user, company, t, claims, advances)
     slips = P.payslips_for(db, user)
-    adv = P.advance_status(db, user, company, t)
+    adv = P.advance_status(db, user, company, t, pay, advances)
     adv.pop("history")
-    wmap = {w.id: w for w in P.wallets_for(db, user.company_id)}
-    open_claims = list(db.scalars(select(Claim).where(Claim.user_id == user.id,
-                                                      Claim.status.in_(("in_review", "auto_approved", "approved")))
-                                  .order_by(Claim.submitted_at.desc()).limit(5)))
+    wmap = {w.id: w for w in wallet_rows}
+    open_claims = sorted((c for c in claims if c.status in ("in_review", "auto_approved", "approved")),
+                         key=lambda c: c.submitted_at or datetime.min, reverse=True)[:5]
     events = list(db.scalars(select(Event).where(Event.user_id == user.id, Event.kind != "claim_submitted")
                              .order_by(Event.ts.desc()).limit(8)))
     names = {u.id: u.name for u in db.scalars(select(User).where(User.company_id == user.company_id))}
     cutoff = P.next_cutoff(t, company.cutoff_day)
-    n_review = sum(c.status == "in_review" for c in open_claims)
+    n_review = sum(c.status == "in_review" for c in claims)
     totals = {k: sum(w[k] for w in wallets) for k in ("limit", "used", "pending", "left")}
     return {
         "user": user_dict(user), "company": {"name": company.name, "currency": company.currency},
@@ -66,18 +67,18 @@ def dashboard(user: User = Depends(current_user), db: Session = Depends(get_db))
         "paychecks": [{"period": s.period, "pay_date": s.pay_date.isoformat(), "net": s.net,
                        "salary": round(s.net - s.reimbursements), "reimbursements": s.reimbursements, "gross": s.gross}
                       for s in slips[-12:]],
-        "pf": P.pf_summary(db, user, company), "advance": adv,
+        "pf": P.pf_summary(db, user, company, slips), "advance": adv,
         "open_claims": [claim_dict(c, wmap.get(c.wallet_id)) for c in open_claims],
         "activity": [event_dict(e, names) for e in events],
-        "calendar": P.calendar(db, user, company, t),
+        "calendar": P.calendar(db, user, company, t, pay, wallets),
         "nudges": _nudges(wallets, pay, cutoff, t, n_review),
     }
 
 
 @router.get("/me/activity")
-def activity(limit: int = 50, user: User = Depends(current_user), db: Session = Depends(get_db)):
+def activity(limit: int = Query(50, ge=1, le=200), user: User = Depends(current_user), db: Session = Depends(get_db)):
     names = {u.id: u.name for u in db.scalars(select(User).where(User.company_id == user.company_id))}
-    events = db.scalars(select(Event).where(Event.user_id == user.id).order_by(Event.ts.desc()).limit(min(limit, 200)))
+    events = db.scalars(select(Event).where(Event.user_id == user.id).order_by(Event.ts.desc()).limit(limit))
     return {"events": [event_dict(e, names) for e in events]}
 
 
@@ -106,7 +107,7 @@ def _slip(s, prev=None) -> dict:
 def payslips(user: User = Depends(current_user), db: Session = Depends(get_db)):
     slips = P.payslips_for(db, user)
     return {"payslips": [_slip(s, slips[i - 1] if i else None) for i, s in enumerate(slips)][::-1],
-            "upcoming": P.expected_pay(db, user, db.get(Company, user.company_id))}
+            "upcoming": P.expected_pay(db, user, user.company)}
 
 
 @router.get("/payslips/{period}")
@@ -114,7 +115,7 @@ def payslip(period: str, user: User = Depends(current_user), db: Session = Depen
     slips = P.payslips_for(db, user)
     for i, s in enumerate(slips):
         if s.period == period:
-            company = db.get(Company, user.company_id)
+            company = user.company
             return {"payslip": _slip(s, slips[i - 1] if i else None), "employee": user_dict(user),
                     "company": {"name": company.name}}
     raise HTTPException(404, "No payslip for that month")
@@ -122,7 +123,7 @@ def payslip(period: str, user: User = Depends(current_user), db: Session = Depen
 
 @router.get("/me/pf")
 def pf(user: User = Depends(current_user), db: Session = Depends(get_db)):
-    company = db.get(Company, user.company_id)
+    company = user.company
     out = P.pf_summary(db, user, company)
     out["series_full"] = [{"period": s.period, "employee": s.pf_employee, "employer": s.pf_employer}
                           for s in P.payslips_for(db, user)]
@@ -133,7 +134,7 @@ def pf(user: User = Depends(current_user), db: Session = Depends(get_db)):
 @router.get("/me/certificate")
 def certificate(user: User = Depends(current_user), db: Session = Depends(get_db)):
     """Data for a printable salary certificate (employees often wait days for HR to issue one)."""
-    company = db.get(Company, user.company_id)
+    company = user.company
     basic, house, util = P.salary_parts(user.monthly_gross)
     return {"employee": user_dict(user), "company": {"name": company.name}, "issued_on": P.today().isoformat(),
             "monthly": {"basic": basic, "house_rent": house, "utilities": util, "gross": user.monthly_gross},

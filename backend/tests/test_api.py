@@ -108,6 +108,38 @@ def test_policy_update_and_audit(client, sara):
     assert ov["events"][0]["kind"] == "policy_changed"
 
 
+def test_stale_drafts_removed_and_limits_checked(client, ayesha):
+    from datetime import timedelta
+
+    from backend.app.db import SessionLocal, utcnow
+    from backend.app.models import Claim, ReceiptImage
+    old = _scan(client, ayesha, UNSURE)["id"]
+    with SessionLocal() as db:  # a scan abandoned yesterday
+        db.get(Claim, old).created_at = utcnow() - timedelta(days=1)
+        db.commit()
+    new = _scan(client, ayesha, UNSURE)["id"]  # SQLite may reuse the deleted id, so check by age, not id
+    with SessionLocal() as db:
+        stale = db.query(Claim).filter(Claim.status == "draft", Claim.created_at < utcnow() - timedelta(hours=12))
+        assert stale.count() == 0 and db.get(Claim, new).status == "draft"
+        assert db.query(ReceiptImage).filter(ReceiptImage.claim_id.not_in(db.query(Claim.id))).count() == 0
+    assert client.get("/me/activity", headers=ayesha, params={"limit": -1}).status_code == 422
+    assert client.get("/claims", headers=ayesha, params={"limit": 0}).status_code == 422
+
+
+def test_token_times_are_utc_and_server_timing(client):
+    import time
+    from types import SimpleNamespace
+
+    import jwt
+
+    from backend.app import config
+    from backend.app.security import create_token
+    tok, ttl = create_token(SimpleNamespace(id=1, role="employee", company_id=1))
+    p = jwt.decode(tok, config.JWT_SECRET, algorithms=["HS256"])
+    assert abs(p["iat"] - time.time()) < 60 and p["exp"] - p["iat"] == ttl  # was off by the local UTC offset
+    assert client.get("/health").headers["server-timing"].startswith("app;dur=")
+
+
 def test_demo_reset(client, sara):
     assert client.post("/admin/demo/reset", headers=sara).status_code == 200
     fresh = login(client, "sara@northwind.example")
