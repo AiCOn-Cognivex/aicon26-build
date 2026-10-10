@@ -1,182 +1,129 @@
 {
  "model": "CRF (token + layout features)",
- "split": "validation",
+ "split": "out-of-fold, train + validation",
  "mode": "B",
- "n": 100,
+ "n": 900,
  "target": 0.98,
- "chosen_threshold": 0.7,
+ "score": "receipt confidence P(all five amounts right)",
+ "chosen_threshold": 0.9331,
  "chosen_policy": {
-  "threshold": 0.7,
+  "threshold": 0.0,
   "tol_abs": 50.0,
   "tol_rel": 0.01,
   "require_reconciliation": false,
-  "use_item_rule": false,
   "use_ocr_conf": false,
-  "check_absent": true,
+  "check_absent": false,
+  "decoder": "rerank",
+  "lam": 1.5,
+  "min_posterior": 0.0,
+  "receipt_model": "receipt_conf_crf.json",
+  "receipt_threshold": 0.9331,
   "model": "crf",
   "temperature": 1.1
  },
- "chosen_coverage": 0.81,
- "chosen_correctness": 0.9876543209876543,
+ "chosen_coverage": 0.6455555555555555,
+ "chosen_correctness": 0.9759036144578314,
  "chosen_ci95_exact": [
-  0.9331243790677892,
-  0.9996874833128462
+  0.9599005953795914,
+  0.9867650983515976
  ],
- "chosen_ci95_bootstrap": [
-  0.9615384615384616,
-  1.0
- ],
- "note": "Chosen: most coverage with >= 98% correctness among >= 20 auto-posted validation receipts. 80/81 auto-posted validation receipts were correct; exact 95% CI 93.3%-100.0% (bootstrap 96.2%-100.0%). 81 receipts cannot establish 98%; the single test-set run is the independent check.",
+ "note": "Nested estimate (model and threshold chosen on 4 folds, applied to the 5th; 900 receipts, real OCR): 64.6% auto-posted, 567/581 correct (exact 95% CI 96.0%-98.7%). Points: out-of-fold scores, threshold applied to all 900. A total and no arithmetic FAIL are always required.",
  "points": [
   {
-   "threshold": 0.0,
-   "coverage": 0.92,
-   "correctness": 0.9565217391304348,
-   "n_auto": 92,
-   "ci_low": 0.8924065490902405,
-   "ci_high": 0.9880284058280727,
-   "boot_low": 0.9111111111111111,
-   "boot_high": 0.9894736842105263
-  },
-  {
    "threshold": 0.5,
-   "coverage": 0.89,
-   "correctness": 0.9662921348314607,
-   "n_auto": 89,
-   "ci_low": 0.9046384343936804,
-   "ci_high": 0.9929939431663289,
-   "boot_low": 0.9230769230769231,
-   "boot_high": 1.0
+   "coverage": 0.8677777777777778,
+   "correctness": 0.9282970550576184,
+   "n_auto": 781,
+   "ci_low": 0.9078949701766416,
+   "ci_high": 0.9453850940040256
   },
   {
    "threshold": 0.6,
-   "coverage": 0.87,
-   "correctness": 0.9770114942528736,
-   "n_auto": 87,
-   "ci_low": 0.9194141341632304,
-   "ci_high": 0.9972037589615068,
-   "boot_low": 0.9418604651162791,
-   "boot_high": 1.0
+   "coverage": 0.8466666666666667,
+   "correctness": 0.937007874015748,
+   "n_auto": 762,
+   "ci_low": 0.9173460753497105,
+   "ci_high": 0.9531929754829456
   },
   {
    "threshold": 0.7,
-   "coverage": 0.81,
-   "correctness": 0.9876543209876543,
-   "n_auto": 81,
-   "ci_low": 0.9331243790677892,
-   "ci_high": 0.9996874833128462,
-   "boot_low": 0.9615384615384616,
-   "boot_high": 1.0
+   "coverage": 0.8255555555555556,
+   "correctness": 0.946164199192463,
+   "n_auto": 743,
+   "ci_low": 0.9274093928689092,
+   "ci_high": 0.9612639601522672
   },
   {
    "threshold": 0.8,
-   "coverage": 0.77,
-   "correctness": 1.0,
-   "n_auto": 77,
-   "ci_low": 0.9532219318395959,
-   "ci_high": 1.0,
-   "boot_low": 1.0,
-   "boot_high": 1.0
+   "coverage": 0.7755555555555556,
+   "correctness": 0.9555873925501432,
+   "n_auto": 698,
+   "ci_low": 0.9375496115149862,
+   "ci_high": 0.9696274765765039
   },
   {
    "threshold": 0.85,
-   "coverage": 0.71,
-   "correctness": 1.0,
-   "n_auto": 71,
-   "ci_low": 0.9493705920455963,
-   "ci_high": 1.0,
-   "boot_low": 1.0,
-   "boot_high": 1.0
+   "coverage": 0.7388888888888889,
+   "correctness": 0.9624060150375939,
+   "n_auto": 665,
+   "ci_low": 0.9450021014033945,
+   "ci_high": 0.9755260836588957
   },
   {
    "threshold": 0.9,
-   "coverage": 0.63,
-   "correctness": 1.0,
-   "n_auto": 63,
-   "ci_low": 0.9431276476679837,
-   "ci_high": 1.0,
-   "boot_low": 1.0,
-   "boot_high": 1.0
+   "coverage": 0.6966666666666667,
+   "correctness": 0.9760765550239234,
+   "n_auto": 627,
+   "ci_low": 0.960848529457385,
+   "ci_high": 0.9865498262334077
   },
   {
    "threshold": 0.925,
-   "coverage": 0.56,
-   "correctness": 1.0,
-   "n_auto": 56,
-   "ci_low": 0.9362499033376378,
-   "ci_high": 1.0,
-   "boot_low": 1.0,
-   "boot_high": 1.0
+   "coverage": 0.6533333333333333,
+   "correctness": 0.9778911564625851,
+   "n_auto": 588,
+   "ci_low": 0.9624899255114314,
+   "ci_high": 0.9881766946446339
+  },
+  {
+   "threshold": 0.9331,
+   "coverage": 0.6388888888888888,
+   "correctness": 0.9808695652173913,
+   "n_auto": 575,
+   "ci_low": 0.9660286330280985,
+   "ci_high": 0.9904124259007274
   },
   {
    "threshold": 0.95,
-   "coverage": 0.46,
-   "correctness": 1.0,
-   "n_auto": 46,
-   "ci_low": 0.9229381729480993,
-   "ci_high": 1.0,
-   "boot_low": 1.0,
-   "boot_high": 1.0
-  },
-  {
-   "threshold": 0.96,
-   "coverage": 0.42,
-   "correctness": 1.0,
-   "n_auto": 42,
-   "ci_low": 0.9159161450596448,
-   "ci_high": 1.0,
-   "boot_low": 1.0,
-   "boot_high": 1.0
+   "coverage": 0.5733333333333334,
+   "correctness": 0.9844961240310077,
+   "n_auto": 516,
+   "ci_low": 0.969680650884259,
+   "ci_high": 0.993283380069196
   },
   {
    "threshold": 0.97,
-   "coverage": 0.37,
-   "correctness": 1.0,
-   "n_auto": 37,
-   "ci_low": 0.9051094125850101,
-   "ci_high": 1.0,
-   "boot_low": 1.0,
-   "boot_high": 1.0
+   "coverage": 0.4166666666666667,
+   "correctness": 0.984,
+   "n_auto": 375,
+   "ci_low": 0.965501668815846,
+   "ci_high": 0.9941062296274611
   },
   {
    "threshold": 0.98,
-   "coverage": 0.28,
-   "correctness": 1.0,
-   "n_auto": 28,
-   "ci_low": 0.8765638814997362,
-   "ci_high": 1.0,
-   "boot_low": 1.0,
-   "boot_high": 1.0
+   "coverage": 0.3233333333333333,
+   "correctness": 0.9862542955326461,
+   "n_auto": 291,
+   "ci_low": 0.9651814427846279,
+   "ci_high": 0.9962423961027093
   },
   {
    "threshold": 0.99,
-   "coverage": 0.12,
-   "correctness": 1.0,
-   "n_auto": 12,
-   "ci_low": 0.7353515306029488,
-   "ci_high": 1.0,
-   "boot_low": 1.0,
-   "boot_high": 1.0
-  },
-  {
-   "threshold": 0.995,
-   "coverage": 0.07,
-   "correctness": 1.0,
-   "n_auto": 7,
-   "ci_low": 0.5903836027749966,
-   "ci_high": 1.0,
-   "boot_low": 1.0,
-   "boot_high": 1.0
-  },
-  {
-   "threshold": 0.999,
-   "coverage": 0.0,
-   "correctness": null,
-   "n_auto": 0,
-   "ci_low": null,
-   "ci_high": null,
-   "boot_low": null,
-   "boot_high": null
+   "coverage": 0.1622222222222222,
+   "correctness": 0.9863013698630136,
+   "n_auto": 146,
+   "ci_low": 0.9513933839552458,
+   "ci_high": 0.9983367056061216
   }
  ]
 }

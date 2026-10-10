@@ -15,7 +15,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9962,
+  "conf": 0.9963,
+  "receipt_confidence": 0.9889,
   "pred": {
    "total": "45,500",
    "subtotal": null,
@@ -50,7 +51,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.8715,
+  "conf": 0.8718,
+  "receipt_confidence": 0.985,
   "pred": {
    "total": "23.000",
    "subtotal": null,
@@ -71,27 +73,27 @@
  },
  {
   "id": "validation_2",
-  "posting_correct": false,
+  "posting_correct": true,
   "fully_correct": false,
   "fields_ok": {
-   "total": false,
-   "subtotal": false,
-   "tax": false,
-   "service_charge": false,
+   "total": true,
+   "subtotal": true,
+   "tax": true,
+   "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on service_charge (0.30 < 0.70)",
-   "arithmetic check failed: subtotal + tax + service - discount = total (expected 39,999.00, got 100,000.00)"
+   "all key fields confident and arithmetic reconciles"
   ],
-  "recon": "FAIL",
-  "conf": 0.3012,
+  "recon": "PASS",
+  "conf": 0.92,
+  "receipt_confidence": 0.9954,
   "pred": {
-   "total": "100,000",
-   "subtotal": "20,000",
-   "tax": "18,181",
-   "service_charge": "1,818",
+   "total": "20,000",
+   "subtotal": "18,181",
+   "tax": "1,818",
+   "service_charge": null,
    "discount": null
   },
   "gold": {
@@ -121,11 +123,12 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8457,
+  "conf": 0.9667,
+  "receipt_confidence": 0.9817,
   "pred": {
    "total": "28,000",
    "subtotal": "28,000",
-   "tax": "0",
+   "tax": null,
    "service_charge": null,
    "discount": null
   },
@@ -151,12 +154,13 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on total (0.59 < 0.70)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.5901,
+  "conf": 0.7308,
+  "receipt_confidence": 0.9967,
   "pred": {
    "total": "41,000",
    "subtotal": "41,000",
@@ -191,7 +195,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8658,
+  "conf": 0.8678,
+  "receipt_confidence": 0.9955,
   "pred": {
    "total": "8,000",
    "subtotal": "7,273",
@@ -227,6 +232,7 @@
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.9728,
+  "receipt_confidence": 0.9878,
   "pred": {
    "total": "123,000",
    "subtotal": null,
@@ -262,6 +268,7 @@
   ],
   "recon": "PASS",
   "conf": 0.8085,
+  "receipt_confidence": 0.9946,
   "pred": {
    "total": "59,500",
    "subtotal": "63,636",
@@ -296,7 +303,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9704,
+  "conf": 0.9707,
+  "receipt_confidence": 0.998,
   "pred": {
    "total": "11,700",
    "subtotal": "11,700",
@@ -331,7 +339,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9777,
+  "conf": 0.9778,
+  "receipt_confidence": 0.9882,
   "pred": {
    "total": "20,000",
    "subtotal": null,
@@ -366,7 +375,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9403,
+  "conf": 0.9405,
+  "receipt_confidence": 0.9874,
   "pred": {
    "total": "60.000",
    "subtotal": null,
@@ -401,7 +411,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.982,
+  "conf": 0.9855,
+  "receipt_confidence": 0.9874,
   "pred": {
    "total": "89.100",
    "subtotal": "81.000",
@@ -436,7 +447,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.8678,
+  "conf": 0.868,
+  "receipt_confidence": 0.9827,
   "pred": {
    "total": "72.000",
    "subtotal": null,
@@ -471,7 +483,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9949,
+  "conf": 0.995,
+  "receipt_confidence": 0.9964,
   "pred": {
    "total": "45,500",
    "subtotal": "41,364",
@@ -501,12 +514,13 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on subtotal (0.61 < 0.70)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.6062,
+  "conf": 0.9892,
+  "receipt_confidence": 0.9894,
   "pred": {
    "total": "39.600",
    "subtotal": "36.000",
@@ -541,7 +555,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9485,
+  "conf": 0.9946,
+  "receipt_confidence": 0.9971,
   "pred": {
    "total": "59.400",
    "subtotal": "54.000",
@@ -571,12 +586,13 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "overall confidence 0.85 < 0.93 (weakest: total 1.00)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.9976,
+  "receipt_confidence": 0.8481,
   "pred": {
    "total": "20,000",
    "subtotal": null,
@@ -611,7 +627,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9865,
+  "conf": 0.9866,
+  "receipt_confidence": 0.998,
   "pred": {
    "total": "20,000",
    "subtotal": "20,000",
@@ -646,7 +663,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9966,
+  "conf": 0.9967,
+  "receipt_confidence": 0.989,
   "pred": {
    "total": "25,000",
    "subtotal": null,
@@ -681,7 +699,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9985,
+  "conf": 0.9986,
+  "receipt_confidence": 0.9891,
   "pred": {
    "total": "42,500",
    "subtotal": null,
@@ -716,7 +735,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9835,
+  "conf": 0.9911,
+  "receipt_confidence": 0.9964,
   "pred": {
    "total": "16,500",
    "subtotal": "15,000",
@@ -746,13 +766,13 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on subtotal (0.69 < 0.70)",
-   "low confidence on service_charge (0.64 < 0.70)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.6358,
+  "conf": 0.6389,
+  "receipt_confidence": 0.9771,
   "pred": {
    "total": "Rp 224,908",
    "subtotal": "194,726",
@@ -787,7 +807,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9834,
+  "conf": 0.9841,
+  "receipt_confidence": 0.9976,
   "pred": {
    "total": "308,000",
    "subtotal": "280,000",
@@ -808,25 +829,26 @@
  },
  {
   "id": "validation_23",
-  "posting_correct": false,
-  "fully_correct": false,
+  "posting_correct": true,
+  "fully_correct": true,
   "fields_ok": {
-   "total": false,
-   "subtotal": false,
-   "tax": false,
+   "total": true,
+   "subtotal": true,
+   "tax": true,
    "service_charge": true,
    "discount": true
   },
   "decision": "AUTO_POST",
   "reasons": [
-   "all key fields confident"
+   "all key fields confident and arithmetic reconciles"
   ],
-  "recon": "NOT_CHECKABLE",
-  "conf": 0.8251,
+  "recon": "PASS",
+  "conf": 0.9986,
+  "receipt_confidence": 0.997,
   "pred": {
-   "total": "1,818",
-   "subtotal": null,
-   "tax": "18,182",
+   "total": "20.000",
+   "subtotal": "18,182",
+   "tax": "1,818",
    "service_charge": null,
    "discount": null
   },
@@ -844,7 +866,7 @@
  {
   "id": "validation_24",
   "posting_correct": true,
-  "fully_correct": false,
+  "fully_correct": true,
   "fields_ok": {
    "total": true,
    "subtotal": true,
@@ -857,7 +879,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.8989,
+  "conf": 0.9992,
+  "receipt_confidence": 0.9886,
   "pred": {
    "total": "80,500",
    "subtotal": null,
@@ -872,7 +895,7 @@
    "service_charge": null,
    "discount": null
   },
-  "items_tp": 2,
+  "items_tp": 6,
   "items_pred": 6,
   "items_gold": 6
  },
@@ -892,7 +915,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8639,
+  "conf": 0.8729,
+  "receipt_confidence": 0.994,
   "pred": {
    "total": "207,900",
    "subtotal": "180,000",
@@ -907,7 +931,7 @@
    "service_charge": "9,000",
    "discount": null
   },
-  "items_tp": 0,
+  "items_tp": 1,
   "items_pred": 7,
   "items_gold": 7
  },
@@ -922,12 +946,13 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on total (0.43 < 0.70)"
+   "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.4339,
+  "conf": 0.6127,
+  "receipt_confidence": 0.9757,
   "pred": {
    "total": "35.000",
    "subtotal": null,
@@ -962,7 +987,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9861,
+  "conf": 0.9862,
+  "receipt_confidence": 0.9972,
   "pred": {
    "total": "17,999",
    "subtotal": "16,363",
@@ -997,7 +1023,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.985,
+  "conf": 0.9929,
+  "receipt_confidence": 0.9641,
   "pred": {
    "total": "22,000",
    "subtotal": null,
@@ -1029,10 +1056,12 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "total not found"
+   "total not found",
+   "overall confidence 0.84 < 0.93 (weakest: subtotal 0.98)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
+  "receipt_confidence": 0.8417,
   "pred": {
    "total": null,
    "subtotal": "30000",
@@ -1067,7 +1096,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9941,
+  "conf": 0.9942,
+  "receipt_confidence": 0.9887,
   "pred": {
    "total": "21,000",
    "subtotal": null,
@@ -1102,7 +1132,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9703,
+  "conf": 0.9704,
+  "receipt_confidence": 0.9879,
   "pred": {
    "total": "24,000",
    "subtotal": null,
@@ -1138,6 +1169,7 @@
   ],
   "recon": "PASS",
   "conf": 0.9845,
+  "receipt_confidence": 0.998,
   "pred": {
    "total": "6.000",
    "subtotal": "6.000",
@@ -1167,12 +1199,13 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "overall confidence 0.78 < 0.93 (weakest: total 0.99)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9903,
+  "conf": 0.9907,
+  "receipt_confidence": 0.7805,
   "pred": {
    "total": "57,500",
    "subtotal": null,
@@ -1207,7 +1240,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9897,
+  "conf": 0.9898,
+  "receipt_confidence": 0.9792,
   "pred": {
    "total": "283,338",
    "subtotal": "243,000",
@@ -1242,7 +1276,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9843,
+  "conf": 0.9475,
+  "receipt_confidence": 0.9917,
   "pred": {
    "total": "304,326",
    "subtotal": "261,000",
@@ -1277,7 +1312,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9973,
+  "conf": 0.571,
+  "receipt_confidence": 0.9854,
   "pred": {
    "total": "18,999",
    "subtotal": "17,272",
@@ -1312,7 +1348,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9743,
+  "conf": 0.9751,
+  "receipt_confidence": 0.9977,
   "pred": {
    "total": "70,000",
    "subtotal": "63,636",
@@ -1327,7 +1364,7 @@
    "service_charge": null,
    "discount": null
   },
-  "items_tp": 1,
+  "items_tp": 0,
   "items_pred": 3,
   "items_gold": 2
  },
@@ -1342,12 +1379,13 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "overall confidence 0.85 < 0.93 (weakest: total 1.00)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.9976,
+  "receipt_confidence": 0.8481,
   "pred": {
    "total": "20,000",
    "subtotal": null,
@@ -1369,7 +1407,7 @@
  {
   "id": "validation_39",
   "posting_correct": true,
-  "fully_correct": true,
+  "fully_correct": false,
   "fields_ok": {
    "total": true,
    "subtotal": true,
@@ -1382,7 +1420,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9974,
+  "conf": 0.9982,
+  "receipt_confidence": 0.9963,
   "pred": {
    "total": "97,900",
    "subtotal": "89,000",
@@ -1397,7 +1436,7 @@
    "service_charge": null,
    "discount": null
   },
-  "items_tp": 5,
+  "items_tp": 0,
   "items_pred": 5,
   "items_gold": 5
  },
@@ -1417,13 +1456,14 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8046,
+  "conf": 0.9859,
+  "receipt_confidence": 0.9711,
   "pred": {
    "total": "379,500",
    "subtotal": "345,000",
    "tax": "34,500",
-   "service_charge": "0",
-   "discount": "0"
+   "service_charge": null,
+   "discount": null
   },
   "gold": {
    "total": "379,500",
@@ -1453,6 +1493,7 @@
   ],
   "recon": "PASS",
   "conf": 0.8935,
+  "receipt_confidence": 0.9927,
   "pred": {
    "total": "2,352,460",
    "subtotal": "2,000,000",
@@ -1487,7 +1528,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9562,
+  "conf": 0.9563,
+  "receipt_confidence": 0.9978,
   "pred": {
    "total": "53,000",
    "subtotal": "53,000",
@@ -1522,7 +1564,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9046,
+  "conf": 0.9084,
+  "receipt_confidence": 0.9726,
   "pred": {
    "total": "278.000",
    "subtotal": null,
@@ -1557,7 +1600,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.986,
+  "conf": 0.9862,
+  "receipt_confidence": 0.9972,
   "pred": {
    "total": "17,999",
    "subtotal": "16.363",
@@ -1593,6 +1637,7 @@
   ],
   "recon": "PASS",
   "conf": 0.9698,
+  "receipt_confidence": 0.9931,
   "pred": {
    "total": "287,760",
    "subtotal": "240,000",
@@ -1627,7 +1672,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9867,
+  "conf": 0.9902,
+  "receipt_confidence": 0.9886,
   "pred": {
    "total": "22,000",
    "subtotal": null,
@@ -1657,13 +1703,13 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on total (0.67 < 0.70)",
-   "low confidence on subtotal (0.54 < 0.70)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.539,
+  "conf": 0.9376,
+  "receipt_confidence": 0.9979,
   "pred": {
    "total": "42,000",
    "subtotal": "42,000",
@@ -1698,7 +1744,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9764,
+  "conf": 0.9789,
+  "receipt_confidence": 0.997,
   "pred": {
    "total": "61,500",
    "subtotal": "55,908",
@@ -1730,10 +1777,12 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "total not found"
+   "total not found",
+   "overall confidence 0.81 < 0.93 (weakest: tax 0.98)"
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.0,
+  "receipt_confidence": 0.8074,
   "pred": {
    "total": null,
    "subtotal": "74.000",
@@ -1768,7 +1817,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9519,
+  "conf": 0.952,
+  "receipt_confidence": 0.9875,
   "pred": {
    "total": "26,000",
    "subtotal": null,
@@ -1798,12 +1848,13 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on total (0.59 < 0.70)"
+   "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.5897,
+  "conf": 0.9727,
+  "receipt_confidence": 0.9964,
   "pred": {
    "total": "57.200",
    "subtotal": "57.200",
@@ -1838,7 +1889,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9882,
+  "conf": 0.9885,
+  "receipt_confidence": 0.998,
   "pred": {
    "total": "56.000",
    "subtotal": "56.000",
@@ -1873,7 +1925,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9049,
+  "conf": 0.9078,
+  "receipt_confidence": 0.9782,
   "pred": {
    "total": "31.000",
    "subtotal": null,
@@ -1908,7 +1961,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9885,
+  "conf": 0.9902,
+  "receipt_confidence": 0.9886,
   "pred": {
    "total": "40.000",
    "subtotal": null,
@@ -1938,12 +1992,13 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "overall confidence 0.78 < 0.93 (weakest: total 0.93)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9262,
+  "conf": 0.9263,
+  "receipt_confidence": 0.7829,
   "pred": {
    "total": "60.000",
    "subtotal": null,
@@ -1965,7 +2020,7 @@
  {
   "id": "validation_56",
   "posting_correct": true,
-  "fully_correct": true,
+  "fully_correct": false,
   "fields_ok": {
    "total": true,
    "subtotal": true,
@@ -1979,6 +2034,7 @@
   ],
   "recon": "PASS",
   "conf": 0.9898,
+  "receipt_confidence": 0.9982,
   "pred": {
    "total": "20.000",
    "subtotal": "20.000",
@@ -1993,7 +2049,7 @@
    "service_charge": null,
    "discount": null
   },
-  "items_tp": 1,
+  "items_tp": 0,
   "items_pred": 1,
   "items_gold": 1
  },
@@ -2013,7 +2069,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8047,
+  "conf": 0.8052,
+  "receipt_confidence": 0.9942,
   "pred": {
    "total": "288,585",
    "subtotal": "247,500",
@@ -2048,7 +2105,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9669,
+  "conf": 0.967,
+  "receipt_confidence": 0.998,
   "pred": {
    "total": "25.000",
    "subtotal": "25.000",
@@ -2083,7 +2141,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8723,
+  "conf": 0.8728,
+  "receipt_confidence": 0.9912,
   "pred": {
    "total": "664,329",
    "subtotal": "561,800",
@@ -2119,6 +2178,7 @@
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.8969,
+  "receipt_confidence": 0.9841,
   "pred": {
    "total": "180,000",
    "subtotal": null,
@@ -2153,7 +2213,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8898,
+  "conf": 0.9211,
+  "receipt_confidence": 0.9963,
   "pred": {
    "total": "8,250",
    "subtotal": "7,500",
@@ -2188,7 +2249,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9941,
+  "conf": 0.9942,
+  "receipt_confidence": 0.9964,
   "pred": {
    "total": "62,000",
    "subtotal": "56,364",
@@ -2223,7 +2285,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9239,
+  "conf": 0.927,
+  "receipt_confidence": 0.9966,
   "pred": {
    "total": "56,800",
    "subtotal": "51,636",
@@ -2258,7 +2321,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9941,
+  "conf": 0.9942,
+  "receipt_confidence": 0.9887,
   "pred": {
    "total": "20,000",
    "subtotal": null,
@@ -2293,7 +2357,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9746,
+  "conf": 0.9782,
+  "receipt_confidence": 0.9967,
   "pred": {
    "total": "54.600",
    "subtotal": "49.636",
@@ -2315,7 +2380,7 @@
  {
   "id": "validation_66",
   "posting_correct": true,
-  "fully_correct": true,
+  "fully_correct": false,
   "fields_ok": {
    "total": true,
    "subtotal": true,
@@ -2329,6 +2394,7 @@
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.9393,
+  "receipt_confidence": 0.9873,
   "pred": {
    "total": "7,000",
    "subtotal": null,
@@ -2343,7 +2409,7 @@
    "service_charge": null,
    "discount": null
   },
-  "items_tp": 1,
+  "items_tp": 0,
   "items_pred": 1,
   "items_gold": 1
  },
@@ -2364,6 +2430,7 @@
   ],
   "recon": "PASS",
   "conf": 0.9893,
+  "receipt_confidence": 0.9974,
   "pred": {
    "total": "76,000",
    "subtotal": "69,091",
@@ -2384,24 +2451,25 @@
  },
  {
   "id": "validation_68",
-  "posting_correct": true,
+  "posting_correct": false,
   "fully_correct": false,
   "fields_ok": {
    "total": true,
-   "subtotal": true,
+   "subtotal": false,
    "tax": true,
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "subtotal may be on the receipt but was not extracted (absence confidence 0.68)"
+   "all key fields confident and arithmetic reconciles"
   ],
-  "recon": "NOT_CHECKABLE",
-  "conf": 0.9618,
+  "recon": "PASS",
+  "conf": 0.3196,
+  "receipt_confidence": 0.9725,
   "pred": {
    "total": "26,000",
-   "subtotal": null,
+   "subtotal": "26,000",
    "tax": null,
    "service_charge": null,
    "discount": null
@@ -2433,7 +2501,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8198,
+  "conf": 0.8206,
+  "receipt_confidence": 0.9927,
   "pred": {
    "total": "174.983",
    "subtotal": "151.500",
@@ -2468,7 +2537,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9329,
+  "conf": 0.933,
+  "receipt_confidence": 0.9653,
   "pred": {
    "total": "121,798",
    "subtotal": "103,000",
@@ -2503,7 +2573,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9911,
+  "conf": 0.9914,
+  "receipt_confidence": 0.9981,
   "pred": {
    "total": "20.000",
    "subtotal": "20.000",
@@ -2538,7 +2609,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.958,
+  "conf": 0.9728,
+  "receipt_confidence": 0.9905,
   "pred": {
    "total": "36,000",
    "subtotal": "36,000",
@@ -2560,7 +2632,7 @@
  {
   "id": "validation_73",
   "posting_correct": true,
-  "fully_correct": true,
+  "fully_correct": false,
   "fields_ok": {
    "total": true,
    "subtotal": true,
@@ -2574,6 +2646,7 @@
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.9936,
+  "receipt_confidence": 0.9888,
   "pred": {
    "total": "20,000",
    "subtotal": null,
@@ -2588,7 +2661,7 @@
    "service_charge": null,
    "discount": null
   },
-  "items_tp": 1,
+  "items_tp": 0,
   "items_pred": 1,
   "items_gold": 1
  },
@@ -2609,6 +2682,7 @@
   ],
   "recon": "PASS",
   "conf": 0.976,
+  "receipt_confidence": 0.998,
   "pred": {
    "total": "20.000",
    "subtotal": "20.000",
@@ -2643,7 +2717,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.99,
+  "conf": 0.9902,
+  "receipt_confidence": 0.9963,
   "pred": {
    "total": "66,500",
    "subtotal": "60,454",
@@ -2673,12 +2748,13 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "AUTO_POST",
+  "decision": "HUMAN_REVIEW",
   "reasons": [
-   "all key fields confident"
+   "overall confidence 0.92 < 0.93 (weakest: total 0.96)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9588,
+  "conf": 0.9589,
+  "receipt_confidence": 0.915,
   "pred": {
    "total": "99.000",
    "subtotal": null,
@@ -2714,6 +2790,7 @@
   ],
   "recon": "PASS",
   "conf": 0.9932,
+  "receipt_confidence": 0.9942,
   "pred": {
    "total": "Rp 58000.00",
    "subtotal": "Rp 58000.00",
@@ -2745,15 +2822,16 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "low confidence on service_charge (0.24 < 0.70)"
+   "overall confidence 0.29 < 0.93 (weakest: tax 0.90)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.2388,
+  "conf": 0.8984,
+  "receipt_confidence": 0.289,
   "pred": {
    "total": "177.870",
    "subtotal": null,
    "tax": "170",
-   "service_charge": "700",
+   "service_charge": null,
    "discount": null
   },
   "gold": {
@@ -2783,7 +2861,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8722,
+  "conf": 0.9132,
+  "receipt_confidence": 0.997,
   "pred": {
    "total": "72.000",
    "subtotal": "72.000",
@@ -2818,7 +2897,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9964,
+  "conf": 0.9966,
+  "receipt_confidence": 0.9886,
   "pred": {
    "total": "25.000",
    "subtotal": null,
@@ -2853,7 +2933,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9936,
+  "conf": 0.9937,
+  "receipt_confidence": 0.9971,
   "pred": {
    "total": "276,000",
    "subtotal": "250,909",
@@ -2874,24 +2955,25 @@
  },
  {
   "id": "validation_82",
-  "posting_correct": false,
+  "posting_correct": true,
   "fully_correct": false,
   "fields_ok": {
    "total": true,
-   "subtotal": false,
+   "subtotal": true,
    "tax": true,
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "subtotal may be on the receipt but was not extracted (absence confidence 0.68)"
+   "all key fields confident and arithmetic reconciles"
   ],
-  "recon": "NOT_CHECKABLE",
-  "conf": 0.9759,
+  "recon": "PASS",
+  "conf": 0.3156,
+  "receipt_confidence": 0.9723,
   "pred": {
    "total": "35.000",
-   "subtotal": null,
+   "subtotal": "35.000",
    "tax": null,
    "service_charge": null,
    "discount": null
@@ -2923,11 +3005,12 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8434,
+  "conf": 0.948,
+  "receipt_confidence": 0.9867,
   "pred": {
    "total": "17,000",
    "subtotal": "17,000",
-   "tax": "0",
+   "tax": null,
    "service_charge": null,
    "discount": null
   },
@@ -2959,6 +3042,7 @@
   ],
   "recon": "PASS",
   "conf": 0.9348,
+  "receipt_confidence": 0.9978,
   "pred": {
    "total": "52,000",
    "subtotal": "52,000",
@@ -2993,7 +3077,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9825,
+  "conf": 0.9832,
+  "receipt_confidence": 0.9978,
   "pred": {
    "total": "15,000",
    "subtotal": "13,636",
@@ -3028,7 +3113,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9547,
+  "conf": 0.9551,
+  "receipt_confidence": 0.9909,
   "pred": {
    "total": "26,000",
    "subtotal": "26,000",
@@ -3063,11 +3149,12 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.865,
+  "conf": 0.9714,
+  "receipt_confidence": 0.9811,
   "pred": {
    "total": "29,000",
    "subtotal": "29,000",
-   "tax": "0",
+   "tax": null,
    "service_charge": null,
    "discount": null
   },
@@ -3098,7 +3185,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9921,
+  "conf": 0.9922,
+  "receipt_confidence": 0.9971,
   "pred": {
    "total": "170,000",
    "subtotal": "154,545",
@@ -3133,7 +3221,8 @@
    "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.9873,
+  "conf": 0.9879,
+  "receipt_confidence": 0.9885,
   "pred": {
    "total": "29.000",
    "subtotal": null,
@@ -3165,10 +3254,11 @@
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "low confidence on total (0.60 < 0.70)"
+   "overall confidence 0.92 < 0.93 (weakest: total 0.60)"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.6018,
+  "conf": 0.6022,
+  "receipt_confidence": 0.9227,
   "pred": {
    "total": "70000.00",
    "subtotal": null,
@@ -3203,7 +3293,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.941,
+  "conf": 0.9819,
+  "receipt_confidence": 0.9956,
   "pred": {
    "total": "44,000",
    "subtotal": "40,000",
@@ -3239,6 +3330,7 @@
   ],
   "recon": "PASS",
   "conf": 0.8524,
+  "receipt_confidence": 0.9972,
   "pred": {
    "total": "23,000",
    "subtotal": "20,909",
@@ -3274,6 +3366,7 @@
   ],
   "recon": "PASS",
   "conf": 0.9925,
+  "receipt_confidence": 0.997,
   "pred": {
    "total": "172,000",
    "subtotal": "156,364",
@@ -3298,25 +3391,24 @@
   "fully_correct": false,
   "fields_ok": {
    "total": true,
-   "subtotal": false,
-   "tax": true,
-   "service_charge": false,
-   "discount": false
+   "subtotal": true,
+   "tax": false,
+   "service_charge": true,
+   "discount": true
   },
   "decision": "HUMAN_REVIEW",
   "reasons": [
-   "low confidence on total (0.61 < 0.70)",
-   "service_charge may be on the receipt but was not extracted (absence confidence 0.67)",
-   "arithmetic check failed: subtotal + tax + service - discount = total (expected -3,795.00, got 80,100.00)"
+   "overall confidence 0.76 < 0.93 (weakest: tax 0.27)"
   ],
-  "recon": "FAIL",
-  "conf": 0.611,
+  "recon": "PASS",
+  "conf": 0.2665,
+  "receipt_confidence": 0.7576,
   "pred": {
    "total": "80.100",
-   "subtotal": "0",
-   "tax": null,
-   "service_charge": null,
-   "discount": "3.795"
+   "subtotal": "69.000",
+   "tax": "7.280",
+   "service_charge": "3.795",
+   "discount": null
   },
   "gold": {
    "total": "80.100",
@@ -3345,7 +3437,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.9192,
+  "conf": 0.9205,
+  "receipt_confidence": 0.9958,
   "pred": {
    "total": "30,000",
    "subtotal": "27,272",
@@ -3380,7 +3473,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8216,
+  "conf": 0.9431,
+  "receipt_confidence": 0.995,
   "pred": {
    "total": "12,750",
    "subtotal": "13,636",
@@ -3410,12 +3504,13 @@
    "service_charge": true,
    "discount": true
   },
-  "decision": "HUMAN_REVIEW",
+  "decision": "AUTO_POST",
   "reasons": [
-   "low confidence on total (0.66 < 0.70)"
+   "all key fields confident"
   ],
   "recon": "NOT_CHECKABLE",
-  "conf": 0.6613,
+  "conf": 0.6615,
+  "receipt_confidence": 0.9634,
   "pred": {
    "total": "25.000",
    "subtotal": null,
@@ -3451,6 +3546,7 @@
   ],
   "recon": "NOT_CHECKABLE",
   "conf": 0.828,
+  "receipt_confidence": 0.9812,
   "pred": {
    "total": "100.000",
    "subtotal": null,
@@ -3485,7 +3581,8 @@
    "all key fields confident and arithmetic reconciles"
   ],
   "recon": "PASS",
-  "conf": 0.8289,
+  "conf": 0.965,
+  "receipt_confidence": 0.9977,
   "pred": {
    "total": "39.000",
    "subtotal": "39.000",

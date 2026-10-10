@@ -151,6 +151,27 @@ def main():
                        f"OOF (results/cv/confidence_{a.cv}.json); a total and no arithmetic FAIL are always required"}
         (ART / "policy_crf.json").write_text(json.dumps(pol, indent=1))
         print("policy written:", pol)
+        # same schema as ml/calibrate.py's curve, read by the app's /model page
+        nest = out[f"nested_target_{a.write_policy}"]
+        g = gate(X)
+        points = []
+        for t in sorted({0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.925, 0.95, 0.97, 0.98, 0.99, round(th, 4)}):
+            sel = g & (oof >= t)
+            k, n = int(y[sel].sum()), int(sel.sum())
+            lo, hi = clopper_pearson(k, n)
+            points.append({"threshold": t, "coverage": n / len(y), "correctness": k / n if n else None,
+                           "n_auto": n, "ci_low": lo, "ci_high": hi})
+        (ROOT / "results" / "threshold_curve_crf.json").write_text(json.dumps({
+            "model": "CRF (token + layout features)", "split": "out-of-fold, train + validation", "mode": "B",
+            "n": len(y), "target": a.write_policy, "score": "receipt confidence P(all five amounts right)",
+            "chosen_threshold": round(th, 4), "chosen_policy": {k: v for k, v in pol.items() if k != "note"},
+            "chosen_coverage": nest["coverage"], "chosen_correctness": nest["precision"],
+            "chosen_ci95_exact": nest["ci95_exact"],
+            "note": (f"Nested estimate (model and threshold chosen on 4 folds, applied to the 5th; 900 receipts, "
+                     f"real OCR): {nest['coverage']:.1%} auto-posted, {nest['n_correct']}/{nest['n_auto']} correct "
+                     f"(exact 95% CI {nest['ci95_exact'][0]:.1%}-{nest['ci95_exact'][1]:.1%}). Points: out-of-fold "
+                     f"scores, threshold applied to all 900. A total and no arithmetic FAIL are always required."),
+            "points": points}, indent=1))
     print(f"receipt ECE {out['calibration']['receipt_ece']:.3f}, Brier {out['calibration']['brier']:.3f}; "
           f"coefficients {out['coefficients']}")
 
