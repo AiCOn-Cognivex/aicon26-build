@@ -21,12 +21,30 @@ _CURRENCY = re.compile(r"^(rp\.?|idr)\s*", re.I)
 _REPAIRABLE = re.compile(r"^[0-9OoDQlI|.,]*\d[0-9OoDQlI|.,]*[.,]?-?$")
 
 
+# Tier 1 (D25): a colon read for the decimal point in an amount ("10320:00", never a clock time like "10:39"),
+# and a final 0 read as c/C ("150.0c").
+_COLON_DEC = re.compile(r"\d{4,}:\d{2}|\d{1,3}(?:[.,]\d{3})+:\d{2}")
+_TRAIL_C = re.compile(r"\d[\d.,]*[.,]\d?[cC]")
+
+
 def ocr_repair(text: str) -> str:
-    s = _CURRENCY.sub("", text.strip())
+    t = text.strip()
+    if _COLON_DEC.fullmatch(t):
+        return t.replace(":", ".")
+    if _TRAIL_C.fullmatch(t):
+        return t[:-1] + "0"
+    s = _CURRENCY.sub("", t)
     if s != text.strip() or any(c in s for c in "OoDQlI|"):
         if _REPAIRABLE.match(s) and sum(c.isdigit() for c in s) >= 1 and len(s) >= 2:
             return s.translate(_OCR_DIGIT)
     return text
+
+
+def _well_grouped(s: str) -> bool:
+    """With 2+ separators every thousands group has 3 digits, the first 1-3 digits (not a lone 0)."""
+    groups = re.split(r"[.,]", s)
+    th = groups[1:-1] if len(groups[-1]) in (1, 2) else groups[1:]
+    return 1 <= len(groups[0]) <= 3 and not (groups[0] == "0" and th) and all(len(g) == 3 for g in th)
 
 
 def parse_money(text: str | None) -> Decimal | None:
@@ -42,7 +60,10 @@ def parse_money(text: str | None) -> Decimal | None:
     s = s.strip(".,")
     if not s:
         return None
+    s = re.sub(r"[.,]{2,}", lambda m: m.group(0)[-1], s)  # OCR doubles a separator: "24,.000" = "24.000"
     seps = [i for i, c in enumerate(s) if c in ".,"]
+    if len(seps) >= 2 and not _well_grouped(s):
+        return None  # e.g. "1405.17405.17": two OCR columns glued together, not one amount (D25)
     if seps:
         last = seps[-1]
         tail = s[last + 1:]
