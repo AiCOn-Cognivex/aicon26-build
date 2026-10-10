@@ -1,5 +1,8 @@
 # Training LiLT on the GPU machine
 
+> **Not run before the deadline:** no GPU time, so LiLT is not trained and no reported number uses it. Kept as the recipe
+> for after the event. Since D20, choices are made by group-aware cross-validation (`ml/cv.py`), not on validation alone.
+
 Everything except LiLT fine-tuning runs on a normal laptop. LiLT is the one heavy step:
 on a laptop CPU (i7-1165G7) one epoch takes about 19 minutes (measured with `python -m ml.train_lilt --bench`),
 and it needs 15-30 epochs. On a modest NVIDIA GPU the whole run is expected to take minutes.

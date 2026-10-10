@@ -19,7 +19,7 @@ class Company(Base):
     pf_rate: Mapped[float] = mapped_column(Float, default=0.0833)       # PF: employee and employer each, share of basic
     pf_profit_rate: Mapped[float] = mapped_column(Float, default=0.10)  # assumption used only for the projection
     advance_share: Mapped[float] = mapped_column(Float, default=0.5)    # advance cap: share of net pay earned so far
-    advance_auto_approve: Mapped[bool] = mapped_column(Boolean, default=True)
+    advance_auto_approve: Mapped[bool] = mapped_column(Boolean, default=True)  # unused since D29: a finance manager decides
 
 
 class User(Base):

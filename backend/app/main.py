@@ -4,7 +4,8 @@ Env vars (all optional, see .env.example):
   ALLOWED_ORIGINS   comma-separated CORS origins (default "*")
   DATABASE_URL      Postgres URL (unset: local SQLite file, demo data re-seeded when empty)
   JWT_SECRET        token signing key (unset: random per process)
-  GEMINI_API_KEY    optional LLM fallback reader for receipt types our model was not trained on
+  GEMINI_API_KEY    optional: Ask Cognivex assistant + fallback receipt reader (Gemini; never auto-approves)
+  GEMINI_MODEL      default gemini-3.8-flash
   MODEL_KIND        rules | crf | lilt | auto (default auto = best artifact present)
   OCR_THREADS       ONNX Runtime threads for OCR (default: the container's CPU quota)
 """

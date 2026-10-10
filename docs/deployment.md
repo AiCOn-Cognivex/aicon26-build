@@ -22,6 +22,10 @@ Measured live (10 Oct, 02:35 PKT, after the OCR thread fix, D18): `/health` repo
 `/extract` OCR 0.4-0.7 s per receipt (was 9.9-14.8 s on the same 3 receipts before the fix); CORS header
 returned for the Vercel origin.
 
+Measured live (10 Oct evening, D28): pages 0.4-0.65 s from Pakistan, of which about 0.4 s is the network (Pakistan ->
+Railway edge in Singapore -> US West); server time 75-250 ms per page (every response carries `Server-Timing: app;dur=`);
+memory 235-272 MB idle, 676 MB peak during OCR, limit 1 GB; demo reset 5 s.
+
 ## Environment variables
 
 **Backend (Railway service variables)**
@@ -34,8 +38,8 @@ returned for the Vercel origin.
 | `DATABASE_URL` | `postgresql://...neon.tech/...?sslmode=require` | Postgres (Neon free tier). Unset: SQLite at `SQLITE_PATH`, re-seeded on every restart |
 | `SQLITE_PATH` | `/tmp/cognivex.db` | SQLite fallback file (must be writable; set from PowerShell, Git Bash rewrites `/tmp` paths) |
 | `JWT_SECRET` | long random string | signs session tokens; set via `railway variable set JWT_SECRET --stdin` |
-| `GEMINI_API_KEY` | (secret) | optional fallback reader for receipt types our model was not trained on; never auto-approves |
-| `GEMINI_MODEL` | `gemini-2.5-flash` | model name available to the key |
+| `GEMINI_API_KEY` | (secret) | optional: switches on Ask Cognivex and the fallback receipt reader (never auto-approves) |
+| `GEMINI_MODEL` | `gemini-3.8-flash` | default; pin a stable model id, not a `-latest` alias |
 | `SEED_DEMO` | `1` | seed the fictional demo company on an empty database; enables `/admin/demo/reset` |
 
 **Frontend (Vercel project env, Production)**
@@ -68,7 +72,9 @@ Railway keeps the service running (no sleep by default); a redeploy or crash res
 takes about 0.5-1 s longer. The sign-in page shows "Waking the server up" while the API is starting.
 If the API is unreachable, the `/model` results page still works from the snapshot bundled in
 `frontend/public/demo/`; the app itself needs the API.
-**Before the presentation:** sign in as Sara and press **Reset demo data** (sample receipts can only be claimed once), then open the site 5 minutes early and scan one receipt so the database and OCR are warm.
+**Before the presentation:** sign in as Sara (or Omar) and press **Reset demo data** (about 5 s; sample receipts can only be
+claimed once, and the reset restores Hamza's pending advance for Omar to approve). Then open the site 5 minutes early and scan
+one receipt and discard it, so the database and OCR are warm. Scan page: test_3 is approved instantly, test_1 goes to finance.
 
 ## Local fallback for the live demo (two commands)
 From the repo root, in two terminals (the venv must exist: `py -3.13 -m venv .venv` and

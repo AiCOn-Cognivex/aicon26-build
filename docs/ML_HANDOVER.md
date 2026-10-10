@@ -1,5 +1,9 @@
 # ML handover for Hassan
 
+> **Historical (10 Oct, 02:30-11:00, v1 model).** Superseded by the v2 round: current numbers (test set, cross-validation)
+> and the decision policy are in the README; decisions D20-D29 in `docs/decision_log.md`. The demo images are now
+> `test_*` (D24), so the `validation_*` links below no longer exist. LiLT was not trained. Kept as the record of v1.
+
 Status as of **Sat 10 Oct, 02:30 PKT** (CRF tuned 4b, OCR fixed 4c, augmentation tried and rejected 4d).
 **Update 10 Oct, 11:00:** the product is now an employee finance app (README, `docs/product_plan.md`, decision log D19).
 The ML pipeline, the `predict()` contract and every number in this document are unchanged; sections 2 and 7 describe the new app.

@@ -1,7 +1,7 @@
 """Demo company "Northwind Traders (Demo)": fictional employees, 12 months of payslips, provident fund,
 claims and advances, all relative to today. Everything here is DEMO DATA and is labelled so in the UI.
 
-Current-month claims with images use real CORD v2 validation receipts (CC-BY-4.0) and the model's real
+Current-month claims with images use real CORD v2 TEST receipts (CC-BY-4.0, D24) and the model's real
 output (backend/seed_assets, see make_seed_assets.py); their outcome is decided by the same approval
 engine as live claims. Older claims have no image ("archived").
 """

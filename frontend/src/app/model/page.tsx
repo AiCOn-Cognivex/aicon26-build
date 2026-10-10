@@ -53,9 +53,14 @@ export default function ResultsPage() {
   if (!data) return <p className="text-sm text-muted">Loading results…</p>;
   const best = ["lilt", "crf", "rules"].find((m) => data[`threshold_curve_${m}`]);
   const curve = best ? data[`threshold_curve_${best}`] : null;
-  const ba = ["lilt", "crf"].map((m) => ({ m, e: evalFor(data, m, "validation", "B") })).find((x) => x.e);
-  const before = evalFor(data, "rules", "validation", "B");
   const test = data["test_metrics"];
+  // headline tiles: the held-out test set (evaluated once) when present, else validation
+  const testB = test?.evals?.["eval_crf_test_modeB"];
+  const ba = testB
+    ? { m: "crf", e: testB }
+    : ["lilt", "crf"].map((m) => ({ m, e: evalFor(data, m, "validation", "B") })).find((x) => x.e);
+  const before = testB ? test.evals["eval_rules_test_modeB"] : evalFor(data, "rules", "validation", "B");
+  const tileSplit = testB ? "test set, evaluated once" : "validation";
   return (
     <div className="space-y-6">
       <div>
@@ -78,24 +83,9 @@ export default function ResultsPage() {
               <p className="mt-1 text-2xl font-semibold">
                 {pct(ba.e![k], 0)} <span className="text-sm font-normal text-muted">vs {pct(before[k], 0)} rules</span>
               </p>
-              <p className="mt-1 text-xs text-muted">{ba.e!.model}, validation, real OCR, n={ba.e!.n_receipts}</p>
+              <p className="mt-1 text-xs text-muted">{ba.e!.model}, {tileSplit}, real OCR, n={ba.e!.n_receipts}</p>
             </div>
           ))}
-        </section>
-      )}
-      <section className="rounded-card border border-line bg-surface p-4">
-        <h2 className="mb-3 text-sm font-semibold">Validation · Mode B (real OCR, end to end)</h2>
-        <Table data={data} split="validation" mode="B" />
-      </section>
-      <section className="rounded-card border border-line bg-surface p-4">
-        <h2 className="mb-3 text-sm font-semibold">Validation · Mode A (gold OCR)</h2>
-        <Table data={data} split="validation" mode="A" />
-      </section>
-      {curve?.points && (
-        <section className="rounded-card border border-line bg-surface p-4">
-          <h2 className="mb-1 text-sm font-semibold">Decision layer: how many receipts can be auto-posted safely?</h2>
-          <p className="mb-3 text-xs text-muted">{curve.model} · {curve.split} · {curve.mode === "B" ? "real OCR" : "gold OCR"} · n={curve.n}. {curve.note}</p>
-          <CoverageChart points={curve.points as CurvePoint[]} target={curve.target ?? 0.98} chosen={curve.chosen_threshold} />
         </section>
       )}
       {test && (
@@ -103,6 +93,21 @@ export default function ResultsPage() {
           <h2 className="mb-3 text-sm font-semibold">Test set (evaluated once, after freezing model, preprocessing and threshold)</h2>
           <Table data={Object.fromEntries(Object.entries(test.evals ?? {}))} split="test" mode="B" />
           <div className="mt-4"><Table data={Object.fromEntries(Object.entries(test.evals ?? {}))} split="test" mode="A" /></div>
+        </section>
+      )}
+      <section className="rounded-card border border-line bg-surface p-4">
+        <h2 className="mb-3 text-sm font-semibold">Validation · Mode B (real OCR; CRF trained on train only, for comparison)</h2>
+        <Table data={data} split="validation" mode="B" />
+      </section>
+      <section className="rounded-card border border-line bg-surface p-4">
+        <h2 className="mb-3 text-sm font-semibold">Validation · Mode A (gold OCR; for comparison)</h2>
+        <Table data={data} split="validation" mode="A" />
+      </section>
+      {curve?.points && (
+        <section className="rounded-card border border-line bg-surface p-4">
+          <h2 className="mb-1 text-sm font-semibold">Decision layer: how many receipts can be auto-posted safely?</h2>
+          <p className="mb-3 text-xs text-muted">{curve.model} · {curve.split} · {curve.mode === "B" ? "real OCR" : "gold OCR"} · n={curve.n}. {curve.note}</p>
+          <CoverageChart points={curve.points as CurvePoint[]} target={curve.target ?? 0.98} chosen={curve.chosen_threshold} />
         </section>
       )}
       {data["ocr_benchmark"] && (

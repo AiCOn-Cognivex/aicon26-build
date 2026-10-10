@@ -1,5 +1,9 @@
 # Product plan: employee finance app (proposal, Sat 10 Oct)
 
+> **Later changes (D28-D29):** salary advances are requests that a finance manager or higher approves; Ask Cognivex
+> (optional Gemini assistant for the employee's own pay questions) was added; finance pages live under `/finance/*`
+> (this plan says `/admin`); claim pages are `/app/claims/view?id=` and `/finance/review/view?id=`.
+
 Status: **built and deployed (10 Oct, 07:30)**, P0 and most P1 features. Not built: E7 push alerts (in-app tips only), LLM policy assistant, fuel-price check, anomaly scoring beyond the two rules in `backend/app/services/approval.py`. The receipt model (CRF, live on
 Railway) is reused unchanged as the engine of the reimbursement feature.
 

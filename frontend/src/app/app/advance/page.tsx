@@ -28,7 +28,7 @@ export default function AdvancePage() {
       const r = await api<AdvanceSt>("/advances", { json: { amount, reason } });
       setData(r);
       const last = r.history?.[0];
-      setMsg({ ok: true, text: last?.status === "approved" ? `Approved. ${money(last.amount)} is on its way and will be deducted on ${dLong(r.repay_date)}.` : "Request sent to finance." });
+      setMsg({ ok: true, text: last?.status === "approved" ? `Approved. ${money(last.amount)} is on its way and will be deducted on ${dLong(r.repay_date)}.` : "Request sent. A finance manager will approve or decline it." });
       setReason("");
     } catch (e) {
       setMsg({ ok: false, text: (e as Error).message });
@@ -116,7 +116,7 @@ export default function AdvancePage() {
                 {[
                   [ShieldCheck, "An emergency before payday shouldn't mean borrowing at high interest from outside work."],
                   [BadgePercent, "No interest and no fees: you only get pay you have already earned."],
-                  [Zap, data.auto_approve ? "Within the limit it's approved instantly by company policy." : "Finance approves each request."],
+                  [Zap, "A finance manager approves each request. You see the decision here and in your activity."],
                   [CalendarCheck, "It comes back automatically from your next salary. Nothing to remember."],
                 ].map(([I, t], i) => {
                   const Icon = I as typeof Zap;
