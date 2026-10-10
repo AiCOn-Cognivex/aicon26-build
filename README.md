@@ -61,7 +61,7 @@ Receipt image ─► OCR (RapidOCR) ─► token tagger (Rules | CRF | LiLT) ─
 py -3.13 -m venv .venv
 .venv\Scripts\pip install -r backend\requirements.txt
 .venv\Scripts\python -m uvicorn backend.app.main:app --port 8000      # terminal 1 (SQLite + demo data, no setup)
-.venv\Scripts\python -m pytest backend	ests -q                      # API tests
+.venv\Scripts\python -m pytest backend\tests -q                      # API tests
 cd frontend; npm install; npm run build; npx next start -p 3000        # terminal 2 -> http://localhost:3000
 ```
 Without a trained model in `ml/artifacts/` the API falls back to the rules baseline. Get the trained
